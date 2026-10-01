@@ -1,0 +1,1923 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PoupeFruti | Frutas e legumes pela metade do preço em Campinas</title>
+<meta name="description" content="O PoupeFruti conecta mercados, padarias e hortifrútis de Campinas a quem quer comida boa por metade do preço. Cestas de frutas e legumes com 50% de desconto. Entre na lista de espera.">
+<meta name="keywords" content="cesta de frutas Campinas, cesta de legumes barata, hortifrúti Campinas, desperdício de alimentos, comida barata Campinas, PoupeFruti">
+<meta name="author" content="PoupeFruti">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://poupefruti.com.br/">
+<meta name="theme-color" content="#2E9E4F">
+
+<!-- Open Graph / compartilhamento social -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="PoupeFruti">
+<meta property="og:title" content="PoupeFruti | Frutas e legumes pela metade do preço em Campinas">
+<meta property="og:description" content="Comida boa, metade do preço. Cestas de frutas e legumes com 50% de desconto, retiradas no mercado parceiro mais perto de você. Estamos abrindo as primeiras vagas em Campinas (SP).">
+<meta property="og:url" content="https://poupefruti.com.br/">
+<!-- Troque pela URL da imagem de compartilhamento (1200x630px) quando criar -->
+<meta property="og:image" content="https://poupefruti.com.br/og-image.png">
+<meta property="og:image:alt" content="Ilustração de uma cesta de frutas e legumes do PoupeFruti">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PoupeFruti | Frutas e legumes pela metade do preço em Campinas">
+<meta name="twitter:description" content="Comida boa, metade do preço. Entre na lista de espera em Campinas (SP).">
+<meta name="twitter:image" content="https://poupefruti.com.br/og-image.png">
+
+<!-- Favicon (SVG embutido: 🍊 maçã/verde do PoupeFruti). Para um arquivo externo,
+     troque por: <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
+
+<!--
+  ============================================================================
+  ESPAÇO PARA ANALYTICS / META PIXEL — preencha os IDs abaixo quando criar.
+  Os blocos só são injetados na página se o ID não estiver vazio.
+  ============================================================================
+-->
+<script>
+  var GA_MEASUREMENT_ID = '';            // Ex.: 'G-XXXXXXXXXX'
+  var META_PIXEL_ID = '';                 // Ex.: '000000000000000'
+</script>
+<script>
+  (function () {
+    if (GA_MEASUREMENT_ID) {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+      document.head.appendChild(s);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', GA_MEASUREMENT_ID);
+    }
+    if (META_PIXEL_ID) {
+      /* eslint-disable */
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window,document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      /* eslint-enable */
+      window.fbq('init', META_PIXEL_ID);
+      window.fbq('track', 'PageView');
+    }
+  })();
+</script>
+
+<style>
+  /* ==========================================================================
+     PoupeFruti — folha de estilo única (mobile first, sem framework)
+     Paleta: verde folha (#2E9E4F), laranja (#F2913D), vermelho tomate (#E8452C)
+     ========================================================================== */
+
+  :root {
+    --verde:        #2E9E4F;
+    --verde-escuro: #1F7A3B;
+    --verde-claro:  #EAF6ED;
+    --laranja:      #F2913D;
+    --laranja-claro:#FDF1E3;
+    --tomate:       #E8452C;
+    --tomate-claro: #FDEDEA;
+    --texto:        #23301F;
+    --texto-suave:  #55604F;
+    --fundo:        #FBFDF8;
+    --branco:       #FFFFFF;
+    --borda:        #E4EADF;
+
+    --raio:         18px;
+    --raio-g:       28px;
+    --sombra:       0 6px 24px rgba(35, 48, 31, .08);
+    --sombra-forte: 0 14px 40px rgba(35, 48, 31, .14);
+
+    --max:          1080px;
+    --fonte: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    /* evita que o topo dos títulos fique escondido em âncoras */
+    scroll-padding-top: 20px;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--fonte);
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--texto);
+    background: var(--fundo);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  img, svg { max-width: 100%; height: auto; }
+
+  h1, h2, h3 {
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 .5em;
+    font-weight: 800;
+    color: var(--texto);
+  }
+
+  h1 { font-size: clamp(2rem, 7vw, 3.4rem); }
+  h2 { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+  h3 { font-size: 1.2rem; }
+
+  p { margin: 0 0 1em; }
+
+  a { color: var(--verde-escuro); }
+
+  /* Foco visível e consistente (acessibilidade) */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--laranja);
+    outline-offset: 3px;
+    border-radius: 8px;
+  }
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    background: var(--verde-escuro);
+    color: #fff;
+    padding: .7rem 1.1rem;
+    border-radius: 0 0 12px 0;
+    z-index: 999;
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .skip-link:focus { left: 0; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .section { padding: 56px 0; }
+  .section--alt { background: var(--branco); }
+
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 34px; }
+  .section-head p { color: var(--texto-suave); font-size: 1.05rem; }
+
+  .eyebrow {
+    display: inline-block;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--verde-escuro);
+    background: var(--verde-claro);
+    padding: .35em .9em;
+    border-radius: 999px;
+    margin-bottom: .9rem;
+  }
+
+  /* ------------------------------ BOTÕES ---------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    font-family: inherit;
+    font-size: 1.02rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-decoration: none;
+    padding: .95em 1.6em;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    text-align: center;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .btn--primary {
+    background: var(--tomate);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(232, 69, 44, .28);
+  }
+  .btn--primary:hover { background: #cf3a23; box-shadow: 0 8px 24px rgba(232, 69, 44, .34); }
+
+  .btn--verde {
+    background: var(--verde);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(46, 158, 79, .28);
+  }
+  .btn--verde:hover { background: var(--verde-escuro); }
+
+  .btn--ghost {
+    background: var(--branco);
+    color: var(--verde-escuro);
+    border-color: var(--verde);
+  }
+  .btn--ghost:hover { background: var(--verde-claro); }
+
+  .btn--block { width: 100%; }
+
+  /* ------------------------------- HERO ----------------------------------- */
+  .hero {
+    background:
+      radial-gradient(70% 60% at 85% 12%, rgba(242,145,61,.16), transparent 60%),
+      radial-gradient(60% 60% at 10% 90%, rgba(46,158,79,.16), transparent 60%),
+      linear-gradient(180deg, #FFFFFF 0%, var(--verde-claro) 100%);
+    padding: 40px 0 56px;
+    overflow: hidden;
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .hero h1 { margin-bottom: .35em; }
+  .hero h1 .destaque {
+    background: linear-gradient(180deg, transparent 62%, rgba(242,145,61,.55) 62%);
+    padding: 0 .12em;
+  }
+
+  .hero__sub {
+    font-size: clamp(1.02rem, 2.6vw, 1.2rem);
+    color: var(--texto-suave);
+    max-width: 34rem;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    background: var(--branco);
+    border: 2px solid var(--verde);
+    color: var(--verde-escuro);
+    font-weight: 800;
+    font-size: .88rem;
+    padding: .45em 1em;
+    border-radius: 999px;
+    margin-bottom: 1.1rem;
+  }
+  .hero__badge .ponto {
+    width: .55em; height: .55em;
+    border-radius: 50%;
+    background: var(--verde);
+    animation: pulsar 2s ease-in-out infinite;
+  }
+  @keyframes pulsar { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.45;transform:scale(.8)} }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__badge .ponto { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 22px 0 18px;
+  }
+
+  .hero__nota {
+    font-size: .92rem;
+    color: var(--texto-suave);
+    margin: 0;
+  }
+
+  .hero__art { text-align: center; }
+  .hero__art svg { width: min(360px, 84%); height: auto; }
+
+  /* Ilustração simples (desenhada à mão, sem material de terceiros) */
+  .cesta-ilust { filter: drop-shadow(0 18px 30px rgba(35,48,31,.16)); }
+
+  /* --------------------------- ETAPAS (3 passos) --------------------------- */
+  .steps {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 1fr;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .step {
+    background: var(--branco);
+    border: 2px solid var(--borda);
+    border-radius: var(--raio-g);
+    padding: 26px 22px;
+    box-shadow: var(--sombra);
+    position: relative;
+  }
+  .step__num {
+    width: 46px; height: 46px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 1.15rem;
+    color: #fff;
+    margin-bottom: 12px;
+    background: var(--verde);
+  }
+  .step:nth-child(2) .step__num { background: var(--laranja); }
+  .step:nth-child(3) .step__num { background: var(--tomate); }
+  .step p { color: var(--texto-suave); margin-bottom: 0; }
+
+  /* ------------------------------ CESTAS ---------------------------------- */
+  .cestas {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .cesta {
+    background: var(--branco);
+    border-radius: var(--raio-g);
+    border: 2px solid var(--borda);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--sombra);
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .cesta:hover { transform: translateY(-4px); box-shadow: var(--sombra-forte); }
+
+  .cesta__topo {
+    padding: 28px 24px 22px;
+    text-align: center;
+    color: #fff;
+  }
+  .cesta--frutas .cesta__topo { background: linear-gradient(150deg, var(--tomate), #f4683f); }
+  .cesta--legumes .cesta__topo { background: linear-gradient(150deg, var(--verde), var(--verde-escuro)); }
+
+  .cesta__emoji { font-size: 2.6rem; line-height: 1; display: block; margin-bottom: .25rem; }
+  .cesta__nome { font-size: 1.45rem; margin: 0 0 .1rem; color: #fff; }
+  .cesta__peso { font-weight: 700; opacity: .95; font-size: .95rem; margin: 0; }
+
+  .cesta__preco {
+    font-size: clamp(2.4rem, 11vw, 3rem);
+    font-weight: 900;
+    line-height: 1;
+    margin: .35rem 0 .1rem;
+    letter-spacing: -0.03em;
+  }
+
+  .cesta__aviso {
+    font-size: .95rem;
+    font-weight: 800;
+    background: rgba(255,255,255,.22);
+    display: inline-block;
+    padding: .3em .8em;
+    border-radius: 999px;
+    margin-bottom: .6rem;
+  }
+
+  .cesta__corpo { padding: 22px 24px 26px; flex: 1; display: flex; flex-direction: column; }
+  .cesta__lista { list-style: none; padding: 0; margin: 0 0 18px; }
+  .cesta__lista li {
+    padding: .45rem 0 .45rem 1.6rem;
+    position: relative;
+    color: var(--texto-suave);
+    font-size: .98rem;
+  }
+  .cesta__lista li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: .45rem;
+    font-weight: 900;
+    color: var(--verde);
+  }
+  .cesta__rodape { margin-top: auto; }
+
+  .nota-varia {
+    margin-top: 26px;
+    background: var(--laranja-claro);
+    border: 2px dashed var(--laranja);
+    border-radius: var(--raio);
+    padding: 16px 18px;
+    font-size: .97rem;
+    color: #7a4a12;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+  .nota-varia strong { color: #6b3f0d; }
+
+  /* ------------------------------ BENEFÍCIOS ------------------------------ */
+  .beneficios {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .beneficio {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    padding: 22px;
+    box-shadow: var(--sombra);
+  }
+  .beneficio__ico {
+    width: 48px; height: 48px;
+    border-radius: 14px;
+    display: grid; place-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .beneficio:nth-child(1) .beneficio__ico { background: var(--laranja-claro); }
+  .beneficio:nth-child(2) .beneficio__ico { background: var(--verde-claro); }
+  .beneficio:nth-child(3) .beneficio__ico { background: var(--tomate-claro); }
+  .beneficio p { color: var(--texto-suave); margin-bottom: 0; }
+
+  /* ------------------------------- PARCEIROS ------------------------------ */
+  .parceiros {
+    background: linear-gradient(160deg, var(--verde-escuro), var(--verde));
+    color: #fff;
+    border-radius: var(--raio-g);
+    padding: 34px 24px;
+    box-shadow: var(--sombra-forte);
+  }
+  .parceiros h2, .parceiros h3 { color: #fff; }
+  .parceiros__lead { color: #e8f6ec; max-width: 46rem; }
+
+  .parceiros__grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: 1fr;
+    margin: 26px 0 28px;
+  }
+
+  .p-card {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: var(--raio);
+    padding: 20px;
+  }
+  .p-card h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+  .p-card p { color: #e8f6ec; font-size: .97rem; margin: 0; }
+
+  /* ---------------------------------- FAQ ---------------------------------- */
+  .faq { max-width: 720px; margin: 0 auto; }
+
+  .faq details {
+    background: var(--branco);
+    border: 2px solid var(--borda);
+    border-radius: var(--raio);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .faq details[open] { border-color: var(--verde); box-shadow: var(--sombra); }
+
+  .faq summary {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 800;
+    font-size: 1.03rem;
+    padding: 18px 52px 18px 20px;
+    position: relative;
+    color: var(--texto);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px; height: 30px;
+    display: grid; place-items: center;
+    border-radius: 50%;
+    background: var(--verde-claro);
+    color: var(--verde-escuro);
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .faq details[open] summary::after { content: "–"; }
+
+  .faq__resposta { padding: 0 20px 20px; color: var(--texto-suave); }
+  .faq__resposta p:last-child { margin-bottom: 0; }
+
+  /* -------------------------------- FORMULÁRIO ---------------------------- */
+  .cadastro {
+    background: var(--branco);
+    border-radius: var(--raio-g);
+    border: 2px solid var(--borda);
+    box-shadow: var(--sombra-forte);
+    padding: 24px 20px 28px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    background: var(--verde-claro);
+    padding: 6px;
+    border-radius: 999px;
+    margin-bottom: 24px;
+  }
+
+  .tab {
+    font-family: inherit;
+    font-weight: 800;
+    font-size: .98rem;
+    padding: .75em .5em;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--verde-escuro);
+    cursor: pointer;
+    transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+  }
+  .tab[aria-selected="true"] {
+    background: var(--verde);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(46,158,79,.3);
+  }
+
+  .tabpanel[hidden] { display: none; }
+  .tabpanel__intro { color: var(--texto-suave); font-size: .97rem; margin-bottom: 18px; }
+
+  .campo { margin-bottom: 16px; }
+  .campo label {
+    display: block;
+    font-weight: 800;
+    font-size: .93rem;
+    margin-bottom: 6px;
+    color: var(--texto);
+  }
+  .campo .dica { font-weight: 400; color: var(--texto-suave); font-size: .85rem; }
+
+  .campo input[type="text"],
+  .campo input[type="email"],
+  .campo input[type="tel"],
+  .campo select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--texto);
+    background: var(--fundo);
+    border: 2px solid var(--borda);
+    border-radius: 14px;
+    padding: .8em .9em;
+    transition: border-color .15s ease, background .15s ease;
+    appearance: none;
+  }
+  .campo select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%2355604F' stroke-width='2.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 2.6em;
+  }
+  .campo input:focus, .campo select:focus {
+    border-color: var(--verde);
+    background: var(--branco);
+    outline: none;
+  }
+  .campo input[aria-invalid="true"] { border-color: var(--tomate); background: var(--tomate-claro); }
+
+  .erro-campo {
+    display: none;
+    color: #b32b18;
+    font-size: .85rem;
+    font-weight: 700;
+    margin-top: 5px;
+  }
+  .erro-campo.visivel { display: block; }
+
+  /* Grupo de opções (radio em formato de cartão) */
+  .opcoes { display: grid; gap: 10px; grid-template-columns: 1fr; }
+  .opcao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 2px solid var(--borda);
+    background: var(--fundo);
+    border-radius: 14px;
+    padding: .75em .9em;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: .96rem;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .opcao:hover { border-color: var(--verde); }
+  .opcao input { accent-color: var(--verde); width: 20px; height: 20px; margin: 0; flex: none; }
+  .opcao:has(input:checked) { border-color: var(--verde); background: var(--verde-claro); }
+  .opcao:has(input:focus-visible) { outline: 3px solid var(--laranja); outline-offset: 2px; }
+
+  /* Checkbox de consentimento (LGPD) */
+  .consentimento {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    background: var(--verde-claro);
+    border: 2px solid var(--borda);
+    border-radius: 14px;
+    padding: 14px;
+    margin: 4px 0 18px;
+    font-size: .9rem;
+    line-height: 1.5;
+  }
+  .consentimento input { margin-top: 4px; width: 20px; height: 20px; accent-color: var(--verde); flex: none; }
+  .consentimento a { font-weight: 700; }
+
+  /* Honeypot: escondido de gente, visível para robôs */
+  .hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .form-status {
+    display: none;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: .96rem;
+  }
+  .form-status.visivel { display: block; }
+  .form-status--erro { background: var(--tomate-claro); color: #a32714; border: 2px solid var(--tomate); }
+  .form-status--ok { background: var(--verde-claro); color: var(--verde-escuro); border: 2px solid var(--verde); }
+
+  /* Botão "Tentar de novo" exibido junto da mensagem de erro */
+  .btn-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    margin-top: 10px;
+    font-family: inherit;
+    font-size: .92rem;
+    font-weight: 800;
+    color: #fff;
+    background: var(--tomate);
+    border: 0;
+    border-radius: 999px;
+    padding: .55em 1.1em;
+    cursor: pointer;
+  }
+  .btn-retry:hover { background: #cf3a23; }
+
+  .enviando { opacity: .65; pointer-events: none; }
+
+  /* -------------------------------- RODAPÉ -------------------------------- */
+  .rodape {
+    background: var(--verde-escuro);
+    color: #d8eee0;
+    padding: 40px 0 28px;
+    margin-top: 10px;
+  }
+  .rodape a { color: #fff; }
+  .rodape__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    text-decoration: none;
+    margin-bottom: .4rem;
+  }
+  .rodape p { font-size: .94rem; }
+  .rodape__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    font-size: .94rem;
+  }
+  .rodape__legal {
+    margin-top: 16px;
+    font-size: .84rem;
+    color: #a9cdb7;
+  }
+
+  /* ---------------------------- RESPONSIVO (>= 620px) ---------------------- */
+  @media (min-width: 620px) {
+    .opcoes { grid-template-columns: 1fr 1fr; }
+    .cestas { grid-template-columns: 1fr 1fr; }
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .beneficios { grid-template-columns: repeat(3, 1fr); }
+    .parceiros { padding: 44px 38px; }
+    .cadastro { padding: 32px 34px 36px; }
+  }
+
+  /* ---------------------------- RESPONSIVO (>= 900px) ---------------------- */
+  @media (min-width: 900px) {
+    body { font-size: 18px; }
+    .section { padding: 78px 0; }
+    .hero { padding: 64px 0 78px; }
+    .hero__grid { grid-template-columns: 1.05fr .95fr; gap: 40px; }
+    .hero__actions { flex-wrap: nowrap; }
+    .parceiros__grid { grid-template-columns: repeat(3, 1fr); }
+    .hero__art svg { width: min(420px, 100%); }
+  }
+
+  @media (min-width: 620px) and (max-width: 899px) {
+    .cesta__preco { font-size: 2.6rem; }
+  }
+
+  /* --------------------- IMPRESSÃO / MOVIMENTO REDUZIDO -------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+
+<body>
+
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+<!-- Âncora usada pelo logo do rodapé para voltar ao topo -->
+<div id="topo"></div>
+
+<header>
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="hero-titulo">
+    <div class="container hero__grid">
+      <div>
+        <p class="hero__badge">
+          <span class="ponto" aria-hidden="true"></span>
+          Estamos abrindo as primeiras vagas em Campinas
+        </p>
+
+        <h1 id="hero-titulo">
+          Poupe no mercado.<br>
+          <span class="destaque">Frutas e legumes</span> pela metade do preço.
+        </h1>
+
+        <p class="hero__sub">
+          Todo dia, mercados e hortifrútis de Campinas separam a sobra de frutas e
+          legumes que iam para o lixo. No <strong>PoupeFruti</strong> essa comida
+          boa vira cesta com <strong>50% de desconto</strong> — você poupe no bolso
+          e a comida não é desperdiçada.
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#cadastro">Quero entrar na lista</a>
+          <a class="btn btn--ghost" href="#cadastro" data-aba="mercado">Sou um mercado</a>
+        </div>
+
+        <p class="hero__nota">
+          Estamos em pré-lançamento. Você entra na lista e avisamos assim que abrir
+          a primeira região de Campinas.
+        </p>
+      </div>
+
+      <div class="hero__art">
+        <!-- Ilustração original em SVG (sem imagens de terceiros).
+             Placeholder: substitua por uma ilustração/photo própria quando tiver. -->
+        <svg viewBox="0 0 420 340" role="img" aria-labelledby="arte-hero-titulo arte-hero-desc">
+          <title id="arte-hero-titulo">Cesta do PoupeFruti</title>
+          <desc id="arte-hero-desc">Ilustração de uma cesta com frutas e legumes: banana, maçã, laranja, tomate, cenoura e folhas.</desc>
+
+          <!-- frutinhas flutuando ao fundo -->
+          <circle cx="58" cy="62" r="16" fill="#F2913D" opacity=".35"/>
+          <circle cx="368" cy="86" r="13" fill="#2E9E4F" opacity=".35"/>
+          <circle cx="330" cy="34" r="9" fill="#E8452C" opacity=".3"/>
+
+          <g class="cesta-ilust">
+            <!-- conteúdo da cesta -->
+            <ellipse cx="150" cy="150" rx="52" ry="34" fill="#F7C948" transform="rotate(-18 150 150)"/> <!-- banana -->
+            <ellipse cx="196" cy="126" rx="40" ry="38" fill="#E8452C"/> <!-- maçã -->
+            <path d="M196 92c2-12 12-18 22-16-2 12-10 17-22 16z" fill="#2E9E4F"/> <!-- folha da maçã -->
+            <circle cx="252" cy="146" r="34" fill="#F2913D"/> <!-- laranja -->
+            <circle cx="252" cy="146" r="34" fill="none" stroke="#E8452C" stroke-width="3" opacity=".35"/>
+            <circle cx="128" cy="196" r="26" fill="#D64545"/> <!-- tomate -->
+            <path d="M128 172c8 6 8 12 0 14-8-2-8-8 0-14z" fill="#2E9E4F"/>
+            <path d="M176 210l38-56 18 12-38 56z" fill="#F2913D"/> <!-- cenoura -->
+            <path d="M176 210l-8 10 18 12 8-10z" fill="#E07B26"/>
+            <path d="M214 154c-6-14 0-24 10-28 4 14-2 24-10 28z" fill="#2E9E4F"/>
+            <ellipse cx="268" cy="212" rx="30" ry="16" fill="#7BC950"/> <!-- pepino -->
+            <ellipse cx="90" cy="248" rx="34" ry="18" fill="#4EA832"/> <!-- folhas -->
+          </g>
+
+          <!-- corpo da cesta -->
+          <path d="M70 176h280l-26 118a24 24 0 0 1-24 20H120a24 24 0 0 1-24-20z" fill="#C98A4B"/>
+          <g fill="#B0763D" opacity=".7">
+            <rect x="70" y="204" width="280" height="10" rx="5"/>
+            <rect x="76" y="238" width="268" height="10" rx="5"/>
+            <rect x="84" y="272" width="252" height="10" rx="5"/>
+          </g>
+          <g stroke="#A96C36" stroke-width="7" stroke-linecap="round" opacity=".55">
+            <line x1="118" y1="176" x2="134" y2="314"/>
+            <line x1="176" y1="176" x2="182" y2="314"/>
+            <line x1="234" y1="176" x2="228" y2="314"/>
+            <line x1="292" y1="176" x2="286" y2="314"/>
+          </g>
+          <!-- borda -->
+          <rect x="62" y="162" width="296" height="22" rx="11" fill="#E0A063"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+</header>
+
+<main id="conteudo">
+
+  <!-- ======================= COMO FUNCIONA ======================= -->
+  <section class="section section--alt" id="como-funciona" aria-labelledby="como-titulo">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"> Simples do começo ao fim</span>
+        <h2 id="como-titulo">Como funciona</h2>
+        <p>Sem assinatura, sem entrega, sem complicação. Você reserva, paga e aparece no horário combinado.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="step__num" aria-hidden="true">1</div>
+          <h3>Escolha a cesta</h3>
+          <p>
+            Frutas, legumes ou as duas. Você define seu bairro e vê os mercados
+            parceiros que ainda têm vaga para retirada.
+          </p>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">2</div>
+          <h3>Pague e receba o código</h3>
+          <p>
+            Reserva 100% online. Na hora da confirmação você recebe um
+            <strong>código de retirada</strong> por WhatsApp e um horário definido.
+          </p>
+        </li>
+        <li class="step">
+          <div class="step__num" aria-hidden="true">3</div>
+          <h3>Retire no mercado</h3>
+          <p>
+            Mostra o código no balcão e leva sua cesta. Sem fila, sem frete e
+            sem trabalho extra — você vem no horário que combinou.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- =========================== CESTAS =========================== -->
+  <section class="section" id="cestas" aria-labelledby="cestas-titulo">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"> Valores de referência</span>
+        <h2 id="cestas-titulo">Duas cestas, sempre metade do preço</h2>
+        <p>Montadas com a sobra do dia. O peso é aproximado e pode variar um pouco — o valor nunca é o mesmo.</p>
+      </div>
+
+      <div class="cestas">
+        <!-- Cesta de frutas -->
+        <article class="cesta cesta--frutas" aria-labelledby="cesta-frutas-titulo">
+          <div class="cesta__topo">
+            <span class="cesta__emoji" aria-hidden="true">🍎</span>
+            <h3 class="cesta__nome" id="cesta-frutas-titulo">Cesta de Frutas</h3>
+            <p class="cesta__peso">cerca de 4 kg</p>
+            <p class="cesta__preco"><span class="sr-only">Preço: </span>R$ 35</p>
+            <span class="cesta__aviso">valor de varejo acima de R$ 70</span>
+          </div>
+          <div class="cesta__corpo">
+            <ul class="cesta__lista">
+              <li>Sobras do dia: banana, maçã, laranja, uva e o que mais aparecer</li>
+              <li>Frutas em ponto de consumo ou de amadurecer</li>
+              <li>Peso aproximado de 4 kg (varia com o dia)</li>
+              <li>Retirada no mercado parceiro do seu bairro</li>
+            </ul>
+            <div class="cesta__rodape">
+              <a class="btn btn--verde btn--block" href="#cadastro">Quero a cesta de frutas</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Cesta de legumes -->
+        <article class="cesta cesta--legumes" aria-labelledby="cesta-legumes-titulo">
+          <div class="cesta__topo">
+            <span class="cesta__emoji" aria-hidden="true">🥕</span>
+            <h3 class="cesta__nome" id="cesta-legumes-titulo">Cesta de Legumes</h3>
+            <p class="cesta__peso">cerca de 4 kg</p>
+            <p class="cesta__preco"><span class="sr-only">Preço: </span>R$ 25</p>
+            <span class="cesta__aviso">valor de varejo acima de R$ 50</span>
+          </div>
+          <div class="cesta__corpo">
+            <ul class="cesta__lista">
+              <li>Sobras do dia: cenoura, batata, tomate, cebola, abobrinha e companhia</li>
+              <li>Legumes e hortaliças inteiros, sem industrialização</li>
+              <li>Peso aproximado de 4 kg (varia com o dia)</li>
+              <li>Retirada no mercado parceiro do seu bairro</li>
+            </ul>
+            <div class="cesta__rodape">
+              <a class="btn btn--verde btn--block" href="#cadastro">Quero a cesta de legumes</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="nota-varia">
+        <strong>Importante:</strong> o conteúdo da cesta <strong>não é fixo</strong> e não
+        é escolhido por você. Ela é montada com o que sobrou no mercado naquele dia —
+        por isso o valor e o peso são aproximados. Os preços acima são valores de
+        referência do pré-lançamento e podem mudar antes do lançamento.
+      </p>
+    </div>
+  </section>
+
+  <!-- ======================= POR QUE VALE A PENA ======================= -->
+  <section class="section section--alt" id="porque" aria-labelledby="porque-titulo">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"> Bom pra todo mundo</span>
+        <h2 id="porque-titulo">Por que vale a pena</h2>
+        <p>Um negócio simples com efeito em três lugares ao mesmo tempo.</p>
+      </div>
+
+      <div class="beneficios">
+        <div class="beneficio">
+          <div class="beneficio__ico" aria-hidden="true">💸</div>
+          <h3>Você economiza de verdade</h3>
+          <p>
+           A cesta de frutas e a de legumes saem por cerca de metade do valor
+            que esses mesmos produtos teriam no varejo. Dinheiro que fica no bolso.
+          </p>
+        </div>
+
+        <div class="beneficio">
+          <div class="beneficio__ico" aria-hidden="true">🌱</div>
+          <h3>Menos comida no lixo</h3>
+          <p>
+            Alimento bom, dentro do prazo e com sabor vai para a mesa de alguém em
+            vez de ir para o lixo. Menos desperdício é menos energia e menos custo
+            para todo mundo.
+          </p>
+        </div>
+
+        <div class="beneficio">
+          <div class="beneficio__ico" aria-hidden="true">🏪</div>
+          <h3>O comércio local ganha mais</h3>
+          <p>
+            Seu mercado transforma uma perda em receita, com cestas que saem pelo
+            balcão do próprio estabelecimento — sem muda de layout, sem pedido online,
+            sem entrega.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================== PARA MERCADOS ========================== -->
+  <section class="section" id="mercados" aria-labelledby="mercados-titulo">
+    <div class="container">
+      <div class="parceiros">
+        <span class="eyebrow" style="background:rgba(255,255,255,.18);color:#fff;">Para mercados e comércios</span>
+        <h2 id="mercados-titulo">A sobra do dia pode virar receita</h2>
+        <p class="parceiros__lead">
+          Se hoje você descarta fruta e legume do dia, existe um caminho simples
+          para essa comida virar venda — sem mudar sua operação e sem gastar nada
+          para entrar.
+        </p>
+
+        <div class="parceiros__grid">
+          <div class="p-card">
+            <h3>Perda vira receita</h3>
+            <p>
+              O excedente que seria descartado sai como cesta e entra como venda
+              no seu caixa, no mesmo dia.
+            </p>
+          </div>
+          <div class="p-card">
+            <h3>Sem custo para entrar</h3>
+            <p>
+              Sem mensalidade, sem taxa, sem investimento em estrutura. Você
+              separa a sobra e nós montamos a cesta.
+            </p>
+          </div>
+          <div class="p-card">
+            <h3>Sem entrega</h3>
+            <p>
+              A retirada acontece no seu balcão, no horário combinado. Nada de
+              motoboy, nada de rota, nada de estoque parado.
+            </p>
+          </div>
+        </div>
+
+        <a class="btn btn--primary" href="#cadastro" data-aba="mercado">
+          Quero ser mercado parceiro
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ ============================== -->
+  <section class="section section--alt" id="faq" aria-labelledby="faq-titulo">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"> Dúvidas</span>
+        <h2 id="faq-titulo">Perguntas frequentes</h2>
+        <p>As dúvidas que mais aparecem. Se ficar qualquer outra, é só perguntar.</p>
+      </div>
+
+      <div class="faq">
+        <details open>
+          <summary>Os alimentos são seguros?</summary>
+          <div class="faq__resposta">
+            <p>
+              Sim. Só entram na cesta produtos dentro do validade, com integridade
+              e que o próprio mercado está descartando apenas por excesso — não por
+              problema. O material é separado, higienizado e mantido em condições
+              adequadas até a retirada. Ao chegar em casa, vale conferir o aspecto e
+              a validade de cada item, como você faria em qualquer compra.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Por que são mais baratos?</summary>
+          <div class="faq__resposta">
+            <p>
+              Porque esses itens já estavam na loja e seriam vendidos a perda
+              ou descartados. Vendendo como cesta com desconto, todo mundo ganha:
+              o mercado recupera parte do valor, você paga menos e a comida é
+              aproveitada.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>O que vem na cesta?</summary>
+          <div class="faq__resposta">
+            <p>
+              Variam. A cesta é montada com o que sobrou no dia no seu mercado
+              parceiro — por isso não conseguimos prometer itens específicos.
+              As referências são: cesta de frutas com cerca de 4 kg e cesta de
+              legumes com cerca de 4 kg. Você descobre o conteúdo no momento da
+              retirada.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>E se eu não puder ir no horário?</summary>
+          <div class="faq__resposta">
+            <p>
+              Você pode remarcar para outro horário combinado com o mercado, ou
+              indicar outra pessoa da família para retirar com o seu código. Se
+              faltar sem aviso, a cesta pode não estar mais disponível — por isso
+              é importante confirmar a presença.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Como funciona o código de retirada?</summary>
+          <div class="faq__resposta">
+            <p>
+              Depois da confirmação do pagamento você recebe um código único por
+              WhatsApp. É só mostrar esse código no balcão do mercado parceiro, no
+              horário marcado, e a cesta é liberada para você. O código é nominal e
+              só pode ser usado uma vez.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Posso escolher os itens?</summary>
+          <div class="faq__resposta">
+            <p>
+              Não dá para montar item a item: o princípio do PoupeFruti é aproveitar
+              exatamente o que sobrou. Você escolhe entre cesta de frutas, cesta de
+              legumes ou as duas, e o restante vem da sobra do dia.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================== FORMULÁRIO =========================== -->
+  <section class="section" id="cadastro" aria-labelledby="cadastro-titulo">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow"> Lista de espera</span>
+        <h2 id="cadastro-titulo">Entre na lista do PoupeFruti</h2>
+        <p>
+          Estamos abrindo as primeiras vagas em Campinas (SP). Escolha abaixo o
+          que combina com você — o cadastro leva menos de um minuto.
+        </p>
+      </div>
+
+      <div class="cadastro">
+        <div class="tabs" role="tablist" aria-label="Escolha o tipo de cadastro">
+          <button class="tab" id="tab-cliente" role="tab" type="button"
+                  aria-selected="true" aria-controls="panel-cliente" data-tipo="cliente">
+            Sou cliente
+          </button>
+          <button class="tab" id="tab-mercado" role="tab" type="button"
+                  aria-selected="false" aria-controls="panel-mercado" data-tipo="mercado">
+            Sou mercado
+          </button>
+        </div>
+
+        <!-- ---------------- PAINEL CLIENTE ---------------- -->
+        <div class="tabpanel" id="panel-cliente" role="tabpanel" aria-labelledby="tab-cliente" tabindex="0">
+          <p class="tabpanel__intro">
+            Quero receber a cobrança e ser avisado quando abrir na minha região.
+          </p>
+
+          <div class="form-status" id="status-cliente" role="status" aria-live="polite"></div>
+
+          <form id="form-cliente" novalidate>
+            <!-- Honeypot: campo invisível para pessoas, visível para robôs -->
+            <div class="hp" aria-hidden="true">
+              <label for="cliente-empresa">Não preencha este campo</label>
+              <input type="text" id="cliente-empresa" name="empresa_website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="cliente-nome">Nome completo <span aria-hidden="true">*</span></label>
+              <input type="text" id="cliente-nome" name="nome" autocomplete="name"
+                     required aria-required="true" aria-describedby="erro-cliente-nome">
+              <p class="erro-campo" id="erro-cliente-nome" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="cliente-whats">WhatsApp <span class="dica">(com DDD)</span> <span aria-hidden="true">*</span></label>
+              <input type="tel" id="cliente-whats" name="whatsapp" inputmode="numeric"
+                     autocomplete="tel" placeholder="(19) 99999-0000" maxlength="15"
+                     required aria-required="true" aria-describedby="erro-cliente-whats dica-whats">
+              <p class="dica" id="dica-whats">É por aqui que você recebe o código de retirada.</p>
+              <p class="erro-campo" id="erro-cliente-whats" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="cliente-email">E-mail <span aria-hidden="true">*</span></label>
+              <input type="email" id="cliente-email" name="email" autocomplete="email"
+                     placeholder="voce@email.com" required aria-required="true"
+                     aria-describedby="erro-cliente-email">
+              <p class="erro-campo" id="erro-cliente-email" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="cliente-bairro">Bairro em Campinas <span aria-hidden="true">*</span></label>
+              <select id="cliente-bairro" name="bairro" required aria-required="true"
+                      aria-describedby="erro-cliente-bairro">
+                <option value="">Selecione…</option>
+                <option>Barão Geraldo</option>
+                <option>Bonfim</option>
+                <option>Bosque</option>
+                <option>Cambuí</option>
+                <option>Centro</option>
+                <option>Castelo</option>
+                <option>Santa Bárbara</option>
+                <option>Taquaral</option>
+                <option>Jardim Bandeirantes</option>
+                <option>Jardim Eudes</option>
+                <option>Jardim São Marcos</option>
+                <option>Sousas</option>
+                <option>Joaquim Egídio</option>
+                <option>Padre Martins</option>
+                <option>Vila Bueno</option>
+                <option>Vila São Carlos</option>
+                <option>Jardim(ns) Guanabara</option>
+                <option>Jardim(ns) Paulistano</option>
+                <option>Jardim(ns) Chapada</option>
+                <option>Parque Industrial</option>
+                <option>Bairro não listado</option>
+              </select>
+              <p class="erro-campo" id="erro-cliente-bairro" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label id="label-cesta">Qual cesta tem interesse? <span aria-hidden="true">*</span></label>
+              <div class="opcoes" role="radiogroup" aria-labelledby="label-cesta"
+                   aria-describedby="erro-cliente-cesta">
+                <label class="opcao">
+                  <input type="radio" name="cesta" value="frutas" required aria-required="true">
+                  <span>🍎 Cesta de frutas</span>
+                </label>
+                <label class="opcao">
+                  <input type="radio" name="cesta" value="legumes">
+                  <span>🥕 Cesta de legumes</span>
+                </label>
+                <label class="opcao">
+                  <input type="radio" name="cesta" value="ambas">
+                  <span>🧺 Quero as duas</span>
+                </label>
+              </div>
+              <p class="erro-campo" id="erro-cliente-cesta" role="alert"></p>
+            </div>
+
+            <label class="consentimento">
+              <input type="checkbox" id="cliente-lgpd" name="aceite_lgpd" value="sim"
+                     required aria-required="true" aria-describedby="erro-cliente-lgpd">
+              <span>
+                Autorizo o contato do PoupeFruti por <strong>WhatsApp e e-mail</strong>
+                sobre a lista de espera e o lançamento em Campinas, de acordo com a
+                Lei Geral de Proteção de Dados (LGPD). Posso pedir a exclusão dos
+                meus dados a qualquer momento.
+                <a href="#privacidade">Ver aviso de privacidade</a>.
+              </span>
+            </label>
+            <p class="erro-campo" id="erro-cliente-lgpd" role="alert"></p>
+
+            <button class="btn btn--verde btn--block" type="submit">Entrar na lista de espera</button>
+          </form>
+        </div>
+
+        <!-- ---------------- PAINEL MERCADO ---------------- -->
+        <div class="tabpanel" id="panel-mercado" role="tabpanel" aria-labelledby="tab-mercado" tabindex="0" hidden>
+          <p class="tabpanel__intro">
+            Quero transformar a sobra do meu estabelecimento em receita.
+          </p>
+
+          <div class="form-status" id="status-mercado" role="status" aria-live="polite"></div>
+
+          <form id="form-mercado" novalidate>
+            <!-- Honeypot -->
+            <div class="hp" aria-hidden="true">
+              <label for="mercado-site">Não preencha este campo</label>
+              <input type="text" id="mercado-site" name="site_website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="campo">
+              <label for="mercado-responsavel">Nome do responsável <span aria-hidden="true">*</span></label>
+              <input type="text" id="mercado-responsavel" name="responsavel" autocomplete="name"
+                     required aria-required="true" aria-describedby="erro-mercado-responsavel">
+              <p class="erro-campo" id="erro-mercado-responsavel" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="mercado-nome">Nome do estabelecimento <span aria-hidden="true">*</span></label>
+              <input type="text" id="mercado-nome" name="estabelecimento" autocomplete="organization"
+                     placeholder="Ex.: Mercado do Bairro" required aria-required="true"
+                     aria-describedby="erro-mercado-nome">
+              <p class="erro-campo" id="erro-mercado-nome" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="mercado-tipo">Tipo de comércio <span aria-hidden="true">*</span></label>
+              <select id="mercado-tipo" name="tipo_estabelecimento" required aria-required="true"
+                      aria-describedby="erro-mercado-tipo">
+                <option value="">Selecione…</option>
+                <option value="mercado">Mercado</option>
+                <option value="padaria">Padaria</option>
+                <option value="hortifruti">Hortifrúti</option>
+                <option value="sacolao">Sacolão</option>
+              </select>
+              <p class="erro-campo" id="erro-mercado-tipo" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="mercado-whats">WhatsApp <span class="dica">(com DDD)</span> <span aria-hidden="true">*</span></label>
+              <input type="tel" id="mercado-whats" name="whatsapp" inputmode="numeric"
+                     autocomplete="tel" placeholder="(19) 99999-0000" maxlength="15"
+                     required aria-required="true" aria-describedby="erro-mercado-whats">
+              <p class="erro-campo" id="erro-mercado-whats" role="alert"></p>
+            </div>
+
+            <div class="campo">
+              <label for="mercado-bairro">Bairro em Campinas <span aria-hidden="true">*</span></label>
+              <select id="mercado-bairro" name="bairro" required aria-required="true"
+                      aria-describedby="erro-mercado-bairro">
+                <option value="">Selecione…</option>
+                <option>Barão Geraldo</option>
+                <option>Bonfim</option>
+                <option>Bosque</option>
+                <option>Cambuí</option>
+                <option>Centro</option>
+                <option>Castelo</option>
+                <option>Santa Bárbara</option>
+                <option>Taquaral</option>
+                <option>Jardim Bandeirantes</option>
+                <option>Jardim Eudes</option>
+                <option>Jardim São Marcos</option>
+                <option>Sousas</option>
+                <option>Joaquim Egídio</option>
+                <option>Padre Martins</option>
+                <option>Vila Bueno</option>
+                <option>Vila São Carlos</option>
+                <option>Parque Industrial</option>
+                <option>Bairro não listado</option>
+              </select>
+              <p class="erro-campo" id="erro-mercado-bairro" role="alert"></p>
+            </div>
+
+            <label class="consentimento">
+              <input type="checkbox" id="mercado-lgpd" name="aceite_lgpd" value="sim"
+                     required aria-required="true" aria-describedby="erro-mercado-lgpd">
+              <span>
+                Autorizo o contato do PoupeFruti por <strong>WhatsApp e e-mail</strong>
+                sobre o partnership e a abertura em Campinas, de acordo com a Lei
+                Geral de Proteção de Dados (LGPD). Posso pedir a exclusão dos meus
+                dados a qualquer momento.
+                <a href="#privacidade">Ver aviso de privacidade</a>.
+              </span>
+            </label>
+            <p class="erro-campo" id="erro-mercado-lgpd" role="alert"></p>
+
+            <button class="btn btn--verde btn--block" type="submit">Quero ser parceiro</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Aviso de privacidade -->
+      <div class="nota-varia" id="privacidade" style="text-align:left; margin-top:28px;">
+        <strong>Aviso de privacidade (LGPD):</strong> usamos seus dados — nome,
+        WhatsApp, e-mail, bairro e preferência de cesta — exclusivamente para
+        organizar a lista de espera e avisar sobre o lançamento em Campinas.
+        Não vendemos nem compartilhamos seus dados com terceiros para publicidade.
+        Você pode solicitar acesso, correção ou exclusão dos seus dados a qualquer
+        momento, e pode cancelar o consentimento quando quiser.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================== RODAPÉ ============================== -->
+<footer class="rodape">
+  <div class="container">
+    <a class="rodape__logo" href="#topo">
+      <!-- Ícone original: tomate com folha -->
+      <svg width="28" height="28" viewBox="0 0 64 64" role="img" aria-label="Ícone do PoupeFruti">
+        <circle cx="32" cy="36" r="22" fill="#E8452C"/>
+        <path d="M32 16c0-6 5-10 11-10-1 7-5 10-11 10z" fill="#7BC950"/>
+      </svg>
+      PoupeFruti
+    </a>
+    <p>Comida boa, metade do preço. Campinas, SP.</p>
+
+    <!--
+      ESPAÇO PARA WHATSAPP / INSTAGRAM / E-MAIL
+      ---------------------------------------------------------------
+      Quando quiser adicionar (ex.: botões e links reais), inclua aqui
+      links como:
+        <a href="https://wa.me/5519XXXXXXXX" rel="noopener">WhatsApp</a>
+        <a href="https://instagram.com/pouvefruti" rel="noopener">Instagram</a>
+        <a href="mailto:contato@pouvefruti.com.br">E-mail</a>
+      ---------------------------------------------------------------
+    -->
+    <nav class="rodape__links" aria-label="Links do rodapé">
+      <a href="#como-funciona">Como funciona</a>
+      <a href="#cestas">Cestas</a>
+      <a href="#mercados">Sou mercado</a>
+      <a href="#faq">Perguntas frequentes</a>
+      <a href="#privacidade">Privacidade</a>
+    </nav>
+
+    <p class="rodape__legal">
+      © <span id="ano">2026</span> PoupeFruti — projeto em pré-lançamento.
+      Os valores das cestas são referências e podem mudar.
+    </p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+   POUPEFRUTI — lógica da página
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   1) CONFIGURAÇÃO PRINCIPAL — preencha aqui quando a API existir
+   --------------------------------------------------------------------------- */
+
+/**
+ * URL base da API que recebe os cadastros.
+ * A página chama: API_URL + "/api/leads/cliente" e API_URL + "/api/leads/mercado".
+ *
+ * IMPORTANTE: use o esquema completo (http:// ou https://). Sem ele o
+ * navegador não consegue montar a URL e o envio falha.
+ *
+ * Em produção, troque por ex.: "https://api.pouvefruti.com.br"
+ *
+ * Enquanto estiver VAZIA (""), os envios são apenas SIMULADOS:
+ * >>> ATENÇÃO: NESS MODO OS CADASTROS NÃO SÃO SALVADOS EM LUGAR NENHUM.
+ * >>> Eles aparecem apenas no console do navegador. Nada é enviado a servidor.
+ */
+var API_URL = "http://localhost:5000";
+
+/* Rotas da API. Não inclua o domínio aqui, só o caminho. */
+var API_CLIENTES_PATH = "/api/leads/cliente";
+var API_MERCADOS_PATH = "/api/leads/mercado";
+
+/* ---------------------------------------------------------------------------
+   2) HELPERS
+   --------------------------------------------------------------------------- */
+
+function $(sel, ctx) { return (ctx || document).querySelector(sel); }
+function $$(sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); }
+
+/** Remove tudo que não for dígito do telefone. */
+function soDigitos(v) { return (v || "").replace(/\D/g, ""); }
+
+/**
+ * Valida um telefone brasileiro.
+ * Aceita: 10 dígitos (fixo, com DDD) ou 11 dígitos (celular, com 9).
+ * O DDD precisa estar entre 11 e 99.
+ */
+function telefoneValido(v) {
+  var d = soDigitos(v);
+  if (d.length !== 10 && d.length !== 11) return false;
+  var ddd = parseInt(d.slice(0, 2), 10);
+  if (ddd < 11 || ddd > 99) return false;
+  if (d.length === 11) {
+    // celular precisa começar com 9
+    if (d.charAt(2) !== "9") return false;
+  }
+  return true;
+}
+
+/** Aplica a máscara (XX) XXXXX-XXXX ao campo de WhatsApp. */
+function mascaraTelefone(input) {
+  input.addEventListener("input", function () {
+    var d = soDigitos(input.value).slice(0, 11);
+    var out = "";
+    if (d.length > 6) {
+      out = "(" + d.slice(0, 2) + ") " + d.slice(2, d.length - 4) + "-" + d.slice(-4);
+    } else if (d.length > 2) {
+      out = "(" + d.slice(0, 2) + ") " + d.slice(2);
+    } else if (d.length > 0) {
+      out = "(" + d;
+    }
+    input.value = out;
+  });
+}
+
+function emailValido(v) {
+  return /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test((v || "").trim());
+}
+
+function nomeValido(v) {
+  return (v || "").trim().length >= 3;
+}
+
+/* Exibe/limpa mensagem de erro de um campo. */
+function setErro(input, elErro, msg) {
+  if (msg) {
+    elErro.textContent = msg;
+    elErro.classList.add("visivel");
+    if (input && input.setAttribute) input.setAttribute("aria-invalid", "true");
+  } else {
+    elErro.textContent = "";
+    elErro.classList.remove("visivel");
+    if (input && input.removeAttribute) input.removeAttribute("aria-invalid");
+  }
+}
+
+/* Mensagem de status geral (sucesso / erro) no formulário.
+   Se `tentarNovamente` for informado, exibe um botão "Tentar de novo". */
+function setStatus(el, tipo, texto, tentarNovamente) {
+  el.className = "form-status";
+  el.textContent = "";
+  if (!texto) return;
+
+  el.classList.add("visivel");
+  el.classList.add(tipo === "ok" ? "form-status--ok" : "form-status--erro");
+
+  var p = document.createElement("span");
+  p.textContent = texto;
+  el.appendChild(p);
+
+  if (tipo !== "ok" && typeof tentarNovamente === "function") {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "btn-retry";
+    btn.textContent = "Tentar de novo";
+    btn.addEventListener("click", tentarNovamente);
+    el.appendChild(btn);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   3) ABAS "Sou cliente" / "Sou mercado"
+   --------------------------------------------------------------------------- */
+(function abas() {
+  var tabs = $$(".tab");
+  if (!tabs.length) return;
+
+  function ativar(tipo) {
+    tabs.forEach(function (t) {
+      var sel = t.getAttribute("data-tipo") === tipo;
+      t.setAttribute("aria-selected", sel ? "true" : "false");
+      // abas inativas ficam fora da navegação por teclado (padrão de tablist)
+      t.setAttribute("tabindex", sel ? "0" : "-1");
+      var painel = document.getElementById(t.getAttribute("aria-controls"));
+      if (painel) painel.hidden = !sel;
+    });
+    // guarda a aba atual (usado pelos botões "Sou um mercado" do topo)
+    document.body.setAttribute("data-aba-ativa", tipo);
+  }
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { ativar(t.getAttribute("data-tipo")); });
+
+    t.addEventListener("keydown", function (ev) {
+      var prox = null;
+      if (ev.key === "ArrowRight") prox = tabs[(i + 1) % tabs.length];
+      else if (ev.key === "ArrowLeft") prox = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (ev.key === "Home") prox = tabs[0];
+      else if (ev.key === "End") prox = tabs[tabs.length - 1];
+      if (prox) {
+        ev.preventDefault();
+        ativar(prox.getAttribute("data-tipo"));
+        prox.focus();
+      }
+    });
+  });
+
+  // botões que abrem o formulário já na aba certa
+  $$("[data-aba]").forEach(function (b) {
+    if (!b.classList.contains("tab")) {
+      b.addEventListener("click", function () {
+        ativar(b.getAttribute("data-aba"));
+      });
+    }
+  });
+
+  ativar("cliente");
+})();
+
+/* ---------------------------------------------------------------------------
+   4) ENVIO DOS CADASTROS
+   --------------------------------------------------------------------------- */
+
+/**
+ * enviaCadastro — única função de envio da página.
+ *
+ * @param {Object} dados Objeto com os campos já coletados do formulário.
+ * @returns {Promise<{ok: boolean, status?: number}>}
+ *
+ * Faz POST em JSON na API_URL. Se API_URL estiver vazia, SIMULA o sucesso
+ * (e imprime um aviso gigante no console: os dados NÃO estão sendo salvos).
+ */
+function enviarCadastro(dados) {
+  var payload = {
+    tipo: dados.tipo,
+    nome: dados.nome,
+    whatsapp: dados.whatsapp,
+    email: dados.email,
+    bairro: dados.bairro,
+    origem: "landing-poupefruti",
+    timestamp: new Date().toISOString()
+  };
+
+  // Campos específicos por tipo
+  if (dados.tipo === "cliente") {
+    payload.cesta = dados.cesta;
+  } else if (dados.tipo === "mercado") {
+    payload.responsavel = dados.responsavel;
+    payload.estabelecimento = dados.estabelecimento;
+    payload.tipoEstabelecimento = dados.tipoEstabelecimento;
+  }
+
+  // ---- MODO SIMULAÇÃO (API_URL vazia) -------------------------------------
+  if (!API_URL) {
+    console.warn(
+      "\n" +
+      "===============================================================\n" +
+      " POUPEFRUTI — MODO SIMULAÇÃO\n" +
+      "===============================================================\n" +
+      " API_URL está vazia: o cadastro abaixo NÃO foi enviado e NÃO está\n" +
+      " sendo salvo em lugar nenhum. Ele aparece apenas aqui no console.\n" +
+      " Preencha a constante API_URL no topo deste arquivo quando a API\n" +
+      " estiver pronta.\n" +
+      "---------------------------------------------------------------\n" +
+      " Payload simulado:\n" +
+      JSON.stringify(payload, null, 2) + "\n"
+    );
+    return new Promise(function (resolve) {
+      setTimeout(function () { resolve({ ok: true, simulado: true }); }, 600);
+    });
+  }
+
+  // ---- ENVIO REAL ---------------------------------------------------------
+  var rota = dados.tipo === "mercado" ? API_MERCADOS_PATH : API_CLIENTES_PATH;
+  var url = API_URL.replace(/\/+$/, "") + rota;
+
+  return fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify(payload)
+  })
+    .then(function (res) {
+      // A API responde em JSON mesmo nos erros: {"error":{"code","message"}}
+      return res.json()
+        .catch(function () { return null; })
+        .then(function (body) {
+          if (res.ok) return { ok: true, status: res.status, corpo: body };
+          var erroApi = body && body.error ? body.error.message : null;
+          return {
+            ok: false,
+            status: res.status,
+            codigo: body && body.error ? body.error.code : null,
+            mensagem: erroApi || "Não conseguimos enviar agora."
+          };
+        });
+    })
+    .catch(function (err) {
+      // Só chega aqui em falha de rede (API fora do ar, CORS, DNS).
+      console.error("Falha ao enviar cadastro:", err);
+      return { ok: false, erro: err, mensagem: null };
+    });
+}
+
+/* ---------------------------------------------------------------------------
+   5) VALIDAÇÃO E ENVIO DOS FORMULÁRIOS
+   --------------------------------------------------------------------------- */
+
+/** Honeypot preenchido => provavelmente robô. Silencia sem avisar o usuário. */
+function ehSpam(form) {
+  return $$(".hp input", form).some(function (i) { return i.value.trim() !== ""; });
+}
+
+/* ---------------------------------------------------------------------------
+   5.1) ENVIO COMUM AOS DOIS FORMULÁRIOS
+   --------------------------------------------------------------------------- */
+
+/**
+ * executaEnvio — chama enviarCadastro e cuida de toda a interface
+ * (botão desabilitado, mensagens de sucesso/erro e opção de tentar de novo).
+ *
+ * @param {HTMLFormElement} form
+ * @param {Object} dados      Campos já coletados e validados
+ * @param {HTMLElement} status Elemento onde a mensagem aparece
+ * @param {string} rotuloBotao   Texto original do botão
+ * @param {string} msgSucesso     Mensagem exibida quando o envio funciona
+ * @param {string} msgFalha       Mensagem exibida quando dá erro
+ */
+function executaEnvio(form, dados, status, rotuloBotao, msgSucesso, msgFalha) {
+  var botao = form.querySelector('button[type="submit"]');
+
+  function tentar() {
+    botao.classList.add("enviando");
+    botao.disabled = true;
+    botao.textContent = "Enviando…";
+    setStatus(status, "ok", "Enviando seu cadastro…");
+
+    return enviarCadastro(dados).then(function (r) {
+      botao.classList.remove("enviando");
+      botao.disabled = false;
+      botao.textContent = rotuloBotao;
+
+      if (r && r.ok) {
+        var aviso = r.simulado
+          ? " (modo de demonstração: este cadastro não foi salvo de fato)"
+          : "";
+        setStatus(status, "ok", msgSucesso + aviso);
+        form.reset();
+        return;
+      }
+
+      // A API pode explicar o motivo (ex.: "Telefone inválido..."). Sem
+      // resposta do servidor, usamos a mensagem genérica de instabilidade.
+      var texto = r && r.mensagem ? r.mensagem : msgFalha;
+      setStatus(status, "erro", texto, function () { tentar(); });
+      botao.focus();
+    });
+  }
+
+  return tentar();
+}
+
+/* ---- Formulário do cliente ---- */
+(function formCliente() {
+  var form = $("#form-cliente");
+  if (!form) return;
+
+  var fNome    = $("#cliente-nome", form);
+  var fWhats   = $("#cliente-whats", form);
+  var fEmail   = $("#cliente-email", form);
+  var fBairro  = $("#cliente-bairro", form);
+  var fLgpd    = $("#cliente-lgpd", form);
+  var status   = $("#status-cliente");
+
+  mascaraTelefone(fWhats);
+
+  function validar() {
+    var ok = true, primeiro = null;
+
+    if (!nomeValido(fNome.value)) {
+      setErro(fNome, $("#erro-cliente-nome", form), "Digite seu nome completo.");
+      ok = false; primeiro = primeiro || fNome;
+    } else setErro(fNome, $("#erro-cliente-nome", form), "");
+
+    if (!soDigitos(fWhats.value)) {
+      setErro(fWhats, $("#erro-cliente-whats", form), "Informe seu WhatsApp.");
+      ok = false; primeiro = primeiro || fWhats;
+    } else if (!telefoneValido(fWhats.value)) {
+      setErro(fWhats, $("#erro-cliente-whats", form),
+        "Telefone inválido. Use DDD + número (ex.: (19) 99999-0000).");
+      ok = false; primeiro = primeiro || fWhats;
+    } else setErro(fWhats, $("#erro-cliente-whats", form), "");
+
+    if (!emailValido(fEmail.value)) {
+      setErro(fEmail, $("#erro-cliente-email", form), "Informe um e-mail válido.");
+      ok = false; primeiro = primeiro || fEmail;
+    } else setErro(fEmail, $("#erro-cliente-email", form), "");
+
+    if (!fBairro.value) {
+      setErro(fBairro, $("#erro-cliente-bairro", form), "Escolha o bairro em Campinas.");
+      ok = false; primeiro = primeiro || fBairro;
+    } else setErro(fBairro, $("#erro-cliente-bairro", form), "");
+
+    var cesta = form.querySelector('input[name="cesta"]:checked');
+    var elErroCesta = $("#erro-cliente-cesta", form);
+    if (!cesta) {
+      elErroCesta.textContent = "Escolha uma opção de cesta.";
+      elErroCesta.classList.add("visivel");
+      ok = false; primeiro = primeiro || form.querySelector('input[name="cesta"]');
+    } else {
+      elErroCesta.textContent = "";
+      elErroCesta.classList.remove("visivel");
+    }
+
+    if (!fLgpd.checked) {
+      setErro(fLgpd, $("#erro-cliente-lgpd", form), "É preciso aceitar para entrar na lista.");
+      ok = false; primeiro = primeiro || fLgpd;
+    } else setErro(fLgpd, $("#erro-cliente-lgpd", form), "");
+
+    if (primeiro && primeiro.focus) primeiro.focus();
+    return ok;
+  }
+
+  // limpa o erro do checkbox de LGPD ao marcar
+  fLgpd.addEventListener("change", function () {
+    if (fLgpd.checked) setErro(fLgpd, $("#erro-cliente-lgpd", form), "");
+  });
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+
+    // proteção simples contra spam
+    if (ehSpam(form)) { console.warn("Spam detectado (honeypot)."); return; }
+
+    if (!validar()) {
+      setStatus(status, "erro", "Confira os campos destacados para continuar.");
+      return;
+    }
+
+    var dados = {
+      tipo: "cliente",
+      nome: fNome.value.trim(),
+      whatsapp: fWhats.value.trim(),
+      email: fEmail.value.trim(),
+      bairro: fBairro.value,
+      cesta: form.querySelector('input[name="cesta"]:checked').value
+    };
+
+    executaEnvio(
+      form, dados, status,
+      "Entrar na lista de espera",
+      "Cadastro recebido! Estamos abrindo as primeiras vagas em Campinas. " +
+      "Assim que abrirmos a sua região, avisamos você por aqui.",
+      "Não conseguimos enviar agora. Pode ser uma instabilidade na internet — " +
+      "tente de novo em alguns instantes."
+    );
+  });
+})();
+
+/* ---- Formulário do mercado ---- */
+(function formMercado() {
+  var form = $("#form-mercado");
+  if (!form) return;
+
+  var fResp  = $("#mercado-responsavel", form);
+  var fNome  = $("#mercado-nome", form);
+  var fTipo  = $("#mercado-tipo", form);
+  var fWhats = $("#mercado-whats", form);
+  var fBairro= $("#mercado-bairro", form);
+  var fLgpd  = $("#mercado-lgpd", form);
+  var status = $("#status-mercado");
+
+  mascaraTelefone(fWhats);
+
+  function validar() {
+    var ok = true, primeiro = null;
+
+    if (!nomeValido(fResp.value)) {
+      setErro(fResp, $("#erro-mercado-responsavel", form), "Informe seu nome.");
+      ok = false; primeiro = primeiro || fResp;
+    } else setErro(fResp, $("#erro-mercado-responsavel", form), "");
+
+    if (!nomeValido(fNome.value)) {
+      setErro(fNome, $("#erro-mercado-nome", form), "Informe o nome do estabelecimento.");
+      ok = false; primeiro = primeiro || fNome;
+    } else setErro(fNome, $("#erro-mercado-nome", form), "");
+
+    if (!fTipo.value) {
+      setErro(fTipo, $("#erro-mercado-tipo", form), "Escolha o tipo de comércio.");
+      ok = false; primeiro = primeiro || fTipo;
+    } else setErro(fTipo, $("#erro-mercado-tipo", form), "");
+
+    if (!soDigitos(fWhats.value)) {
+      setErro(fWhats, $("#erro-mercado-whats", form), "Informe o WhatsApp do negócio.");
+      ok = false; primeiro = primeiro || fWhats;
+    } else if (!telefoneValido(fWhats.value)) {
+      setErro(fWhats, $("#erro-mercado-whats", form),
+        "Telefone inválido. Use DDD + número (ex.: (19) 99999-0000).");
+      ok = false; primeiro = primeiro || fWhats;
+    } else setErro(fWhats, $("#erro-mercado-whats", form), "");
+
+    if (!fBairro.value) {
+      setErro(fBairro, $("#erro-mercado-bairro", form), "Escolha o bairro em Campinas.");
+      ok = false; primeiro = primeiro || fBairro;
+    } else setErro(fBairro, $("#erro-mercado-bairro", form), "");
+
+    if (!fLgpd.checked) {
+      setErro(fLgpd, $("#erro-mercado-lgpd", form), "É preciso aceitar para se cadastrar.");
+      ok = false; primeiro = primeiro || fLgpd;
+    } else setErro(fLgpd, $("#erro-mercado-lgpd", form), "");
+
+    if (primeiro && primeiro.focus) primeiro.focus();
+    return ok;
+  }
+
+  fLgpd.addEventListener("change", function () {
+    if (fLgpd.checked) setErro(fLgpd, $("#erro-mercado-lgpd", form), "");
+  });
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+
+    if (ehSpam(form)) { console.warn("Spam detectado (honeypot)."); return; }
+
+    if (!validar()) {
+      setStatus(status, "erro", "Confira os campos destacados para continuar.");
+      return;
+    }
+
+    var dados = {
+      tipo: "mercado",
+      responsavel: fResp.value.trim(),
+      estabelecimento: fNome.value.trim(),
+      tipoEstabelecimento: fTipo.value,
+      whatsapp: fWhats.value.trim(),
+      bairro: fBairro.value,
+      email: "" // o formulário de parceiro não pede e-mail nesta versão
+    };
+
+    executaEnvio(
+      form, dados, status,
+      "Quero ser parceiro",
+      "Recebemos seu interesse! Vamos entrar em contato para combinar os " +
+      "detalhes do partnership.",
+      "Não conseguimos enviar agora. Pode ser uma instabilidade na internet — " +
+      "tente de novo em alguns instantes."
+    );
+  });
+})();
+
+/* ---------------------------------------------------------------------------
+   6) MISCELÂNEA
+   --------------------------------------------------------------------------- */
+(function ano() {
+  var el = $("#ano");
+  if (el) el.textContent = String(new Date().getFullYear());
+})();
+
+/* Smooth scroll com offset para âncoras (funciona também sem scroll-behavior). */
+(function scrollSuave() {
+  document.addEventListener("click", function (ev) {
+    var a = ev.target.closest ? ev.target.closest('a[href^="#"]') : null;
+    if (!a) return;
+    var id = a.getAttribute("href");
+    if (!id || id === "#") return;
+    var alvo = document.querySelector(id);
+    if (!alvo) return;
+    ev.preventDefault();
+    alvo.scrollIntoView({ behavior: "smooth", block: "start" });
+    // move o foco para quem navega por teclado/leitor de tela
+    alvo.setAttribute("tabindex", "-1");
+    alvo.focus({ preventScroll: true });
+  });
+})();
+</script>
+
+</body>
+</html>
