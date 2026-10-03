@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2E9E4F">
+<title>Painel | PoupeFruti</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================================
+     PoupeFruti — Painel de Leads (folha única, mobile first, sem framework)
+     Mesma paleta da landing: verde folha, laranja, vermelho tomate.
+     ========================================================================== */
+
+  :root {
+    --verde:        #2E9E4F;
+    --verde-escuro: #1F7A3B;
+    --verde-claro:  #EAF6ED;
+    --laranja:      #F2913D;
+    --laranja-claro:#FDF1E3;
+    --tomate:       #E8452C;
+    --tomate-claro: #FDEDEA;
+    --texto:        #23301F;
+    --texto-suave:  #55604F;
+    --fundo:        #FBFDF8;
+    --branco:       #FFFFFF;
+    --borda:        #E4EADF;
+
+    --raio:         18px;
+    --raio-g:       28px;
+    --sombra:       0 6px 24px rgba(35, 48, 31, .08);
+    --sombra-forte: 0 14px 40px rgba(35, 48, 31, .14);
+
+    --max:          1200px;
+    --fonte: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--fonte);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--texto);
+    background: var(--fundo);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  [hidden] { display: none !important; }
+
+  :focus-visible {
+    outline: 3px solid var(--verde);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* ---------------------------------------------------------------- Botões */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; font-size: 16px; font-weight: 700;
+    padding: 12px 20px; min-height: 46px;
+    border: 2px solid transparent; border-radius: 999px;
+    background: var(--verde); color: var(--branco);
+    cursor: pointer; text-decoration: none;
+    transition: background .15s ease, transform .05s ease, box-shadow .15s ease;
+  }
+  .btn:hover { background: var(--verde-escuro); }
+  .btn:active { transform: translateY(1px); }
+  .btn[disabled] { opacity: .55; cursor: not-allowed; transform: none; }
+
+  .btn-secundario {
+    background: var(--branco); color: var(--verde-escuro); border-color: var(--verde);
+  }
+  .btn-secundario:hover { background: var(--verde-claro); }
+
+  .btn-perigo { background: var(--tomate); }
+  .btn-perigo:hover { background: #c9341d; }
+
+  .btn-neutro { background: var(--branco); color: var(--texto); border-color: var(--borda); }
+  .btn-neutro:hover { background: #F3F6EF; }
+
+  .btn-pequeno { font-size: 14px; padding: 8px 14px; min-height: 38px; }
+
+  /* ================================================================= Login */
+  .login-screen {
+    min-height: 100vh; min-height: 100dvh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px 16px;
+    background: linear-gradient(180deg, var(--verde-claro) 0%, var(--fundo) 60%);
+  }
+
+  .login-card {
+    width: 100%; max-width: 420px;
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-g);
+    box-shadow: var(--sombra);
+    padding: 32px 24px;
+  }
+
+  .login-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 24px; font-weight: 800; color: var(--verde-escuro);
+    text-decoration: none; margin-bottom: 6px;
+  }
+
+  .login-sub { margin: 0 0 24px; color: var(--texto-suave); font-size: 15px; }
+
+  /* ============================================================== Formulário */
+  .campo { margin-bottom: 18px; }
+
+  .campo label {
+    display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px;
+  }
+
+  .campo input,
+  .campo select {
+    width: 100%; font-family: inherit; font-size: 16px; color: var(--texto);
+    padding: 12px 14px; min-height: 48px;
+    border: 2px solid var(--borda); border-radius: 12px;
+    background: var(--branco);
+  }
+  .campo input:focus, .campo select:focus { border-color: var(--verde); outline: none; }
+
+  .alerta {
+    padding: 12px 14px; border-radius: 12px; font-size: 15px; font-weight: 600;
+    margin-bottom: 18px;
+  }
+  .alerta-erro { background: var(--tomate-claro); color: #a32a16; border: 1px solid #f3c4bb; }
+
+  /* ================================================================= Painel */
+  .painel { min-height: 100vh; display: flex; flex-direction: column; }
+
+  .painel-header {
+    background: var(--branco);
+    border-bottom: 1px solid var(--borda);
+    padding: 14px 16px;
+    position: sticky; top: 0; z-index: 10;
+  }
+
+  .painel-header-inner {
+    max-width: var(--max); margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+
+  .painel-titulo { font-size: 20px; font-weight: 800; color: var(--verde-escuro); margin: 0; }
+  .painel-sub { font-size: 13px; color: var(--texto-suave); margin: 0; }
+
+  .painel-main { flex: 1; max-width: var(--max); width: 100%; margin: 0 auto; padding: 20px 16px 48px; }
+
+  /* ======================================================== Cards de estat. */
+  .stats-grid {
+    display: grid; gap: 12px; margin-bottom: 24px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stat-card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    padding: 16px;
+  }
+
+  .stat-valor { font-size: 30px; font-weight: 800; line-height: 1.1; color: var(--verde-escuro); }
+  .stat-rotulo { font-size: 13px; font-weight: 700; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .04em; }
+  .stat-detalhe { font-size: 13px; color: var(--texto-suave); margin-top: 4px; }
+
+  /* ============================================================== Filtros */
+  .filtros {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    padding: 16px; margin-bottom: 20px;
+  }
+
+  .filtros-grade {
+    display: grid; gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .filtros-acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+  /* ================================================================== Lista */
+  .lista-envolve {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+  }
+
+  /* Tabela (desktop) */
+  .tabela { width: 100%; border-collapse: collapse; }
+  .tabela th, .tabela td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--borda); vertical-align: middle; }
+  .tabela th {
+    font-size: 12px; text-transform: uppercase; letter-spacing: .04em;
+    color: var(--texto-suave); background: #F6F9F2; white-space: nowrap;
+  }
+  .tabela tbody tr:last-child td { border-bottom: none; }
+  .tabela tbody tr:hover { background: #FAFCF7; }
+  .celula-nome { font-weight: 700; }
+  .celula-sub { font-size: 13px; color: var(--texto-suave); word-break: break-word; }
+
+  /* Cartões (mobile) */
+  .cards { display: none; }
+  .card-lead { padding: 14px 16px; border-bottom: 1px solid var(--borda); }
+  .card-lead:last-child { border-bottom: none; }
+  .card-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+  .card-nome { font-weight: 800; font-size: 17px; margin: 0; word-break: break-word; }
+  .card-linha { font-size: 14px; color: var(--texto-suave); word-break: break-word; }
+  .card-linha strong { color: var(--texto); }
+  .card-acoes { margin-top: 10px; }
+
+  /* =============================================================== Badges */
+  .badge {
+    display: inline-block; white-space: nowrap;
+    font-size: 12px; font-weight: 800; letter-spacing: .02em;
+    padding: 5px 10px; border-radius: 999px;
+    border: 1px solid transparent;
+  }
+  .badge-new          { background: #EEF2F7; color: #46536B; border-color: #D8E0EB; }
+  .badge-contacted    { background: var(--laranja-claro); color: #A85D14; border-color: #F6D9B6; }
+  .badge-qualified    { background: var(--verde-claro); color: var(--verde-escuro); border-color: #BFE3CB; }
+  .badge-converted    { background: var(--verde); color: var(--branco); border-color: var(--verde-escuro); }
+  .badge-lost         { background: var(--tomate-claro); color: #A32A16; border-color: #F3C4BB; }
+  .badge-tipo         { background: var(--branco); color: var(--texto-suave); border-color: var(--borda); }
+
+  /* ============================================================== Paginação */
+  .paginacao {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    padding: 14px 16px; border-top: 1px solid var(--borda);
+  }
+  .paginacao-info { font-size: 14px; color: var(--texto-suave); }
+  .paginacao-botoes { display: flex; gap: 8px; }
+
+  /* ================================================================ Estados */
+  .estado {
+    padding: 48px 20px; text-align: center; color: var(--texto-suave);
+  }
+  .estado-icone { font-size: 34px; line-height: 1; margin-bottom: 10px; }
+  .estado-titulo { font-weight: 800; color: var(--texto); margin: 0 0 6px; font-size: 17px; }
+  .estado-texto { margin: 0 0 14px; font-size: 15px; }
+
+  .carregando-mini {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 3px solid var(--borda); border-top-color: var(--verde);
+    animation: girar .8s linear infinite;
+  }
+  @keyframes girar { to { transform: rotate(360deg); } }
+
+  /* ================================================================== Modal */
+  .modal-fundo {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(35, 48, 31, .55);
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0;
+  }
+
+  .modal {
+    background: var(--branco);
+    width: 100%; max-width: 560px;
+    max-height: 92vh; overflow-y: auto;
+    border-radius: var(--raio-g) var(--raio-g) 0 0;
+    box-shadow: var(--sombra-forte);
+    padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .modal-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+  .modal-titulo { font-size: 20px; font-weight: 800; margin: 0; }
+  .modal-fechar {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 26px; line-height: 1; color: var(--texto-suave);
+    padding: 4px 8px; border-radius: 8px;
+  }
+  .modal-fechar:hover { background: #F3F6EF; color: var(--texto); }
+
+  .modal-corpo { margin-top: 16px; }
+
+  .det-linha {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    padding: 10px 0; border-bottom: 1px solid var(--borda);
+  }
+  .det-linha:last-child { border-bottom: none; }
+  .det-rotulo { flex: 0 0 130px; font-size: 13px; font-weight: 800; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .04em; }
+  .det-valor { flex: 1 1 200px; word-break: break-word; }
+
+  .modal-acoes { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .modal-acoes .btn { flex: 1 1 140px; }
+
+  .modal-status {
+    margin: 14px 0 0; font-size: 14px; font-weight: 700;
+    color: var(--verde-escuro); min-height: 20px;
+  }
+  .modal-status.erro { color: var(--tomate); }
+
+  .aviso {
+    background: var(--laranja-claro); border: 1px solid #F6D9B6;
+    color: #8A4C10; border-radius: 12px; padding: 10px 12px;
+    font-size: 14px; margin-bottom: 16px;
+  }
+
+  /* ------------------------------------------------------------- Responsivo */
+  @media (min-width: 640px) {
+    .stats-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .filtros-grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .modal-fundo { align-items: center; padding: 24px 16px; }
+    .modal { border-radius: var(--raio-g); }
+    .painel-main { padding: 28px 24px 56px; }
+  }
+
+  @media (max-width: 767px) {
+    .tabela { display: none; }
+    .cards { display: block; }
+  }
+
+  @media (min-width: 768px) {
+    .cards { display: none !important; }
+    .filtros-grade { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .busca { grid-column: span 2; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================================================== LOGIN -->
+<div class="login-screen" id="login-screen">
+  <main class="login-card">
+    <a class="login-logo" href="/">
+      <span aria-hidden="true">🍊</span> PoupeFruti
+    </a>
+    <p class="login-sub">Painel administrativo de leads</p>
+
+    <div class="alerta alerta-erro" id="login-error" role="alert" hidden></div>
+
+    <form id="login-form" novalidate>
+      <div class="campo">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" name="email"
+               autocomplete="username" required
+               inputmode="email" placeholder="voce@poupefruti.com.br">
+      </div>
+
+      <div class="campo">
+        <label for="login-password">Senha</label>
+        <input type="password" id="login-password" name="password"
+               autocomplete="current-password" required
+               placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn" id="login-submit" style="width:100%">Entrar</button>
+    </form>
+  </main>
+</div>
+
+<!-- ================================================================= PAINEL -->
+<div class="painel" id="panel" hidden>
+
+  <header class="painel-header">
+    <div class="painel-header-inner">
+      <div>
+        <h1 class="painel-titulo">Leads</h1>
+        <p class="painel-sub" id="usuario-logado"></p>
+      </div>
+      <button type="button" class="btn btn-neutro btn-pequeno" id="logout-btn">Sair</button>
+    </div>
+  </header>
+
+  <main class="painel-main">
+
+    <!-- Cards de estatísticas -->
+    <section aria-label="Estatísticas">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-valor" id="stat-total">—</div>
+          <div class="stat-rotulo">Total</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-valor" id="stat-hoje">—</div>
+          <div class="stat-rotulo">Hoje</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-valor" id="stat-semana">—</div>
+          <div class="stat-rotulo">7 dias</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-valor" id="stat-qualificados">—</div>
+          <div class="stat-rotulo">Qualificados</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filtros" aria-label="Filtros">
+      <div class="filtros-grade">
+        <div class="campo busca">
+          <label for="filter-search">Buscar</label>
+          <input type="search" id="filter-search" placeholder="Nome, e-mail ou telefone">
+        </div>
+
+        <div class="campo">
+          <label for="filter-status">Status</label>
+          <select id="filter-status">
+            <option value="">Todos</option>
+            <option value="new">Novo</option>
+            <option value="contacted">Contatado</option>
+            <option value="qualified">Qualificado</option>
+            <option value="converted">Convertido</option>
+            <option value="lost">Perdido</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="filter-type">Tipo</label>
+          <select id="filter-type">
+            <option value="">Todos</option>
+            <option value="person">Cliente</option>
+            <option value="establishment">Estabelecimento</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="filter-bairro">Bairro</label>
+          <input type="text" id="filter-bairro" placeholder="Ex.: Centro">
+        </div>
+      </div>
+
+      <div class="filtros-acoes">
+        <button type="button" class="btn btn-secundario btn-pequeno" id="btn-export">Exportar CSV</button>
+        <button type="button" class="btn btn-neutro btn-pequeno" id="btn-refresh">Atualizar</button>
+      </div>
+    </section>
+
+    <p class="sr-only" id="app-status" role="status" aria-live="polite"></p>
+
+    <!-- Lista -->
+    <section class="lista-envolve" aria-label="Lista de leads">
+
+      <div class="estado" id="list-loading">
+        <div class="carregando-mini" style="margin:0 auto 12px"></div>
+        <p class="estado-texto">Carregando leads…</p>
+      </div>
+
+      <div class="estado" id="list-error" hidden>
+        <div class="estado-icone" aria-hidden="true">⚠️</div>
+        <p class="estado-titulo">Não foi possível carregar</p>
+        <p class="estado-texto" id="list-error-msg"></p>
+        <button type="button" class="btn btn-secundario btn-pequeno" id="btn-retry">Tentar novamente</button>
+      </div>
+
+      <div class="estado" id="list-empty" hidden>
+        <div class="estado-icone" aria-hidden="true">📭</div>
+        <p class="estado-titulo">Nenhum lead encontrado</p>
+        <p class="estado-texto">Ajuste os filtros ou aguarde novos cadastros.</p>
+      </div>
+
+      <table class="tabela" id="tabela-leads" hidden>
+        <caption class="sr-only">Leads recebidos pela landing page</caption>
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Contato</th>
+            <th scope="col">Bairro</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="sr-only">Ações</span></th>
+          </tr>
+        </thead>
+        <tbody id="tabela-corpo"></tbody>
+      </table>
+
+      <div class="cards" id="cards-leads"></div>
+
+      <nav class="paginacao" id="pagination" aria-label="Paginação" hidden>
+        <span class="paginacao-info" id="page-info"></span>
+        <div class="paginacao-botoes">
+          <button type="button" class="btn btn-neutro btn-pequeno" id="btn-prev">Anterior</button>
+          <button type="button" class="btn btn-neutro btn-pequeno" id="btn-next">Próxima</button>
+        </div>
+      </nav>
+
+    </section>
+  </main>
+</div>
+
+<!-- ======================================================= MODAL: DETALHE -->
+<div class="modal-fundo" id="detail-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="detail-title">Lead</h2>
+      <button type="button" class="modal-fechar" id="detail-close" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-corpo" id="detail-corpo"></div>
+    <p class="modal-status" id="detail-status" role="status" aria-live="polite"></p>
+    <div class="modal-acoes" id="detail-acoes">
+      <button type="button" class="btn btn-secundario" id="btn-acao-contacted">Marcar contatado</button>
+      <button type="button" class="btn" id="btn-acao-qualified">Aprovar</button>
+      <button type="button" class="btn btn-perigo" id="btn-acao-lost">Rejeitar</button>
+      <button type="button" class="btn btn-neutro" id="btn-acao-new">Reativar</button>
+      <button type="button" class="btn btn-neutro" id="btn-whatsapp">WhatsApp</button>
+      <button type="button" class="btn btn-secundario" id="btn-open-convert">Converter</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================= MODAL: CONVERTER -->
+<div class="modal-fundo" id="convert-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="convert-title">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="convert-title">Converter lead</h2>
+      <button type="button" class="modal-fechar" id="convert-close" aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="aviso">
+      A conversão cria o usuário (ou estabelecimento) e marca o lead como convertido.
+      Esta ação não pode ser desfeita pelo painel.
+    </div>
+
+    <div class="alerta alerta-erro" id="convert-error" role="alert" hidden></div>
+
+    <form id="convert-form" novalidate>
+      <div class="campo">
+        <label for="convert-password">Senha do usuário</label>
+        <input type="password" id="convert-password" name="password"
+               autocomplete="new-password" required minlength="8"
+               placeholder="Mínimo de 8 caracteres">
+      </div>
+
+      <div id="convert-establishment" hidden>
+        <div class="campo">
+          <label for="convert-cnpj">CNPJ</label>
+          <input type="text" id="convert-cnpj" name="cnpj" inputmode="numeric" placeholder="00.000.000/0000-00">
+        </div>
+        <div class="campo">
+          <label for="convert-name">Nome do estabelecimento</label>
+          <input type="text" id="convert-name" name="name" placeholder="Mercado Exemplo">
+        </div>
+        <div class="campo">
+          <label for="convert-address">Endereço</label>
+          <input type="text" id="convert-address" name="address" placeholder="Rua, número, bairro">
+        </div>
+      </div>
+
+      <div class="modal-acoes">
+        <button type="button" class="btn btn-neutro" id="btn-convert-cancelar">Cancelar</button>
+        <button type="submit" class="btn" id="btn-convert-submit">Confirmar conversão</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // URL base da API (mesma constante usada na landing page).
+  var API_URL = "https://poupefrutiapi.onrender.com";
+
+  // ==========================================================================
+  // Configuração de apresentação
+  // ==========================================================================
+
+  var STATUS = {
+    new:       { rotulo: "Novo",        classe: "badge-new" },
+    contacted: { rotulo: "Contatado",   classe: "badge-contacted" },
+    qualified: { rotulo: "Qualificado", classe: "badge-qualified" },
+    converted: { rotulo: "Convertido",  classe: "badge-converted" },
+    lost:      { rotulo: "Perdido",     classe: "badge-lost" }
+  };
+
+  var TIPOS = {
+    person: "Cliente",
+    establishment: "Estabelecimento"
+  };
+
+  // Transições aceitas pelo backend (services/leads.py::update_lead_status).
+  // Usado para esconder botões de ação que o servidor rejeitaria com 400.
+  var TRANSICOES = {
+    new:       ["contacted", "qualified", "lost"],
+    contacted: ["qualified", "lost"],
+    qualified: ["converted", "lost"],
+    converted: [],
+    lost:      ["new"]
+  };
+
+  var CHAVE_TOKEN = "poupefruti.admin.token";   // sessionStorage, nunca localStorage
+  var POR_PAGINA = 20;
+  var DEBOUNCE_MS = 400;
+
+  // ==========================================================================
+  // Estado
+  // ==========================================================================
+
+  var token = null;
+  var paginaAtual = 1;
+  var totalPaginas = 1;
+  var leadsAtuais = [];
+  var leadAberto = null;
+  var timerBusca = null;
+  var ultimoFoco = null;
+
+  // ==========================================================================
+  // Utilidades de DOM
+  // ==========================================================================
+
+  function $(id) { return document.getElementById(id); }
+
+  function mostrar(elemento, visivel) {
+    if (elemento) elemento.hidden = !visivel;
+  }
+
+  function mensagemPorStatus(status) {
+    if (status === 401) return "Sessão expirada. Entre novamente.";
+    if (status === 403) return "Você não tem permissão para esta ação.";
+    if (status === 404) return "Registro não encontrado.";
+    if (status === 429) return "Muitas tentativas. Aguarde um instante e tente novamente.";
+    if (status >= 500) return "Erro no servidor. Tente novamente em instantes.";
+    return "Não foi possível concluir a ação.";
+  }
+
+  function textoDe(valor, padrao) {
+    return (valor === null || valor === undefined || valor === "") ? (padrao || "—") : String(valor);
+  }
+
+  function numeroWhatsapp(telefone) {
+    var digitos = String(telefone || "").replace(/\D/g, "");
+    if (!digitos) return "";
+    if (digitos.indexOf("55") !== 0) digitos = "55" + digitos;
+    return digitos;
+  }
+
+  function dataCurta(iso) {
+    if (!iso) return "—";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "—";
+    return d.toLocaleDateString("pt-BR") + " " +
+           d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  }
+
+  // ==========================================================================
+  // Token (memória + sessionStorage)
+  // ==========================================================================
+
+  function guardarToken(novo) {
+    token = novo;
+    try { sessionStorage.setItem(CHAVE_TOKEN, novo); } catch (e) { /* modo privado */ }
+  }
+
+  function lerToken() {
+    try { return sessionStorage.getItem(CHAVE_TOKEN); } catch (e) { return null; }
+  }
+
+  function limparToken() {
+    token = null;
+    try { sessionStorage.removeItem(CHAVE_TOKEN); } catch (e) { /* ignora */ }
+  }
+
+  // ==========================================================================
+  // Cliente HTTP — sempre no formato {"error": {"code", "message"}}
+  // ==========================================================================
+
+  function api(caminho, opcoes) {
+    opcoes = opcoes || {};
+
+    var config = { method: opcoes.method || "GET", headers: {} };
+    if (token) config.headers.Authorization = "Bearer " + token;
+    if (opcoes.body !== undefined) {
+      config.headers["Content-Type"] = "application/json";
+      config.body = JSON.stringify(opcoes.body);
+    }
+
+    var base = API_URL.replace(/\/+$/, "");
+
+    return fetch(base + caminho, config).then(function (resposta) {
+      var tipo = resposta.headers.get("Content-Type") || "";
+
+      // Resposta sem JSON (ex.: 429 do limitador, 500 do proxy).
+      if (tipo.indexOf("application/json") === -1) {
+        if (!resposta.ok) {
+          throw { status: resposta.status, mensagem: mensagemPorStatus(resposta.status) };
+        }
+        return resposta.text();
+      }
+
+      return resposta.json().then(function (dados) {
+        if (!resposta.ok) {
+          var info = (dados && dados.error) ? dados.error : {};
+          throw {
+            status: resposta.status,
+            codigo: info.code || "",
+            mensagem: info.message || mensagemPorStatus(resposta.status)
+          };
+        }
+        return dados;
+      });
+    });
+  }
+
+  // Versão autenticada: qualquer 401/403 encerra a sessão e volta ao login.
+  function apiAdmin(caminho, opcoes) {
+    return api(caminho, opcoes).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) {
+        encerrarSessao();
+      }
+      throw erro;
+    });
+  }
+
+  // ==========================================================================
+  // Sessão: login, logout, painel
+  // ==========================================================================
+
+  function mostrarErroLogin(mensagem) {
+    var caixa = $("login-error");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+  }
+
+  function mostrarErroConvert(mensagem) {
+    var caixa = $("convert-error");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+  }
+
+  function abrirPainel(admin) {
+    mostrar($("login-screen"), false);
+    mostrar($("panel"), true);
+    $("usuario-logado").textContent = admin ? textoDe(admin.name, admin.email) : "";
+    paginaAtual = 1;
+    carregarStats();
+    carregarLeads();
+  }
+
+  function encerrarSessao() {
+    limparToken();
+    leadAberto = null;
+    leadsAtuais = [];
+    fecharModais();
+    mostrar($("panel"), false);
+    mostrar($("login-screen"), true);
+    $("app-status").textContent = "Sessão encerrada. Faça login novamente.";
+    mostrarErroLogin("");
+    $("login-email").focus();
+  }
+
+  function iniciar() {
+    token = lerToken();
+    if (!token) return;
+
+    // Revalida o token guardado antes de mostrar o painel.
+    apiAdmin("/api/v1/admin/auth/me").then(function (dados) {
+      abrirPainel(dados.admin);
+    }).catch(function () {
+      // Falha de rede não encerra a sessão; 401/403 játratados em apiAdmin.
+    });
+  }
+
+  // ==========================================================================
+  // Estatísticas
+  // ==========================================================================
+
+  function carregarStats() {
+    return apiAdmin("/api/v1/admin/stats").then(function (d) {
+      var porStatus = d.by_status || {};
+      var total = 0;
+      Object.keys(porStatus).forEach(function (chave) { total += porStatus[chave]; });
+
+      $("stat-total").textContent = total;
+      $("stat-hoje").textContent = d.today || 0;
+      $("stat-semana").textContent = d.last_7_days || 0;
+      $("stat-qualificados").textContent = porStatus.qualified || 0;
+    }).catch(function (erro) {
+      // Estatísticas são informativas: não devem derrubar a listagem.
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      ["stat-total", "stat-hoje", "stat-semana", "stat-qualificados"].forEach(function (id) {
+        $(id).textContent = "—";
+      });
+    });
+  }
+
+  // ==========================================================================
+  // Listagem: filtros + paginação
+  // ==========================================================================
+
+  function parametrosFiltros(comPaginacao) {
+    var p = new URLSearchParams();
+
+    var busca = $("filter-search").value.trim();
+    var status = $("filter-status").value;
+    var tipo = $("filter-type").value;
+    var bairro = $("filter-bairro").value.trim();
+
+    if (busca) p.set("search", busca);
+    if (status) p.set("status", status);
+    if (tipo) p.set("type", tipo);
+    if (bairro) p.set("bairro", bairro);
+
+    if (comPaginacao !== false) {
+      p.set("page", paginaAtual);
+      p.set("per_page", POR_PAGINA);
+    }
+    return p;
+  }
+
+  function carregarLeads() {
+    mostrar($("list-loading"), true);
+    mostrar($("list-error"), false);
+    mostrar($("list-empty"), false);
+    mostrar($("tabela-leads"), false);
+    mostrar($("cards-leads"), false);
+    mostrar($("pagination"), false);
+
+    return apiAdmin("/api/v1/admin/leads?" + parametrosFiltros().toString())
+      .then(function (dados) {
+        renderizarLista(dados.leads || [], dados.pagination || {});
+        $("app-status").textContent = (dados.leads || []).length + " lead(s) carregado(s).";
+      })
+      .catch(function (erro) {
+        if (erro && (erro.status === 401 || erro.status === 403)) return;
+        $("list-error-msg").textContent = erro.mensagem || "Erro inesperado. Tente novamente.";
+        mostrar($("list-error"), true);
+      })
+      .then(function () {
+        mostrar($("list-loading"), false);
+      });
+  }
+
+  // ==========================================================================
+  // Renderização — apenas textContent/createElement, nunca innerHTML
+  // ==========================================================================
+
+  function criarBadge(texto, classe) {
+    var span = document.createElement("span");
+    span.className = "badge " + classe;
+    span.textContent = texto;
+    return span;
+  }
+
+  function criarLinhaTabela(lead) {
+    var tr = document.createElement("tr");
+    tr.setAttribute("data-lead-id", String(lead.id));
+
+    // Nome + e-mail
+    var tdNome = document.createElement("td");
+    var nome = document.createElement("div");
+    nome.className = "celula-nome";
+    nome.textContent = textoDe(lead.name);
+    var sub = document.createElement("div");
+    sub.className = "celula-sub";
+    sub.textContent = textoDe(lead.email, "sem e-mail");
+    tdNome.appendChild(nome);
+    tdNome.appendChild(sub);
+    tr.appendChild(tdNome);
+
+    // Tipo
+    var tdTipo = document.createElement("td");
+    tdTipo.appendChild(criarBadge(TIPOS[lead.type] || lead.type || "—", "badge-tipo"));
+    tr.appendChild(tdTipo);
+
+    // Contato
+    var tdContato = document.createElement("td");
+    var tel = document.createElement("div");
+    tel.className = "celula-sub";
+    tel.textContent = textoDe(lead.phone);
+    tdContato.appendChild(tel);
+    tr.appendChild(tdContato);
+
+    // Bairro
+    var tdBairro = document.createElement("td");
+    tdBairro.textContent = textoDe(lead.bairro);
+    tr.appendChild(tdBairro);
+
+    // Status
+    var tdStatus = document.createElement("td");
+    var info = STATUS[lead.status] || { rotulo: textoDe(lead.status), classe: "badge-new" };
+    tdStatus.appendChild(criarBadge(info.rotulo, info.classe));
+    tr.appendChild(tdStatus);
+
+    // Ação
+    var tdAcao = document.createElement("td");
+    var botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "btn btn-secundario btn-pequeno";
+    botao.textContent = "Ver";
+    botao.addEventListener("click", function () { abrirDetalhe(lead.id); });
+    tdAcao.appendChild(botao);
+    tr.appendChild(tdAcao);
+
+    return tr;
+  }
+
+  function criarCard(lead) {
+    var article = document.createElement("article");
+    article.className = "card-lead";
+    article.setAttribute("data-lead-id", String(lead.id));
+
+    // Topo: nome + status
+    var topo = document.createElement("div");
+    topo.className = "card-topo";
+
+    var nome = document.createElement("h3");
+    nome.className = "card-nome";
+    nome.textContent = textoDe(lead.name);
+    topo.appendChild(nome);
+
+    var info = STATUS[lead.status] || { rotulo: textoDe(lead.status), classe: "badge-new" };
+    topo.appendChild(criarBadge(info.rotulo, info.classe));
+    article.appendChild(topo);
+
+    // Tipo
+    article.appendChild(criarLinhaCard("Tipo", TIPOS[lead.type] || textoDe(lead.type)));
+
+    // Contato
+    article.appendChild(criarLinhaCard("Telefone", textoDe(lead.phone)));
+    if (lead.email) article.appendChild(criarLinhaCard("E-mail", lead.email));
+    if (lead.bairro) article.appendChild(criarLinhaCard("Bairro", lead.bairro));
+
+    article.appendChild(criarLinhaCard("Recebido em", dataCurta(lead.created_at)));
+
+    // Ação
+    var acoes = document.createElement("div");
+    acoes.className = "card-acoes";
+    var botao = document.createElement("button");
+    botao.type = "button";
+    botao.className = "btn btn-secundario btn-pequeno";
+    botao.textContent = "Ver detalhes";
+    botao.addEventListener("click", function () { abrirDetalhe(lead.id); });
+    acoes.appendChild(botao);
+    article.appendChild(acoes);
+
+    return article;
+  }
+
+  function criarLinhaCard(rotulo, valor) {
+    var linha = document.createElement("div");
+    linha.className = "card-linha";
+
+    var forte = document.createElement("strong");
+    forte.textContent = rotulo + ": ";
+    linha.appendChild(forte);
+
+    linha.appendChild(document.createTextNode(String(valor)));
+    return linha;
+  }
+
+  function renderizarLista(leads, paginacao) {
+    leadsAtuais = leads;
+
+    var corpo = $("tabela-corpo");
+    var cards = $("cards-leads");
+    corpo.textContent = "";
+    cards.textContent = "";
+
+    leads.forEach(function (lead) {
+      corpo.appendChild(criarLinhaTabela(lead));
+      cards.appendChild(criarCard(lead));
+    });
+
+    paginaAtual = paginacao.page || 1;
+    totalPaginas = paginacao.pages || 1;
+
+    var total = paginacao.total || 0;
+    $("page-info").textContent = "Página " + paginaAtual + " de " +
+      Math.max(totalPaginas, 1) + " · " + total + " lead(s)";
+
+    $("btn-prev").disabled = !paginacao.has_prev;
+    $("btn-next").disabled = !paginacao.has_next;
+    mostrar($("pagination"), true);
+
+    var temLeads = leads.length > 0;
+    mostrar($("list-empty"), !temLeads);
+    mostrar($("tabela-leads"), temLeads);
+    mostrar($("cards-leads"), temLeads);
+  }
+
+  // Atualiza a linha/cartão na tela sem recarregar a lista inteira.
+  function atualizarLeadNaTela(lead) {
+    for (var i = 0; i < leadsAtuais.length; i++) {
+      if (leadsAtuais[i].id === lead.id) { leadsAtuais[i] = lead; break; }
+    }
+
+    var seletor = '[data-lead-id="' + lead.id + '"]';
+    var linha = $("tabela-corpo").querySelector(seletor);
+    if (linha) linha.parentNode.replaceChild(criarLinhaTabela(lead), linha);
+
+    var cartao = $("cards-leads").querySelector(seletor);
+    if (cartao) cartao.parentNode.replaceChild(criarCard(lead), cartao);
+  }
+
+  // ==========================================================================
+  // Detalhe do lead
+  // ==========================================================================
+
+  function linhaDetalhe(rotulo, valor) {
+    var linha = document.createElement("div");
+    linha.className = "det-linha";
+
+    var r = document.createElement("div");
+    r.className = "det-rotulo";
+    r.textContent = rotulo;
+
+    var v = document.createElement("div");
+    v.className = "det-valor";
+    if (valor instanceof Node) {
+      v.appendChild(valor);
+    } else {
+      v.textContent = textoDe(valor);
+    }
+
+    linha.appendChild(r);
+    linha.appendChild(v);
+    return linha;
+  }
+
+  function abrirDetalhe(id) {
+    apiAdmin("/api/v1/admin/leads/" + id).then(function (dados) {
+      leadAberto = dados.lead;
+      renderizarDetalhe(leadAberto);
+      statusDetalhe("");
+      ultimoFoco = document.activeElement;
+      mostrar($("detail-modal"), true);
+      focarPrimeiro($("detail-modal"));
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      $("app-status").textContent = erro.mensagem || "Não foi possível abrir o lead.";
+    });
+  }
+
+  // Rótulos amigáveis para as chaves conhecidas de extra.
+  var ROTULOS_EXTRA = {
+    cnpj: "CNPJ",
+    responsavel: "Responsável",
+    estabelecimento: "Estabelecimento",
+    tipo_estabelecimento: "Tipo de comércio",
+    enviado_em: "Enviado em",
+    origem: "Origem",
+    bairro: "Bairro",
+    cesta: "Cesta"
+  };
+
+  // Chaves de extra que já são exibidas como coluna própria (Opção A de compatibilidade).
+  var EXTRA_JA_EXIBIDO = { bairro: 1, cesta: 1 };
+
+  function rotuloExtra(chave) {
+    if (ROTULOS_EXTRA[chave]) return ROTULOS_EXTRA[chave];
+    return chave.replace(/_/g, " ").replace(/^./, function (c) { return c.toUpperCase(); });
+  }
+
+  function valorExtra(valor) {
+    if (valor === null || valor === undefined) return "—";
+    if (typeof valor === "object") return JSON.stringify(valor);
+    if (typeof valor === "boolean") return valor ? "sim" : "não";
+    // Datas em ISO saem legíveis em pt-BR.
+    if (/^\d{4}-\d{2}-\d{2}T/.test(String(valor))) return dataCurta(valor);
+    return String(valor);
+  }
+
+  function renderizarDetalhe(lead) {
+    var info = STATUS[lead.status] || { rotulo: textoDe(lead.status), classe: "badge-new" };
+
+    $("detail-title").textContent = textoDe(lead.name, "Lead #" + lead.id);
+
+    var corpo = $("detail-corpo");
+    corpo.textContent = "";
+
+    corpo.appendChild(linhaDetalhe("ID", "#" + lead.id));
+    corpo.appendChild(linhaDetalhe("Status", criarBadge(info.rotulo, info.classe)));
+    corpo.appendChild(linhaDetalhe("Tipo", TIPOS[lead.type] || textoDe(lead.type)));
+    corpo.appendChild(linhaDetalhe("Telefone", lead.phone));
+    corpo.appendChild(linhaDetalhe("E-mail", lead.email));
+    corpo.appendChild(linhaDetalhe("Bairro", lead.bairro));
+    corpo.appendChild(linhaDetalhe("Cesta", lead.cesta_tipo));
+    corpo.appendChild(linhaDetalhe("Origem", lead.source));
+    corpo.appendChild(linhaDetalhe("Recebido em", dataCurta(lead.created_at)));
+
+    if (lead.converted_at) {
+      corpo.appendChild(linhaDetalhe("Convertido em", dataCurta(lead.converted_at)));
+    }
+
+    // Campos variáveis: TODAS as chaves de extra ainda não exibidas acima.
+    var extra = lead.extra || {};
+    Object.keys(extra).forEach(function (chave) {
+      if (EXTRA_JA_EXIBIDO[chave]) return;
+      var valor = extra[chave];
+      if (valor === null || valor === undefined || valor === "") return;
+      corpo.appendChild(linhaDetalhe(rotuloExtra(chave), valorExtra(valor)));
+    });
+
+    atualizarBotoesDetalhe(lead);
+  }
+
+  // Esconde as ações que o backend rejeitaria com 400.
+  function atualizarBotoesDetalhe(lead) {
+    var permitidas = TRANSICOES[lead.status] || [];
+
+    function exige(alvo, status) {
+      mostrar($(alvo), permitidas.indexOf(status) !== -1);
+    }
+
+    exige("btn-acao-contacted", "contacted");
+    exige("btn-acao-qualified", "qualified");
+    exige("btn-acao-lost", "lost");
+    exige("btn-acao-new", "new");
+
+    // Converter é ação separada; não faz sentido em lead já convertido ou perdido.
+    mostrar($("btn-open-convert"), lead.status !== "converted" && lead.status !== "lost");
+
+    mostrar($("btn-whatsapp"), !!numeroWhatsapp(lead.phone));
+  }
+
+  function fecharDetalhe() {
+    mostrar($("detail-modal"), false);
+    leadAberto = null;
+    if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  }
+
+  // ==========================================================================
+  // Foco e teclado nos modais
+  // ==========================================================================
+
+  var FOCAVEIS = 'a[href], button:not([disabled]), input:not([disabled]), ' +
+                 'select:not([disabled]), textarea:not([disabled])';
+
+  // Um elemento só é focável se ele e todos os ancestrais estiverem visíveis.
+  function estaVisivel(el) {
+    var atual = el;
+    while (atual && atual !== document.body) {
+      if (atual.hidden) return false;
+      atual = atual.parentElement;
+    }
+    return true;
+  }
+
+  function focaveisDoModal(modal) {
+    var candidatos = modal.querySelectorAll(FOCAVEIS);
+    var lista = [];
+    for (var i = 0; i < candidatos.length; i++) {
+      if (estaVisivel(candidatos[i])) lista.push(candidatos[i]);
+    }
+    return lista;
+  }
+
+  function focarPrimeiro(modal) {
+    var lista = focaveisDoModal(modal);
+    if (lista.length) lista[0].focus();
+  }
+
+  // Mantém o Tab dentro do modal aberto.
+  function prenderFoco(modal, evento) {
+    if (evento.key !== "Tab") return;
+
+    var lista = focaveisDoModal(modal);
+    if (!lista.length) return;
+
+    var primeiro = lista[0];
+    var ultimo = lista[lista.length - 1];
+
+    if (evento.shiftKey && document.activeElement === primeiro) {
+      evento.preventDefault();
+      ultimo.focus();
+    } else if (!evento.shiftKey && document.activeElement === ultimo) {
+      evento.preventDefault();
+      primeiro.focus();
+    }
+  }
+
+  // Usada por encerrarSessao(): fecha os dois modais de uma vez.
+  function fecharModais() {
+    mostrar($("convert-modal"), false);
+    mostrar($("detail-modal"), false);
+    mostrarErroConvert("");
+    statusDetalhe("");
+    leadAberto = null;
+  }
+
+  // Mensagem de feedback dentro do modal de detalhe (aria-live).
+  function statusDetalhe(mensagem, ehErro) {
+    var caixa = $("detail-status");
+    if (!caixa) return;
+    caixa.textContent = mensagem || "";
+    caixa.className = ehErro ? "modal-status erro" : "modal-status";
+  }
+
+  // ==========================================================================
+  // Ações de status
+  // ==========================================================================
+
+  function mudarStatus(novoStatus) {
+    if (!leadAberto) return;
+
+    statusDetalhe("Salvando…");
+
+    apiAdmin("/api/v1/admin/leads/" + leadAberto.id + "/status", {
+      method: "PATCH",
+      body: { status: novoStatus }
+    }).then(function (dados) {
+      leadAberto = dados.lead;
+      atualizarLeadNaTela(leadAberto);
+      renderizarDetalhe(leadAberto);
+      carregarStats();
+
+      var rotulo = STATUS[novoStatus] ? STATUS[novoStatus].rotulo : novoStatus;
+      var aviso = "Status alterado para " + rotulo + ".";
+      statusDetalhe(aviso);
+      $("app-status").textContent = aviso;
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      var aviso = erro.mensagem || "Não foi possível alterar o status.";
+      statusDetalhe(aviso, true);
+      $("app-status").textContent = aviso;
+    });
+  }
+
+  // ==========================================================================
+  // Conversão (modal próprio)
+  // ==========================================================================
+
+  function abrirConversao() {
+    if (!leadAberto) return;
+
+    var ehEstabelecimento = leadAberto.type === "establishment";
+    var extra = leadAberto.extra || {};
+
+    $("convert-form").reset();
+    mostrarErroConvert("");
+    mostrar($("convert-establishment"), ehEstabelecimento);
+    $("convert-cnpj").required = ehEstabelecimento;
+
+    if (ehEstabelecimento) {
+      $("convert-cnpj").value = textoDe(extra.cnpj, "");
+      $("convert-name").value = textoDe(extra.estabelecimento, leadAberto.name || "");
+    }
+
+    mostrar($("detail-modal"), false);
+    ultimoFoco = document.activeElement;
+    mostrar($("convert-modal"), true);
+    focarPrimeiro($("convert-modal"));
+  }
+
+  function fecharConversao() {
+    mostrar($("convert-modal"), false);
+    mostrarErroConvert("");
+  }
+
+  function confirmarConversao(evento) {
+    evento.preventDefault();
+    if (!leadAberto) return;
+
+    var senha = $("convert-password").value;
+    if (senha.length < 8) {
+      mostrarErroConvert("A senha deve ter ao menos 8 caracteres.");
+      return;
+    }
+
+    var corpo = { password: senha };
+
+    if (leadAberto.type === "establishment") {
+      var cnpj = $("convert-cnpj").value.trim();
+      if (!cnpj) { mostrarErroConvert("Informe o CNPJ."); return; }
+
+      corpo.establishment = {
+        cnpj: cnpj,
+        name: $("convert-name").value.trim() || leadAberto.name,
+        address: $("convert-address").value.trim() || null
+      };
+    }
+
+    var botao = $("btn-convert-submit");
+    botao.disabled = true;
+
+    apiAdmin("/api/v1/admin/leads/" + leadAberto.id + "/convert", {
+      method: "POST",
+      body: corpo
+    }).then(function (dados) {
+      fecharConversao();
+      mostrar($("detail-modal"), false);
+      leadAberto = null;
+      carregarStats();
+      carregarLeads();
+      $("app-status").textContent = dados.message || "Lead convertido com sucesso.";
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      mostrarErroConvert(erro.mensagem || "Não foi possível converter o lead.");
+    }).then(function () {
+      botao.disabled = false;
+    });
+  }
+
+  // ==========================================================================
+  // Exportar CSV — fetch autenticado + download via blob
+  // (um <a href> simples não enviaria o header Authorization)
+  // ==========================================================================
+
+  function exportarCsv() {
+    var query = parametrosFiltros(false).toString();
+    var botao = $("btn-export");
+    botao.disabled = true;
+
+    fetch(API_URL.replace(/\/+$/, "") + "/api/v1/admin/export" + (query ? "?" + query : ""), {
+      method: "GET",
+      headers: { Authorization: "Bearer " + token }
+    }).then(function (resposta) {
+      if (resposta.status === 401 || resposta.status === 403) {
+        encerrarSessao();
+        throw { status: resposta.status, mensagem: "Sessão expirada." };
+      }
+      if (!resposta.ok) {
+        throw { status: resposta.status, mensagem: mensagemPorStatus(resposta.status) };
+      }
+      return resposta.blob();
+    }).then(function (blob) {
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement("a");
+      link.href = url;
+      link.download = "leads_" + new Date().toISOString().slice(0, 10) + ".csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      $("app-status").textContent = "CSV exportado.";
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      $("app-status").textContent = erro.mensagem || "Não foi possível exportar o CSV.";
+    }).then(function () {
+      botao.disabled = false;
+    });
+  }
+
+  // ==========================================================================
+  // Eventos
+  // ==========================================================================
+
+  function registrarEventos() {
+
+    // Login
+    $("login-form").addEventListener("submit", function (evento) {
+      evento.preventDefault();
+
+      var email = $("login-email").value.trim();
+      var senha = $("login-password").value;
+
+      if (!email || !senha) {
+        mostrarErroLogin("Informe e-mail e senha.");
+        return;
+      }
+
+      var botao = $("login-submit");
+      botao.disabled = true;
+      botao.textContent = "Entrando…";
+      mostrarErroLogin("");
+
+      api("/api/v1/admin/auth/login", {
+        method: "POST",
+        body: { email: email, password: senha }
+      }).then(function (dados) {
+        guardarToken(dados.access_token);
+        $("login-password").value = "";
+        abrirPainel(dados.admin);
+      }).catch(function (erro) {
+        mostrarErroLogin(erro.mensagem || "Não foi possível entrar.");
+      }).then(function () {
+        botao.disabled = false;
+        botao.textContent = "Entrar";
+      });
+    });
+
+    // Logout
+    $("logout-btn").addEventListener("click", function () {
+      $("app-status").textContent = "Sessão encerrada.";
+      encerrarSessao();
+    });
+
+    // Filtros
+    ["filter-status", "filter-type", "filter-bairro"].forEach(function (id) {
+      $(id).addEventListener("change", function () {
+        paginaAtual = 1;
+        carregarLeads();
+      });
+    });
+
+    // Busca com debounce
+    $("filter-search").addEventListener("input", function () {
+      clearTimeout(timerBusca);
+      timerBusca = setTimeout(function () {
+        paginaAtual = 1;
+        carregarLeads();
+      }, DEBOUNCE_MS);
+    });
+
+    // Paginação
+    $("btn-prev").addEventListener("click", function () {
+      if (paginaAtual > 1) { paginaAtual--; carregarLeads(); }
+    });
+
+    $("btn-next").addEventListener("click", function () {
+      if (paginaAtual < totalPaginas) { paginaAtual++; carregarLeads(); }
+    });
+
+    // Atualizar e reter
+    $("btn-refresh").addEventListener("click", function () {
+      carregarStats();
+      carregarLeads();
+    });
+
+    $("btn-retry").addEventListener("click", function () { carregarLeads(); });
+    $("btn-export").addEventListener("click", exportarCsv);
+
+    // Ações do detalhe
+    $("btn-acao-contacted").addEventListener("click", function () { mudarStatus("contacted"); });
+    $("btn-acao-qualified").addEventListener("click", function () { mudarStatus("qualified"); });
+    $("btn-acao-lost").addEventListener("click", function () { mudarStatus("lost"); });
+    $("btn-acao-new").addEventListener("click", function () { mudarStatus("new"); });
+
+    $("btn-whatsapp").addEventListener("click", function () {
+      if (!leadAberto) return;
+      var numero = numeroWhatsapp(leadAberto.phone);
+      if (!numero) { $("app-status").textContent = "Lead sem telefone."; return; }
+      window.open("https://wa.me/" + numero, "_blank", "noopener");
+    });
+
+    // Fechar modais
+    $("detail-close").addEventListener("click", fecharDetalhe);
+
+    function voltarAoDetalhe() {
+      fecharConversao();
+      if (leadAberto) {
+        mostrar($("detail-modal"), true);
+        focarPrimeiro($("detail-modal"));
+      } else if (ultimoFoco && ultimoFoco.focus) {
+        ultimoFoco.focus();
+      }
+    }
+
+    $("convert-close").addEventListener("click", voltarAoDetalhe);
+    $("btn-convert-cancelar").addEventListener("click", voltarAoDetalhe);
+
+    $("detail-modal").addEventListener("click", function (evento) {
+      if (evento.target === this) fecharDetalhe();
+    });
+
+    $("convert-modal").addEventListener("click", function (evento) {
+      if (evento.target === this) voltarAoDetalhe();
+    });
+
+    // Conversão
+    $("btn-open-convert").addEventListener("click", abrirConversao);
+    $("convert-form").addEventListener("submit", confirmarConversao);
+
+    // Tab fica preso no modal aberto; Esc fecha o modal do topo.
+    document.addEventListener("keydown", function (evento) {
+      var convertAberto = !$("convert-modal").hidden;
+      var detailAberto = !$("detail-modal").hidden;
+
+      if (evento.key === "Tab" && (convertAberto || detailAberto)) {
+        prenderFoco(convertAberto ? $("convert-modal") : $("detail-modal"), evento);
+        return;
+      }
+
+      if (evento.key !== "Escape") return;
+
+      if (convertAberto) {
+        fecharConversao();
+        if (leadAberto) {
+          mostrar($("detail-modal"), true);
+          focarPrimeiro($("detail-modal"));
+        } else if (ultimoFoco && ultimoFoco.focus) {
+          ultimoFoco.focus();
+        }
+      } else if (detailAberto) {
+        fecharDetalhe();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // Boot
+  // ==========================================================================
+
+  registrarEventos();
+  iniciar();
+</script>
+
+</body>
+</html>
