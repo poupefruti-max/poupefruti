@@ -19,6 +19,8 @@
      Mesma paleta da landing: verde folha, laranja, vermelho tomate.
      ========================================================================== */
 
+
+     
   :root {
     --verde:        #2E9E4F;
     --verde-escuro: #1F7A3B;
@@ -128,13 +130,15 @@
   }
 
   .campo input,
-  .campo select {
+  .campo select,
+  .campo textarea {
     width: 100%; font-family: inherit; font-size: 16px; color: var(--texto);
     padding: 12px 14px; min-height: 48px;
     border: 2px solid var(--borda); border-radius: 12px;
     background: var(--branco);
+    resize: vertical;
   }
-  .campo input:focus, .campo select:focus { border-color: var(--verde); outline: none; }
+  .campo input:focus, .campo select:focus, .campo textarea:focus { border-color: var(--verde); outline: none; }
 
   .alerta {
     padding: 12px 14px; border-radius: 12px; font-size: 15px; font-weight: 600;
@@ -519,6 +523,8 @@
       <button type="button" class="btn btn-neutro" id="btn-acao-new">Reativar</button>
       <button type="button" class="btn btn-neutro" id="btn-whatsapp">WhatsApp</button>
       <button type="button" class="btn btn-secundario" id="btn-open-convert">Converter</button>
+      <button type="button" class="btn" id="btn-approve-market">Aprovar e gerar link de acesso</button>
+      <button type="button" class="btn btn-secundario" id="btn-new-market-link">Gerar novo link</button>
     </div>
   </div>
 </div>
@@ -566,6 +572,39 @@
         <button type="submit" class="btn" id="btn-convert-submit">Confirmar conversão</button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- ============================================== MODAL: LINK DE ACESSO (1x) -->
+<div class="modal-fundo" id="link-modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="link-title">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="link-title">Link de acesso</h2>
+      <button type="button" class="modal-fechar" id="link-close" aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="aviso" id="link-aviso">
+      Este link é exibido <strong>uma única vez</strong>. Copie e envie agora — se
+      perder, gere um novo link pelo painel.
+    </div>
+
+    <p class="modal-status erro" id="link-error" role="alert" hidden></p>
+
+    <div class="campo">
+      <label for="link-valor">Link do convite</label>
+      <input type="text" id="link-valor" readonly>
+    </div>
+
+    <div class="campo">
+      <label for="link-texto">Mensagem sugerida</label>
+      <textarea id="link-texto" rows="5" readonly></textarea>
+    </div>
+
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-neutro" id="btn-copiar-link">Copiar link</button>
+      <button type="button" class="btn" id="btn-enviar-whatsapp">Enviar por WhatsApp</button>
+      <button type="button" class="btn btn-neutro" id="link-close-2">Fechar</button>
+    </div>
   </div>
 </div>
 
@@ -1121,10 +1160,141 @@
     exige("btn-acao-lost", "lost");
     exige("btn-acao-new", "new");
 
-    // Converter é ação separada; não faz sentido em lead já convertido ou perdido.
-    mostrar($("btn-open-convert"), lead.status !== "converted" && lead.status !== "lost");
+    var ehMercado = lead.type === "establishment";
+    var jaAprovado = lead.status === "converted";
+
+    // Converter (usuário comum) só faz sentido para lead de pessoa.
+    mostrar($("btn-open-convert"), !ehMercado && !jaAprovado && lead.status !== "lost");
+
+    // Onboarding de mercado: aprovar uma vez, depois regerar o link.
+    mostrar($("btn-approve-market"), ehMercado && !jaAprovado && lead.status !== "lost");
+    mostrar($("btn-new-market-link"), ehMercado && jaAprovado);
 
     mostrar($("btn-whatsapp"), !!numeroWhatsapp(lead.phone));
+  }
+
+  // ==========================================================================
+  // Onboarding de mercados: aprovar e link de acesso
+  // ==========================================================================
+
+  var linkGerado = null;   // só vive enquanto o modal estiver aberto
+
+  function erroLink(mensagem) {
+    var caixa = $("link-error");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+  }
+
+  function mostrarLink(dados, telefone) {
+    linkGerado = {
+      url: dados.invite_url,
+      texto: dados.whatsapp_message || "",
+      telefone: telefone || ""
+    };
+
+    $("link-valor").value = linkGerado.url || "";
+    $("link-texto").value = linkGerado.texto || "";
+    erroLink("");
+
+    // Sem telefone, o botão de WhatsApp não faz sentido.
+    mostrar($("btn-enviar-whatsapp"), !!numeroWhatsapp(linkGerado.telefone));
+
+    ultimoFoco = document.activeElement;
+    mostrar($("link-modal"), true);
+    focarPrimeiro($("link-modal"));
+  }
+
+  function fecharLink() {
+    mostrar($("link-modal"), false);
+    // O link em claro não fica na tela.
+    linkGerado = null;
+    $("link-valor").value = "";
+    $("link-texto").value = "";
+    if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  }
+
+  function aprovarMercado() {
+    if (!leadAberto) return;
+    if (!confirm(
+      "Aprovar este mercado?\n\n" +
+      "Um estabelecimento será criado e um link de acesso ao painel será gerado " +
+      "para o responsável. O link só aparecerá uma vez."
+    )) return;
+
+    statusDetalhe("Aprovando…");
+
+    apiAdmin("/api/v1/admin/leads/" + leadAberto.id + "/approve-market", {
+      method: "POST"
+    }).then(function (dados) {
+      leadAberto = dados.lead;
+      atualizarLeadNaTela(leadAberto);
+      renderizarDetalhe(leadAberto);
+      carregarStats();
+
+      mostrar($("detail-modal"), false);
+      mostrarLink(dados, leadAberto.phone);
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      statusDetalhe(erro.mensagem || "Não foi possível aprovar o mercado.", true);
+    });
+  }
+
+  function gerarNovoLink() {
+    if (!leadAberto) return;
+    var estId = leadAberto.establishment_id;
+    if (!estId) {
+      statusDetalhe("Este lead ainda não tem estabelecimento vinculado.", true);
+      return;
+    }
+
+    statusDetalhe("Gerando novo link…");
+
+    apiAdmin("/api/v1/admin/establishments/" + estId + "/invitations", {
+      method: "POST",
+      body: { role: "owner" }
+    }).then(function (dados) {
+      mostrar($("detail-modal"), false);
+      mostrarLink(dados, leadAberto.phone);
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 403)) return;
+      statusDetalhe(erro.mensagem || "Não foi possível gerar o link.", true);
+    });
+  }
+
+  function copiarLink() {
+    if (!linkGerado) return;
+
+    function fallback() {
+      // Navegadores sem Clipboard API (ou sem permissão) ainda podem copiar
+      // se o campo estiver selecionado.
+      var campo = $("link-valor");
+      campo.focus();
+      campo.select();
+      document.execCommand && document.execCommand("copy");
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(linkGerado.url)
+        .then(function () { $("app-status").textContent = "Link copiado."; })
+        .catch(function () { fallback(); });
+    } else {
+      fallback();
+    }
+  }
+
+  function enviarLinkWhatsapp() {
+    if (!linkGerado) return;
+    var numero = numeroWhatsapp(linkGerado.telefone);
+    if (!numero) {
+      erroLink("Este lead não tem telefone para enviar pelo WhatsApp.");
+      return;
+    }
+    var mensagem = linkGerado.texto || linkGerado.url;
+    window.open(
+      "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensagem),
+      "_blank", "noopener"
+    );
   }
 
   function fecharDetalhe() {
@@ -1183,11 +1353,14 @@
     }
   }
 
-  // Usada por encerrarSessao(): fecha os dois modais de uma vez.
+  // Usada por encerrarSessao(): fecha os três modais de uma vez.
   function fecharModais() {
+    mostrar($("link-modal"), false);
     mostrar($("convert-modal"), false);
     mostrar($("detail-modal"), false);
     mostrarErroConvert("");
+    erroLink("");
+    linkGerado = null;
     statusDetalhe("");
     leadAberto = null;
   }
@@ -1465,26 +1638,39 @@
     $("btn-open-convert").addEventListener("click", abrirConversao);
     $("convert-form").addEventListener("submit", confirmarConversao);
 
+    // Onboarding de mercados
+    $("btn-approve-market").addEventListener("click", aprovarMercado);
+    $("btn-new-market-link").addEventListener("click", gerarNovoLink);
+    $("btn-copiar-link").addEventListener("click", copiarLink);
+    $("btn-enviar-whatsapp").addEventListener("click", enviarLinkWhatsapp);
+    $("link-close").addEventListener("click", fecharLink);
+    $("link-close-2").addEventListener("click", fecharLink);
+    $("link-modal").addEventListener("click", function (evento) {
+      if (evento.target === this) fecharLink();
+    });
+
     // Tab fica preso no modal aberto; Esc fecha o modal do topo.
     document.addEventListener("keydown", function (evento) {
+      var linkAberto = !$("link-modal").hidden;
       var convertAberto = !$("convert-modal").hidden;
       var detailAberto = !$("detail-modal").hidden;
 
-      if (evento.key === "Tab" && (convertAberto || detailAberto)) {
-        prenderFoco(convertAberto ? $("convert-modal") : $("detail-modal"), evento);
+      if (evento.key === "Tab" && (linkAberto || convertAberto || detailAberto)) {
+        prenderFoco(
+          linkAberto ? $("link-modal")
+            : convertAberto ? $("convert-modal")
+              : $("detail-modal"),
+          evento
+        );
         return;
       }
 
       if (evento.key !== "Escape") return;
 
-      if (convertAberto) {
-        fecharConversao();
-        if (leadAberto) {
-          mostrar($("detail-modal"), true);
-          focarPrimeiro($("detail-modal"));
-        } else if (ultimoFoco && ultimoFoco.focus) {
-          ultimoFoco.focus();
-        }
+      if (linkAberto) {
+        fecharLink();
+      } else if (convertAberto) {
+        voltarAoDetalhe();
       } else if (detailAberto) {
         fecharDetalhe();
       }

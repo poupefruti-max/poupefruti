@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Página de convite: nunca deve ser indexada. -->
+<meta name="robots" content="noindex, nofollow">
+<!-- O token vive no fragmento (#token=), que não vai no Referer. Ainda assim,
+     não enviamos nenhum referer daqui. -->
+<meta name="referrer" content="no-referrer">
+
+<title>Criar sua conta | PoupeFruti</title>
+<meta name="theme-color" content="#2E9E4F">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================================
+     PoupeFruti — Convite (folha única, mobile first, sem framework)
+     Mesma paleta da landing e do painel admin.
+     ========================================================================== */
+
+  :root {
+    --verde:        #2E9E4F;
+    --verde-escuro: #1F7A3B;
+    --verde-claro:  #EAF6ED;
+    --laranja:      #F2913D;
+    --laranja-claro:#FDF1E3;
+    --tomate:       #E8452C;
+    --tomate-claro: #FDEDEA;
+    --texto:        #23301F;
+    --texto-suave:  #55604F;
+    --fundo:        #FBFDF8;
+    --branco:       #FFFFFF;
+    --borda:        #E4EADF;
+
+    --raio:         18px;
+    --raio-g:       28px;
+    --sombra:       0 6px 24px rgba(35, 48, 31, .08);
+    --sombra-forte: 0 14px 40px rgba(35, 48, 31, .14);
+
+    --max:          520px;
+    --fonte: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--fonte);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--texto);
+    background: linear-gradient(180deg, var(--verde-claro) 0%, var(--fundo) 45%);
+    min-height: 100vh;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  [hidden] { display: none !important; }
+
+  :focus-visible {
+    outline: 3px solid var(--verde);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .container {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 28px 18px calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* ------------------------------------------------------------- Cabeçalho */
+  .topo { text-align: center; margin-bottom: 24px; }
+
+  .marca {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 21px; font-weight: 800; color: var(--verde-escuro);
+    text-decoration: none; margin-bottom: 6px;
+  }
+
+  .topo h1 { font-size: 25px; font-weight: 800; margin: 0 0 6px; line-height: 1.25; }
+  .topo p { margin: 0; color: var(--texto-suave); font-size: 16px; }
+
+  /* ---------------------------------------------------------------- Cartão */
+  .cartao {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio-g);
+    box-shadow: var(--sombra);
+    padding: 26px 22px;
+  }
+
+  /* ------------------------------------------------------------ Formulário */
+  .campo { margin-bottom: 18px; }
+
+  .campo label {
+    display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px;
+  }
+
+  .campo input {
+    width: 100%; font-family: inherit; font-size: 16px; color: var(--texto);
+    padding: 13px 14px; min-height: 50px;
+    border: 2px solid var(--borda); border-radius: 12px;
+    background: var(--branco);
+  }
+  .campo input:focus { border-color: var(--verde); outline: none; }
+  .campo input[aria-invalid="true"] { border-color: var(--tomate); }
+
+  .dica { font-size: 13px; color: var(--texto-suave); margin-top: 6px; }
+
+  /* --------------------------------------------------------------- Botões */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; font-size: 17px; font-weight: 700;
+    padding: 14px 22px; min-height: 52px; width: 100%;
+    border: 2px solid transparent; border-radius: 999px;
+    background: var(--verde); color: var(--branco);
+    cursor: pointer; text-decoration: none;
+    transition: background .15s ease, transform .05s ease;
+  }
+  .btn:hover { background: var(--verde-escuro); }
+  .btn:active { transform: translateY(1px); }
+  .btn[disabled] { opacity: .6; cursor: not-allowed; transform: none; }
+
+  .btn-neutro {
+    background: var(--branco); color: var(--verde-escuro); border-color: var(--verde);
+  }
+  .btn-neutro:hover { background: var(--verde-claro); }
+
+  /* -------------------------------------------------------------- Mensagens */
+  .alerta {
+    padding: 13px 15px; border-radius: 14px;
+    font-size: 15px; font-weight: 600; margin-bottom: 20px;
+  }
+  .alerta-erro { background: var(--tomate-claro); color: #a32a16; border: 1px solid #f3c4bb; }
+  .alerta-info { background: var(--verde-claro); color: var(--verde-escuro); border: 1px solid #bfe3cb; }
+
+  .erro-campo {
+    display: block; font-size: 14px; font-weight: 600;
+    color: #a32a16; margin-top: 6px;
+  }
+
+  /* ------------------------------------------------------- Estados da tela */
+  .estado { text-align: center; padding: 34px 8px; }
+  .estado-icone { font-size: 46px; line-height: 1; margin-bottom: 12px; }
+  .estado-titulo { font-size: 21px; font-weight: 800; margin: 0 0 8px; }
+  .estado-texto { margin: 0 0 22px; color: var(--texto-suave); }
+
+  .carregando {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 4px solid var(--borda); border-top-color: var(--verde);
+    animation: girar .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+  @keyframes girar { to { transform: rotate(360deg); } }
+
+  .resumo-papel {
+    display: inline-block;
+    background: var(--laranja-claro); color: #A85D14;
+    border: 1px solid #F6D9B6;
+    font-size: 14px; font-weight: 800;
+    padding: 7px 14px; border-radius: 999px;
+    margin-bottom: 16px;
+  }
+
+  .link-secundario {
+    display: inline-block; margin-top: 18px;
+    font-size: 15px; color: var(--texto-suave); text-decoration: underline;
+  }
+
+  @media (min-width: 600px) {
+    .container { padding-top: 44px; }
+    .cartao { padding: 34px 32px; }
+    .topo h1 { font-size: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<main class="container">
+
+  <header class="topo">
+    <a class="marca" href="/"><span aria-hidden="true">🍊</span> PoupeFruti</a>
+    <h1 id="titulo-tela">Convite para o painel</h1>
+    <p id="subtitulo-tela">Estamos conferindo seu convite…</p>
+  </header>
+
+  <p class="sr-only" id="status-leitor" role="status" aria-live="polite"></p>
+
+  <!-- ================================================== TELA: CARREGANDO -->
+  <section class="cartao" id="tela-carregando" aria-busy="true">
+    <div class="estado">
+      <div class="carregando" aria-hidden="true"></div>
+      <p class="estado-texto">Validando seu convite…</p>
+    </div>
+  </section>
+
+  <!-- ================================================ TELA: LINK INVÁLIDO -->
+  <!-- Mesma mensagem para token inválido, expirado, usado ou revogado:
+       o visitante não precisa (e não deve) saber a diferença. -->
+  <section class="cartao" id="tela-invalida" hidden>
+    <div class="estado">
+      <div class="estado-icone" aria-hidden="true">🔗</div>
+      <p class="estado-titulo">Convite indisponível</p>
+      <p class="estado-texto" id="msg-invalida">
+        Este link é inválido ou expirou. Peça um novo link ao PoupeFruti.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================================================== TELA: FORMULÁRIO -->
+  <section class="cartao" id="tela-formulario" hidden>
+    <div class="alerta alerta-info" id="boas-vindas">
+      Você foi convidado para <strong id="nome-mercado">…</strong>.
+    </div>
+    <p><span class="resumo-papel" id="papel-rotulo"></span></p>
+
+    <div class="alerta alerta-erro" id="form-erro" role="alert" hidden></div>
+
+    <form id="form-conta" novalidate>
+      <div class="campo">
+        <label for="campo-nome">Seu nome</label>
+        <input type="text" id="campo-nome" name="name"
+               autocomplete="name" required
+               aria-describedby="erro-nome">
+        <span class="erro-campo" id="erro-nome" hidden></span>
+      </div>
+
+      <div class="campo">
+        <label for="campo-email">E-mail</label>
+        <input type="email" id="campo-email" name="email"
+               autocomplete="email" required inputmode="email"
+               aria-describedby="erro-email">
+        <span class="erro-campo" id="erro-email" hidden></span>
+      </div>
+
+      <div class="campo">
+        <label for="campo-senha">Senha</label>
+        <input type="password" id="campo-senha" name="password"
+               autocomplete="new-password" required
+               aria-describedby="dica-senha erro-senha">
+        <span class="dica" id="dica-senha">Mínimo de 8 caracteres.</span>
+        <span class="erro-campo" id="erro-senha" hidden></span>
+      </div>
+
+      <div class="campo">
+        <label for="campo-confirmar">Confirmar senha</label>
+        <input type="password" id="campo-confirmar" name="password_confirm"
+               autocomplete="new-password" required
+               aria-describedby="erro-confirmar">
+        <span class="erro-campo" id="erro-confirmar" hidden></span>
+      </div>
+
+      <button type="submit" class="btn" id="btn-enviar">Criar minha conta</button>
+    </form>
+  </section>
+
+  <!-- ====================================================== TELA: SUCESSO -->
+  <section class="cartao" id="tela-sucesso" hidden>
+    <div class="estado">
+      <div class="estado-icone" aria-hidden="true">🎉</div>
+      <p class="estado-titulo">Conta criada!</p>
+      <p class="estado-texto" id="msg-sucesso">
+        Em breve você poderá acessar o painel do seu mercado.
+      </p>
+      <!-- O /painel existe, então o botão é exibido. -->
+      <a class="btn btn-neutro" id="btn-ir-painel" href="/painel">
+        Ir para o painel
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  // URL base da API (mesma constante usada na landing e no painel).
+  var API_URL = "https://poupefrutiapi.onrender.com";
+
+  // ==========================================================================
+  // Configuração
+  // ==========================================================================
+
+  // Espelha MIN_PASSWORD_LENGTH do backend. O backend valida de novo, então
+  // isto é só para dar o retorno imediato ao usuário.
+  var MIN_PASSWORD_LENGTH = 8;
+
+  var CHAVE_TOKEN = "poupefruti.painel.token";   // sessionStorage, nunca localStorage
+
+  // Papéis vindos da API, traduzidos para o usuário.
+  var ROTULOS_PAPEL = {
+    owner: "dono",
+    manager: "gerente",
+    staff: "equipe"
+  };
+
+  // Mensagem única para qualquer convite que não pode ser usado. Não diz o
+  // motivo: token inválido, expirado, já usado e revogado são indistinguíveis.
+  var MSG_INVALIDO =
+    "Este link é inválido ou expirou. Peça um novo link ao PoupeFruti.";
+
+  // ==========================================================================
+  // Estado
+  // ==========================================================================
+
+  var tokenConvidado = null;   // vive só na memória, nunca no DOM
+  var destino = null;
+
+  // ==========================================================================
+  // Utilidades de DOM
+  // ==========================================================================
+
+  function $(id) { return document.getElementById(id); }
+
+  function mostrar(elemento, visivel) {
+    if (elemento) elemento.hidden = !visivel;
+  }
+
+  function falar(mensagem) {
+    $("status-leitor").textContent = mensagem || "";
+  }
+
+  function rotuloPapel(valor) {
+    return ROTULOS_PAPEL[valor] || "equipe";
+  }
+
+  // ==========================================================================
+  // Token: lê o fragmento e o apaga da barra de endereço
+  // ==========================================================================
+
+  function lerTokenDoHash() {
+    var hash = window.location.hash || "";
+
+    // Aceita #token=xxx (formato gerado pelo admin).
+    var achado = /(?:^|[#&])token=([^&]+)/.exec(hash);
+    if (!achado) return null;
+
+    var token = achado[1];
+    try {
+      token = decodeURIComponent(token);
+    } catch (e) {
+      // Token mal escapado: usa o que veio.
+    }
+    return token || null;
+  }
+
+  function limparHash() {
+    // O token ficaria visível (e no histórico) se continuasse na URL.
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+    }
+  }
+
+  // ==========================================================================
+  // Navegação entre telas
+  // ==========================================================================
+
+  function mostrarTela(nome, titulo, subtitulo) {
+    mostrar($("tela-carregando"), false);
+    mostrar($("tela-invalida"), false);
+    mostrar($("tela-formulario"), false);
+    mostrar($("tela-sucesso"), false);
+
+    var tela = $("tela-" + nome);
+    mostrar(tela, true);
+    $("tela-carregando").setAttribute("aria-busy", nome === "carregando" ? "true" : "false");
+
+    if (titulo) $("titulo-tela").textContent = titulo;
+    if (subtitulo) $("subtitulo-tela").textContent = subtitulo;
+    falar(titulo || "");
+  }
+
+  function telaInvalida() {
+    mostrarTela(
+      "invalida",
+      "Convite indisponível",
+      "Não foi possível continuar."
+    );
+    $("msg-invalida").textContent = MSG_INVALIDO;
+  }
+
+  // ==========================================================================
+  // Cliente HTTP
+  // ==========================================================================
+
+  function api(caminho, corpo) {
+    return fetch(API_URL.replace(/\/+$/, "") + caminho, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(corpo)
+    }).then(function (resposta) {
+      // O backend pode devolver HTML (ex.: 429 do limitador). Nesse caso não
+      // há JSON a ler.
+      var tipo = resposta.headers.get("Content-Type") || "";
+      if (tipo.indexOf("application/json") === -1) {
+        throw {
+          status: resposta.status,
+          codigo: "",
+          mensagem: resposta.status === 429
+            ? "Muitas tentativas. Aguarde um instante e tente novamente."
+            : "Não foi possível falar com o servidor."
+        };
+      }
+      return resposta.json().then(function (dados) {
+        if (!resposta.ok) {
+          var info = (dados && dados.error) ? dados.error : {};
+          throw {
+            status: resposta.status,
+            codigo: info.code || "",
+            mensagem: info.message || "Não foi possível concluir."
+          };
+        }
+        return dados;
+      });
+    });
+  }
+
+  // ==========================================================================
+  // Validação do convite
+  // ==========================================================================
+
+  function validarConvite() {
+    tokenConvidado = lerTokenDoHash();
+    limparHash();
+
+    if (!tokenConvidado) {
+      telaInvalida();
+      return Promise.resolve();
+    }
+
+    return api("/api/v1/invitations/validate", { token: tokenConvidado })
+      .then(function (dados) {
+        $("nome-mercado").textContent = dados.establishment_name || "seu mercado";
+        $("papel-rotulo").textContent = "Você entrará como " + rotuloPapel(dados.role) + ".";
+
+        mostrarTela(
+          "formulario",
+          "Criar sua conta",
+          "Leva menos de um minuto."
+        );
+        $("campo-nome").focus();
+      })
+      .catch(function () {
+        // Qualquer falha aqui é tratada como convite indisponível.
+        telaInvalida();
+      });
+  }
+
+  // ==========================================================================
+  // Validação do formulário (cliente)
+  // ==========================================================================
+
+  var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[a-zA-Z]{2,}$/;
+
+  function erroDeCampo(id, mensagem) {
+    var alvo = $("erro-" + id);
+    var campo = $("campo-" + id);
+    if (mensagem) {
+      alvo.textContent = mensagem;
+      mostrar(alvo, true);
+      campo.setAttribute("aria-invalid", "true");
+    } else {
+      alvo.textContent = "";
+      mostrar(alvo, false);
+      campo.removeAttribute("aria-invalid");
+    }
+  }
+
+  function erroFormulario(mensagem) {
+    var caixa = $("form-erro");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+    falar(mensagem);
+  }
+
+  function validarFormulario() {
+    var nome = $("campo-nome").value.trim();
+    var email = $("campo-email").value.trim();
+    var senha = $("campo-senha").value;
+    var confirmacao = $("campo-confirmar").value;
+    var ok = true;
+
+    if (!nome) {
+      erroDeCampo("nome", "Informe seu nome.");
+      ok = false;
+    } else {
+      erroDeCampo("nome", "");
+    }
+
+    if (!email) {
+      erroDeCampo("email", "Informe seu e-mail.");
+      ok = false;
+    } else if (!EMAIL_RE.test(email)) {
+      erroDeCampo("email", "Informe um e-mail válido.");
+      ok = false;
+    } else {
+      erroDeCampo("email", "");
+    }
+
+    if (!senha) {
+      erroDeCampo("senha", "Crie uma senha.");
+      ok = false;
+    } else if (senha.length < MIN_PASSWORD_LENGTH) {
+      erroDeCampo("senha", "A senha deve ter ao menos " + MIN_PASSWORD_LENGTH + " caracteres.");
+      ok = false;
+    } else {
+      erroDeCampo("senha", "");
+    }
+
+    if (!confirmacao) {
+      erroDeCampo("confirmar", "Confirme sua senha.");
+      ok = false;
+    } else if (senha !== confirmacao) {
+      erroDeCampo("confirmar", "As senhas não são iguais.");
+      ok = false;
+    } else {
+      erroDeCampo("confirmar", "");
+    }
+
+    return ok;
+  }
+
+  // ==========================================================================
+  // Envio
+  // ==========================================================================
+
+  function enviar(evento) {
+    evento.preventDefault();
+    erroFormulario("");
+
+    if (!tokenConvidado) { telaInvalida(); return; }
+    if (!validarFormulario()) {
+      falar("Confira os campos destacados.");
+      return;
+    }
+
+    var botao = $("btn-enviar");
+    botao.disabled = true;
+    botao.textContent = "Criando conta…";
+    falar("Criando sua conta.");
+
+    api("/api/v1/invitations/accept", {
+      token: tokenConvidado,
+      name: $("campo-nome").value.trim(),
+      email: $("campo-email").value.trim(),
+      password: $("campo-senha").value
+    }).then(function (dados) {
+      // Guarda o token em sessionStorage: sobrevive a recarregar a página,
+      // some quando a aba fecha, e nunca vai para localStorage.
+      try {
+        if (dados.access_token) {
+          sessionStorage.setItem(CHAVE_TOKEN, dados.access_token);
+        }
+      } catch (e) {
+        // Modo privado sem storage: a conta foi criada mesmo assim.
+      }
+
+      tokenConvidado = null;
+      mostrarTela(
+        "sucesso",
+        "Conta criada!",
+        "Em breve você poderá acessar o painel do seu mercado."
+      );
+    }).catch(function (erro) {
+      if (erro && (erro.status === 400 || erro.codigo === "invalid_invitation")) {
+        // Convite inválido/expirado/usado: mesma mensagem da tela inicial.
+        telaInvalida();
+        return;
+      }
+
+      if (erro && erro.codigo === "email_already_exists") {
+        erroFormulario(
+          "Este e-mail já está cadastrado. Use outro e-mail ou entre com a conta existente."
+        );
+        $("campo-email").focus();
+        falar("Este e-mail já está cadastrado.");
+        return;
+      }
+
+      if (erro && erro.codigo === "weak_password") {
+        erroDeCampo("senha", erro.mensagem || "Senha muito curta.");
+        falar(erro.mensagem || "Senha muito curta.");
+        return;
+      }
+
+      if (erro && erro.codigo === "invalid_email") {
+        erroDeCampo("email", "Informe um e-mail válido.");
+        falar("E-mail inválido.");
+        return;
+      }
+
+      erroFormulario(
+        (erro && erro.mensagem) || "Não foi possível criar sua conta. Tente novamente."
+      );
+    }).then(function () {
+      botao.disabled = false;
+      botao.textContent = "Criar minha conta";
+    });
+  }
+
+  // ==========================================================================
+  // Boot
+  // ==========================================================================
+
+  // Mostra o requisito real de senha antes de qualquer validação.
+  $("dica-senha").textContent = "Mínimo de " + MIN_PASSWORD_LENGTH + " caracteres.";
+
+  // Limpa o erro do campo assim que o usuário digita.
+  ["nome", "email", "senha", "confirmar"].forEach(function (id) {
+    $("campo-" + id).addEventListener("input", function () {
+      erroDeCampo(id, "");
+      erroFormulario("");
+    });
+  });
+
+  $("form-conta").addEventListener("submit", enviar);
+
+  validarConvite();
+</script>
+
+</body>
+</html>
