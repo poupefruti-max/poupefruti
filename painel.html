@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2E9E4F">
+<title>Painel do mercado | PoupeFruti</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================================
+     PoupeFruti — Painel do mercado (folha única, mobile first, sem framework)
+     ========================================================================== */
+
+  :root {
+    --verde:        #2E9E4F;
+    --verde-escuro: #1F7A3B;
+    --verde-claro:  #EAF6ED;
+    --laranja:      #F2913D;
+    --laranja-claro:#FDF1E3;
+    --tomate:       #E8452C;
+    --tomate-claro: #FDEDEA;
+    --azul:         #46536B;
+    --texto:        #23301F;
+    --texto-suave:  #55604F;
+    --fundo:        #FBFDF8;
+    --branco:       #FFFFFF;
+    --borda:        #E4EADF;
+
+    --raio:         18px;
+    --sombra:       0 6px 24px rgba(35, 48, 31, .08);
+    --sombra-forte: 0 14px 40px rgba(35, 48, 31, .14);
+    --max:          1000px;
+    --fonte: "Nunito", "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--fonte);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--texto);
+    background: var(--fundo);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  [hidden] { display: none !important; }
+
+  :focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; border-radius: 6px; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* ------------------------------------------------------------- Botões */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: inherit; font-size: 16px; font-weight: 700;
+    padding: 12px 20px; min-height: 46px;
+    border: 2px solid transparent; border-radius: 999px;
+    background: var(--verde); color: var(--branco);
+    cursor: pointer; text-decoration: none; text-align: center;
+    transition: background .15s ease, transform .05s ease;
+  }
+  .btn:hover { background: var(--verde-escuro); }
+  .btn:active { transform: translateY(1px); }
+  .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; }
+
+  .btn-secundario { background: var(--branco); color: var(--verde-escuro); border-color: var(--verde); }
+  .btn-secundario:hover { background: var(--verde-claro); }
+
+  .btn-perigo { background: var(--tomate); }
+  .btn-perigo:hover { background: #c9341d; }
+
+  .btn-neutro { background: var(--branco); color: var(--texto); border-color: var(--borda); }
+  .btn-neutro:hover { background: #F3F6EF; }
+
+  .btn-pequeno { font-size: 14px; padding: 8px 14px; min-height: 38px; }
+
+  /* ------------------------------------------------------------ Cabeçalho */
+  .topo {
+    background: var(--branco);
+    border-bottom: 1px solid var(--borda);
+    position: sticky; top: 0; z-index: 20;
+  }
+  .topo-inner {
+    max-width: var(--max); margin: 0 auto;
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .marca {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 19px; font-weight: 800; color: var(--verde-escuro); text-decoration: none;
+  }
+  .topo-acoes { display: flex; align-items: center; gap: 8px; }
+
+  /* ------------------------------------------------ Aviso de suspensão fixo */
+  .aviso-suspenso {
+    background: var(--tomate-claro);
+    border-bottom: 1px solid #f3c4bb;
+    color: #8f2614;
+    padding: 12px 16px;
+    font-size: 15px; font-weight: 700; text-align: center;
+  }
+
+  .conteudo { max-width: var(--max); margin: 0 auto; padding: 20px 16px 56px; }
+
+  /* -------------------------------------------------------------- Cartões */
+  .cartao {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .cartao-topo {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap; margin-bottom: 6px;
+  }
+  .cartao-titulo { font-size: 20px; font-weight: 800; margin: 0; }
+  .cartao-sub { font-size: 14px; color: var(--texto-suave); margin: 2px 0 0; }
+
+  /* ------------------------------------------------------------ Formulário */
+  .grade { display: grid; gap: 16px; grid-template-columns: 1fr; }
+
+  .campo { margin-bottom: 4px; }
+  .campo label { display: block; font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .campo input, .campo select, .campo textarea {
+    width: 100%; font-family: inherit; font-size: 16px; color: var(--texto);
+    padding: 12px 14px; min-height: 48px;
+    border: 2px solid var(--borda); border-radius: 12px; background: var(--branco);
+    resize: vertical;
+  }
+  .campo input:focus, .campo select:focus, .campo textarea:focus {
+    border-color: var(--verde); outline: none;
+  }
+  .campo input[disabled], .campo textarea[disabled], .campo select[disabled] {
+    background: #F5F7F2; color: var(--texto-suave); cursor: not-allowed;
+  }
+  .campo input[aria-invalid="true"], .campo textarea[aria-invalid="true"] {
+    border-color: var(--tomate);
+  }
+  .dica { font-size: 13px; color: var(--texto-suave); margin-top: 5px; }
+  .erro-campo { display: block; font-size: 13px; font-weight: 700; color: #a32a16; margin-top: 5px; }
+
+  .acoes-form { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+
+  /* --------------------------------------------------------------- Badges */
+  .badge {
+    display: inline-block; white-space: nowrap;
+    font-size: 12px; font-weight: 800; letter-spacing: .02em;
+    padding: 5px 11px; border-radius: 999px; border: 1px solid transparent;
+  }
+  .badge-owner    { background: var(--verde); color: var(--branco); border-color: var(--verde-escuro); }
+  .badge-manager  { background: var(--laranja-claro); color: #a85d14; border-color: #f6d9b6; }
+  .badge-staff    { background: #eef2f7; color: var(--azul); border-color: #d8e0eb; }
+
+  .badge-active    { background: var(--verde-claro); color: var(--verde-escuro); border-color: #bfe3cb; }
+  .badge-pending   { background: var(--laranja-claro); color: #a85d14; border-color: #f6d9b6; }
+  .badge-suspended { background: var(--tomate-claro); color: #a32a16; border-color: #f3c4bb; }
+
+  .badge-accepted { background: var(--verde-claro); color: var(--verde-escuro); border-color: #bfe3cb; }
+  .badge-expired  { background: #eef2f7; color: var(--azul); border-color: #d8e0eb; }
+  .badge-revoked  { background: var(--tomate-claro); color: #a32a16; border-color: #f3c4bb; }
+
+  .selo-publicado {
+    display: inline-block; font-size: 12px; font-weight: 800;
+    padding: 5px 11px; border-radius: 999px;
+    background: var(--verde); color: var(--branco);
+  }
+
+  /* ----------------------------------------------------------------- Avisos */
+  .alerta {
+    padding: 13px 15px; border-radius: 14px;
+    font-size: 15px; font-weight: 600; margin-bottom: 18px;
+  }
+  .alerta-erro { background: var(--tomate-claro); color: #a32a16; border: 1px solid #f3c4bb; }
+  .alerta-ok   { background: var(--verde-claro); color: var(--verde-escuro); border: 1px solid #bfe3cb; }
+
+  /* ------------------------------------------------------------------ Equipe */
+  .lista { display: grid; gap: 10px; }
+
+  .linha-equipe {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; flex-wrap: wrap;
+    border: 1px solid var(--borda); border-radius: 14px; padding: 12px 14px;
+  }
+  .linha-info { min-width: 0; }
+  .linha-nome { font-weight: 800; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .linha-meta { font-size: 13px; color: var(--texto-suave); word-break: break-word; }
+  .linha-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .vazio { color: var(--texto-suave); font-size: 15px; padding: 12px 0; }
+
+  /* ------------------------------------------------------------ Estados */
+  .estado { text-align: center; padding: 40px 16px; }
+  .estado-icone { font-size: 40px; line-height: 1; margin-bottom: 10px; }
+  .estado-titulo { font-weight: 800; font-size: 20px; margin: 0 0 8px; }
+  .estado-texto { color: var(--texto-suave); margin: 0 0 18px; }
+
+  .carregando {
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 3px solid var(--borda); border-top-color: var(--verde);
+    animation: girar .8s linear infinite; margin: 0 auto 14px;
+  }
+  @keyframes girar { to { transform: rotate(360deg); } }
+
+  /* ---------------------------------------------------- Seleção de mercado */
+  .lista-mercados { display: grid; gap: 12px; }
+  .item-mercado {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; text-align: left; width: 100%;
+    background: var(--branco); border: 1px solid var(--borda);
+    border-radius: var(--raio); box-shadow: var(--sombra);
+    padding: 16px; cursor: pointer; font-family: inherit; font-size: 17px;
+  }
+  .item-mercado:hover { border-color: var(--verde); }
+
+  /* ----------------------------------------------------------------- Modal */
+  .modal-fundo {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(35, 48, 31, .55);
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .modal {
+    background: var(--branco); width: 100%; max-width: 520px;
+    max-height: 90vh; overflow-y: auto;
+    border-radius: 24px 24px 0 0;
+    box-shadow: var(--sombra-forte);
+    padding: 22px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+  .modal-topo { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .modal-titulo { font-size: 20px; font-weight: 800; margin: 0; }
+  .modal-fechar {
+    background: transparent; border: none; cursor: pointer;
+    font-size: 26px; line-height: 1; color: var(--texto-suave);
+    padding: 4px 8px; border-radius: 8px;
+  }
+  .modal-fechar:hover { background: #f3f6ef; color: var(--texto); }
+  .modal-corpo { margin-top: 16px; }
+  .modal-acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .modal-acoes .btn { flex: 1 1 140px; }
+
+  @media (min-width: 700px) {
+    .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .conteudo { padding: 26px 24px 60px; }
+    .cartao { padding: 26px; }
+    .modal-fundo { align-items: center; padding: 24px 16px; }
+    .modal { border-radius: 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================================================== CARREGANDO SESSÃO -->
+<div class="estado" id="tela-carregando" style="padding-top:80px">
+  <div class="carregando" aria-hidden="true"></div>
+  <p class="estado-texto">Abrindo seu painel…</p>
+</div>
+
+<!-- ================================================ SEM SESSÃO / LOGIN -->
+<div id="tela-sem-sessao" hidden>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="/"><span aria-hidden="true">🍊</span> PoupeFruti</a>
+    </div>
+  </header>
+
+  <main class="conteudo" style="max-width:460px">
+    <div class="cartao">
+      <div class="estado" style="padding-bottom:8px">
+        <div class="estado-icone" aria-hidden="true">🔑</div>
+        <h1 class="estado-titulo" id="titulo-sem-sessao">Entrar no painel</h1>
+        <p class="estado-texto" id="texto-sem-sessao">
+          Use o e-mail e a senha da sua conta.
+        </p>
+      </div>
+
+      <div class="alerta alerta-erro" id="login-erro" role="alert" hidden></div>
+
+      <form id="login-form" novalidate>
+        <div class="campo">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" name="email"
+                 autocomplete="username" required inputmode="email"
+                 aria-describedby="erro-login-email"
+                 placeholder="voce@exemplo.com">
+          <span class="erro-campo" id="erro-login-email" hidden></span>
+        </div>
+
+        <div class="campo">
+          <label for="login-senha">Senha</label>
+          <input type="password" id="login-senha" name="password"
+                 autocomplete="current-password" required
+                 aria-describedby="erro-login-senha"
+                 placeholder="••••••••">
+          <span class="erro-campo" id="erro-login-senha" hidden></span>
+        </div>
+
+        <div class="acoes-form">
+          <button type="submit" class="btn" id="btn-login">Entrar</button>
+        </div>
+      </form>
+
+      <p class="vazio" style="text-align:center;margin-top:18px">
+        Ainda não tem conta? Peça um convite ao PoupeFruti.
+      </p>
+    </div>
+  </main>
+</div>
+
+<!-- ================================================ SEM VÍNCULO COM MERCADO -->
+<div id="tela-sem-mercado" hidden>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="/"><span aria-hidden="true">🍊</span> PoupeFruti</a>
+      <button type="button" class="btn btn-neutro btn-pequeno" id="btn-sair-sem-mercado">Sair</button>
+    </div>
+  </header>
+
+  <main class="conteudo" style="max-width:520px">
+    <div class="cartao">
+      <div class="estado">
+        <div class="estado-icone" aria-hidden="true">🏪</div>
+        <h1 class="estado-titulo">Nenhum mercado vinculado</h1>
+        <p class="estado-texto">
+          Sua conta está criada, mas ainda não está ligada a nenhum mercado.
+          Fale com o PoupeFruti para ser convidado — é o admin que aprova o
+          mercado e envia o convite.
+        </p>
+        <button type="button" class="btn btn-neutro" id="btn-reconectar">
+          Verificar novamente
+        </button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================================================= SELEÇÃO DE MERCADO -->
+<div id="tela-selecao" hidden>
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="/"><span aria-hidden="true">🍊</span> PoupeFruti</a>
+      <button type="button" class="btn btn-neutro btn-pequeno" id="btn-sair-selecao">Sair</button>
+    </div>
+  </header>
+
+  <main class="conteudo">
+    <h1 class="cartao-titulo" style="margin-bottom:4px">Seus mercados</h1>
+    <p class="cartao-sub" style="margin-bottom:20px">Escolha o mercado que você quer gerenciar.</p>
+    <div class="lista-mercados" id="lista-mercados"></div>
+  </main>
+</div>
+
+<!-- =========================================================== PAINEL -->
+<div id="tela-painel" hidden>
+
+  <header class="topo">
+    <div class="topo-inner">
+      <a class="marca" href="/"><span aria-hidden="true">🍊</span> PoupeFruti</a>
+      <div class="topo-acoes">
+        <button type="button" class="btn btn-neutro btn-pequeno" id="btn-trocar-mercado" hidden>
+          Trocar
+        </button>
+        <button type="button" class="btn btn-neutro btn-pequeno" id="btn-sair-painel">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Aviso fixo: leitura continua, escrita bloqueada -->
+  <div class="aviso-suspenso" id="aviso-suspenso" role="alert" hidden>
+    Este mercado está suspenso. Fale com o PoupeFruti.
+  </div>
+
+  <main class="conteudo">
+
+    <p class="sr-only" id="status-leitor" role="status" aria-live="polite"></p>
+
+    <!-- Identificação -->
+    <div class="cartao">
+      <div class="cartao-topo">
+        <div>
+          <h1 class="cartao-titulo" id="painel-nome">…</h1>
+          <p class="cartao-sub" id="painel-slug"></p>
+        </div>
+        <div class="topo-acoes">
+          <span id="painel-papel"></span>
+          <span id="painel-status"></span>
+          <span id="painel-publicado"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="alerta alerta-erro" id="alerta-painel" role="alert" hidden></div>
+    <div class="alerta alerta-ok" id="alerta-ok" role="status" hidden></div>
+
+    <!-- Perfil -->
+    <section class="cartao">
+      <div class="cartao-topo">
+        <div>
+          <h2 class="cartao-titulo">Perfil do mercado</h2>
+          <p class="cartao-sub">Nome, CNPJ, endereço, telefone, descrição e horário.</p>
+        </div>
+      </div>
+
+      <form id="form-perfil" novalidate style="margin-top:18px">
+        <div class="grade">
+          <div class="campo">
+            <label for="campo-nome">Nome</label>
+            <input type="text" id="campo-nome" name="name" required>
+            <span class="erro-campo" id="erro-nome" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="campo-cnpj">CNPJ</label>
+            <input type="text" id="campo-cnpj" name="cnpj"
+                   inputmode="numeric" placeholder="00.000.000/0000-00"
+                   aria-describedby="dica-cnpj erro-cnpj">
+            <span class="dica" id="dica-cnpj">Opcional. São 14 dígitos com verificação.</span>
+            <span class="erro-campo" id="erro-cnpj" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="campo-telefone">Telefone</label>
+            <input type="tel" id="campo-telefone" name="phone" placeholder="(19) 99999-0000">
+            <span class="erro-campo" id="erro-telefone" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="campo-horario">Horário de funcionamento</label>
+            <input type="text" id="campo-horario" name="opening_hours"
+                   placeholder="Seg a Sex, das 8h às 18h">
+            <span class="erro-campo" id="erro-horario" hidden></span>
+          </div>
+        </div>
+
+        <div class="campo" style="margin-top:16px">
+          <label for="campo-endereco">Endereço</label>
+          <input type="text" id="campo-endereco" name="address" placeholder="Rua, número, bairro">
+          <span class="erro-campo" id="erro-endereco" hidden></span>
+        </div>
+
+        <div class="campo">
+          <label for="campo-descricao">Descrição</label>
+          <textarea id="campo-descricao" name="description" rows="4"
+                    placeholder="Conte o que o seu mercado oferece."></textarea>
+          <span class="erro-campo" id="erro-descricao" hidden></span>
+        </div>
+
+        <div class="acoes-form">
+          <button type="submit" class="btn" id="btn-salvar-perfil">Salvar alterações</button>
+          <button type="button" class="btn btn-secundario" id="btn-publicar">Publicar página</button>
+          <button type="button" class="btn btn-neutro" id="btn-despublicar" hidden>Despublicar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Equipe -->
+    <section class="cartao">
+      <div class="cartao-topo">
+        <div>
+          <h2 class="cartao-titulo">Equipe</h2>
+          <p class="cartao-sub" id="equipe-sub">Quem tem acesso a este mercado.</p>
+        </div>
+      </div>
+
+      <div class="lista" id="lista-membros" style="margin-top:16px"></div>
+      <p class="vazio" id="membros-vazio" hidden>Ninguém na equipe ainda.</p>
+
+      <h3 class="cartao-titulo" style="font-size:17px;margin:24px 0 4px">Convidar</h3>
+      <p class="cartao-sub" id="convidar-sub"></p>
+
+      <div class="acoes-form">
+        <button type="button" class="btn btn-secundario" id="btn-convidar-staff" hidden>
+          Convidar como equipe
+        </button>
+        <button type="button" class="btn btn-secundario" id="btn-convidar-manager" hidden>
+          Convidar como gerente
+        </button>
+        <span class="vazio" id="convidar-bloqueado" hidden>
+          Você não pode convidar pessoas para este mercado.
+        </span>
+      </div>
+    </section>
+
+    <!-- Convites -->
+    <section class="cartao" id="cartao-convites">
+      <h2 class="cartao-titulo">Convites</h2>
+      <p class="cartao-sub">Links enviados e em andamento.</p>
+      <div class="lista" id="lista-convites" style="margin-top:14px"></div>
+      <p class="vazio" id="convites-vazio" hidden>Nenhum convite por aqui.</p>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================================================ MODAL: ALTERAR PAPEL -->
+<div class="modal-fundo" id="modal-papel" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-papel">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="titulo-modal-papel">Alterar papel</h2>
+      <button type="button" class="modal-fechar" id="fechar-modal-papel" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-corpo">
+      <div class="alerta alerta-erro" id="erro-modal-papel" role="alert" hidden></div>
+      <p id="texto-modal-papel" style="margin:0 0 14px"></p>
+      <div class="campo">
+        <label for="select-papel">Novo papel</label>
+        <select id="select-papel"></select>
+        <span class="dica" id="dica-papel"></span>
+      </div>
+    </div>
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-neutro" id="btn-cancelar-papel">Cancelar</button>
+      <button type="button" class="btn" id="btn-confirmar-papel">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================= MODAL: CONVIDAR -->
+<div class="modal-fundo" id="modal-convidar" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-convidar">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="titulo-modal-convidar">Convidar para a equipe</h2>
+      <button type="button" class="modal-fechar" id="fechar-modal-convidar" aria-label="Fechar">&times;</button>
+    </div>
+    <div class="modal-corpo">
+      <div class="alerta alerta-erro" id="erro-modal-convidar" role="alert" hidden></div>
+      <p id="texto-modal-convidar" style="margin:0 0 14px"></p>
+      <div class="campo">
+        <label for="input-link-convite">Link do convite</label>
+        <input type="text" id="input-link-convite" readonly>
+        <span class="dica">
+          Envie pelo WhatsApp. O link só aparece agora — se perder, gere outro.
+        </span>
+      </div>
+      <div class="campo" id="bloco-texto-convite" hidden>
+        <label for="input-texto-convite">Mensagem sugerida</label>
+        <textarea id="input-texto-convite" rows="4" readonly></textarea>
+      </div>
+    </div>
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-neutro" id="btn-copiar-convite">Copiar link</button>
+      <button type="button" class="btn btn-neutro" id="fechar-modal-convidar-2">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // URL base da API (mesma constante da landing, do admin e do convite).
+  var API_URL = "https://poupefrutiapi.onrender.com";
+
+  // ==========================================================================
+  // Regras de interface
+  // ==========================================================================
+  //
+  // Isto aqui é SÓ para esconder botões e evitar clique inútil. A autoridade é
+  // sempre o backend: mesmo que a tela mostre o botão, a API decide.
+
+  var CHAVE_TOKEN = "poupefruti.painel.token";   // sessionStorage, nunca localStorage
+
+  var ROTULOS_PAPEL = {
+    owner: "dono",
+    manager: "gerente",
+    staff: "equipe"
+  };
+
+  var ROTULOS_STATUS = {
+    active: "ativo",
+    pending: "pendente",
+    suspended: "suspenso"
+  };
+
+  var ROTULOS_CONVITE = {
+    pending: "pendente",
+    accepted: "aceito",
+    expired: "expirado",
+    revoked: "revogado"
+  };
+
+  // Quem cada papel pode ATRIBUIR. Espelha o backend (app/rbac.py).
+  var ATRIBUIVEIS = {
+    owner: ["manager", "staff"],
+    manager: ["staff"],
+    staff: []
+  };
+
+  // Sobre quem cada papel pode agir. Espelha ALVOS_POR_PAPEL do backend.
+  var PODE_AGIR = {
+    owner: ["owner", "manager", "staff"],
+    manager: ["staff"],
+    staff: []
+  };
+
+  // Campos que o backend exige para publicar.
+  var CAMPOS_PUBLISH = [
+    { campo: "name", rotulo: "nome" },
+    { campo: "address", rotulo: "endereço" },
+    { campo: "phone", rotulo: "telefone" }
+  ];
+
+  // ==========================================================================
+  // Estado
+  // ==========================================================================
+
+  var token = null;
+  var memberships = [];    // de GET /auth/me
+  var mercado = null;      // { establishment_id, name, slug, role, establishment_status }
+  var perfil = null;       // resposta de GET /profile
+  var meuPapel = null;
+  var suspenso = false;
+  var alvoPapel = null;    // membro em edição no modal
+  var linkGerado = null;
+
+  // ==========================================================================
+  // Utilidades de DOM
+  // ==========================================================================
+
+  function $(id) { return document.getElementById(id); }
+
+  function mostrar(elemento, visivel) {
+    if (elemento) elemento.hidden = !visivel;
+  }
+
+  function falar(mensagem) {
+    $("status-leitor").textContent = mensagem || "";
+  }
+
+  function rotuloPapel(valor) {
+    return ROTULOS_PAPEL[valor] || "";
+  }
+
+  function erroDeCampo(id, mensagem) {
+    var alvo = $("erro-" + id);
+    var campo = $("campo-" + id);
+    if (!alvo || !campo) return;
+    if (mensagem) {
+      alvo.textContent = mensagem;
+      mostrar(alvo, true);
+      campo.setAttribute("aria-invalid", "true");
+    } else {
+      alvo.textContent = "";
+      mostrar(alvo, false);
+      campo.removeAttribute("aria-invalid");
+    }
+  }
+
+  function limparErros() {
+    ["nome", "cnpj", "telefone", "endereco", "descricao", "horario"].forEach(function (id) {
+      erroDeCampo(id, "");
+    });
+  }
+
+  function alerta(mensagem, ehErro) {
+    var erro = $("alerta-painel");
+    var ok = $("alerta-ok");
+    if (ehErro) {
+      ok.textContent = "";
+      mostrar(ok, false);
+      erro.textContent = mensagem || "";
+      mostrar(erro, !!mensagem);
+    } else {
+      erro.textContent = "";
+      mostrar(erro, false);
+      ok.textContent = mensagem || "";
+      mostrar(ok, !!mensagem);
+    }
+    falar(mensagem);
+  }
+
+  // ==========================================================================
+  // Token
+  // ==========================================================================
+
+  function lerToken() {
+    try { return sessionStorage.getItem(CHAVE_TOKEN); } catch (e) { return null; }
+  }
+
+  function guardarToken(novo) {
+    token = novo;
+    try { sessionStorage.setItem(CHAVE_TOKEN, novo); } catch (e) { /* modo privado */ }
+  }
+
+  function limparToken() {
+    token = null;
+    try { sessionStorage.removeItem(CHAVE_TOKEN); } catch (e) { /* ignora */ }
+  }
+
+  // ==========================================================================
+  // Cliente HTTP
+  // ==========================================================================
+
+  function mensagemPorStatus(status) {
+    if (status === 401) return "Sessão expirada. Entre novamente.";
+    if (status === 403) return "Você não tem permissão para esta ação.";
+    if (status === 404) return "Mercado não encontrado ou você não tem acesso a ele.";
+    if (status === 429) return "Muitas tentativas. Aguarde um instante.";
+    if (status >= 500) return "Erro no servidor. Tente novamente em instantes.";
+    return "Não foi possível concluir a ação.";
+  }
+
+  function api(caminho, opcoes) {
+    opcoes = opcoes || {};
+
+    var config = { method: opcoes.method || "GET", headers: {} };
+    if (token) config.headers.Authorization = "Bearer " + token;
+    if (opcoes.body !== undefined) {
+      config.headers["Content-Type"] = "application/json";
+      config.body = JSON.stringify(opcoes.body);
+    }
+
+    return fetch(API_URL.replace(/\/+$/, "") + caminho, config)
+      .then(function (resposta) {
+        var tipo = resposta.headers.get("Content-Type") || "";
+        if (tipo.indexOf("application/json") === -1) {
+          if (!resposta.ok) {
+            throw {
+              status: resposta.status,
+              codigo: "",
+              mensagem: mensagemPorStatus(resposta.status)
+            };
+          }
+          return resposta.text();
+        }
+        return resposta.json().then(function (dados) {
+          if (!resposta.ok) {
+            var info = (dados && dados.error) ? dados.error : {};
+            throw {
+              status: resposta.status,
+              codigo: info.code || "",
+              mensagem: info.message || mensagemPorStatus(resposta.status)
+            };
+          }
+          return dados;
+        });
+      })
+      .catch(function (erro) {
+        if (erro && erro.status === 401) {
+          // Token expirado/inválido em QUALQUER chamada: volta ao login.
+          encerrarSessao(MSG_SESSAO_EXPIRADA, true);
+        }
+        throw erro;
+      });
+  }
+
+  // ==========================================================================
+  // Sessão
+  // ==========================================================================
+
+  var MSG_SESSAO_EXPIRADA = "Sua sessão expirou. Entre novamente.";
+
+  function encerrarSessao(mensagem, mostrarLogin) {
+    limparToken();
+    mercado = null;
+    perfil = null;
+    memberships = [];
+    fecharModais();
+
+    mostrar($("tela-carregando"), false);
+    mostrar($("tela-selecao"), false);
+    mostrar($("tela-painel"), false);
+    mostrar($("tela-sem-mercado"), false);
+
+    if (mostrarLogin) {
+      mostrar($("tela-sem-sessao"), true);
+      $("titulo-sem-sessao").textContent = mensagem === MSG_SESSAO_EXPIRADA
+        ? "Sessão expirada"
+        : "Entrar no painel";
+      $("texto-sem-sessao").textContent = mensagem || "Use o e-mail e a senha da sua conta.";
+      $("login-senha").value = "";
+      $("login-email").focus();
+    } else {
+      mostrar($("tela-sem-sessao"), false);
+    }
+  }
+
+  function sair() {
+    encerrarSessao("", true);
+    falar("Você saiu do painel.");
+  }
+
+  // ==========================================================================
+  // Login
+  // ==========================================================================
+
+  function erroDeLogin(mensagem) {
+    var caixa = $("login-erro");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+    falar(mensagem);
+  }
+
+  function erroCampoLogin(id, mensagem) {
+    var alvo = $("erro-login-" + id);
+    var campo = $("login-" + id);
+    if (mensagem) {
+      alvo.textContent = mensagem;
+      mostrar(alvo, true);
+      campo.setAttribute("aria-invalid", "true");
+    } else {
+      alvo.textContent = "";
+      mostrar(alvo, false);
+      campo.removeAttribute("aria-invalid");
+    }
+  }
+
+  function enviarLogin(evento) {
+    evento.preventDefault();
+    erroDeLogin("");
+    erroCampoLogin("email", "");
+    erroCampoLogin("senha", "");
+
+    var email = $("login-email").value.trim();
+    var senha = $("login-senha").value;
+
+    if (!email) {
+      erroCampoLogin("email", "Informe seu e-mail.");
+      $("login-email").focus();
+      return;
+    }
+    if (!senha) {
+      erroCampoLogin("senha", "Informe sua senha.");
+      $("login-senha").focus();
+      return;
+    }
+
+    var botao = $("btn-login");
+    botao.disabled = true;
+    botao.textContent = "Entrando…";
+    falar("Entrando…");
+
+    api("/api/v1/auth/login", {
+      method: "POST",
+      body: { email: email, password: senha }
+    }).then(function (dados) {
+      guardarToken(dados.access_token);
+      $("login-senha").value = "";
+      erroDeLogin("");
+      mostrar($("tela-sem-sessao"), false);
+      carregarMinhaConta();
+    }).catch(function (erro) {
+      if (erro && erro.status === 429) {
+        erroDeLogin("Muitas tentativas, aguarde um pouco e tente de novo.");
+        return;
+      }
+      // Genérico de propósito: não revela se o e-mail existe.
+      erroDeLogin("E-mail ou senha inválidos.");
+    }).then(function () {
+      botao.disabled = false;
+      botao.textContent = "Entrar";
+    });
+  }
+
+  // ==========================================================================
+  // Carregamento inicial
+  // ==========================================================================
+
+  // Depois do login (ou com token guardado): lê /auth/me e decide o caminho.
+  function carregarMinhaConta() {
+    mostrar($("tela-carregando"), true);
+    mostrar($("tela-sem-sessao"), false);
+
+    return api("/api/v1/auth/me").then(function (dados) {
+      memberships = dados.user.memberships || [];
+      mostrar($("btn-trocar-mercado"), memberships.length > 1);
+
+      if (!memberships.length) {
+        mostrar($("tela-carregando"), false);
+        mostrar($("tela-sem-mercado"), true);
+        return;
+      }
+
+      if (memberships.length === 1) {
+        abrirMercado(memberships[0].establishment_id);
+      } else {
+        mostrar($("tela-carregando"), false);
+        mostrarSelecao();
+      }
+    }).catch(function (erro) {
+      if (erro && erro.status === 401) return;   // encerrarSessao já cuidou
+      mostrar($("tela-carregando"), false);
+      mostrar($("tela-sem-mercado"), false);
+      mostrar($("tela-sem-sessao"), true);
+      erroDeLogin(
+        (erro && erro.mensagem) || "Não foi possível carregar sua conta."
+      );
+    });
+  }
+
+  function iniciar() {
+    token = lerToken();
+
+    if (!token) {
+      // Primeira visita, ou sessão limpa pelo botão Sair.
+      encerrarSessao("", true);
+      return;
+    }
+
+    carregarMinhaConta();
+  }
+
+  function mostrarSelecao() {
+    mostrar($("tela-carregando"), false);
+    mostrar($("tela-sem-sessao"), false);
+    mostrar($("tela-painel"), false);
+    mostrar($("tela-selecao"), true);
+
+    var lista = $("lista-mercados");
+    lista.textContent = "";
+
+    memberships.forEach(function (m) {
+      var botao = document.createElement("button");
+      botao.type = "button";
+      botao.className = "item-mercado";
+
+      var info = document.createElement("div");
+      var nome = document.createElement("div");
+      nome.className = "linha-nome";
+      nome.textContent = m.name || "Mercado";
+      var meta = document.createElement("div");
+      meta.className = "linha-meta";
+      meta.textContent = "Você é " + rotuloPapel(m.role) +
+        (m.establishment_status === "suspended" ? " · suspenso" : "");
+      info.appendChild(nome);
+      info.appendChild(meta);
+
+      var seta = document.createElement("span");
+      seta.setAttribute("aria-hidden", "true");
+      seta.textContent = "→";
+
+      botao.appendChild(info);
+      botao.appendChild(seta);
+      botao.addEventListener("click", function () { abrirMercado(m.establishment_id); });
+
+      lista.appendChild(botao);
+    });
+  }
+
+  // ==========================================================================
+  // Painel do mercado
+  // ==========================================================================
+
+  function abrirMercado(establishmentId) {
+    mercado = memberships.filter(function (m) {
+      return m.establishment_id === establishmentId;
+    })[0] || null;
+
+    mostrar($("tela-carregando"), true);
+    mostrar($("tela-selecao"), false);
+    mostrar($("tela-sem-sessao"), false);
+    mostrar($("tela-painel"), false);
+    alerta("", false);
+
+    // 404 aqui significa "não existe OU você não é membro" — o backend não
+    // distingue, e nós também não devemos sugerir.
+    api("/api/v1/establishments/" + establishmentId + "/profile")
+      .then(function (dados) {
+        perfil = dados.establishment;
+        meuPapel = dados.meu_papel || (mercado ? mercado.role : null);
+
+        mostrar($("tela-carregando"), false);
+        mostrar($("tela-painel"), true);
+
+        aplicarCabecalho();
+        aplicarFormulario();
+        aplicarPermissoes();
+        carregarEquipe();
+      })
+      .catch(function (erro) {
+        mostrar($("tela-carregando"), false);
+        if (erro && erro.status === 404) {
+          // Perdeu o vínculo (ou nunca teve): volta para a seleção.
+          voltarParaSelecao(erro.mensagem);
+        } else if (erro && erro.status === 401) {
+          return;
+        } else {
+          alerta(erro.mensagem || "Não foi possível carregar o mercado.", true);
+          mostrar($("tela-painel"), true);
+        }
+      });
+  }
+
+  function voltarParaSelecao(mensagem) {
+    mostrar($("tela-painel"), false);
+    mostrar($("tela-carregando"), false);
+    mostrarSelecao();
+    if (mensagem) falar(mensagem);
+
+    // Recarrega os vínculos: o que deu 404 já não é seu.
+    api("/api/v1/auth/me").then(function (dados) {
+      memberships = dados.user.memberships || [];
+
+      if (memberships.length === 1) {
+        // Só reabre se for OUTRO mercado. Reabrir o mesmo que devolveu 404
+        // entraria em laço, martelando a API.
+        if (memberships[0].establishment_id !== mercado.establishment_id) {
+          abrirMercado(memberships[0].establishment_id);
+        } else {
+          mostrarSelecao();
+        }
+      } else {
+        mostrarSelecao();
+      }
+    }).catch(function () { /* mantém a seleção visível */ });
+  }
+
+  function aplicarCabecalho() {
+    $("painel-nome").textContent = perfil.name || "Mercado";
+    $("painel-slug").textContent = perfil.slug ? "/" + perfil.slug : "";
+
+    var papel = criarBadge(rotuloPapel(meuPapel), "badge-" + (meuPapel || "staff"));
+    substituir($("painel-papel"), papel);
+
+    var status = criarBadge(
+      ROTULOS_STATUS[perfil.status] || perfil.status || "",
+      "badge-" + (perfil.status || "pending")
+    );
+    substituir($("painel-status"), status);
+
+    var publicado = criarBadge(
+      perfil.is_published ? "publicado" : "não publicado",
+      perfil.is_published ? "selo-publicado" : "badge-pending"
+    );
+    substituir($("painel-publicado"), publicado);
+
+    // Aviso fixo de suspensão + bloqueio de escrita.
+    suspenso = perfil.status === "suspended";
+    mostrar($("aviso-suspenso"), suspenso);
+  }
+
+  function criarBadge(texto, classe) {
+    var span = document.createElement("span");
+    span.className = "badge " + classe;
+    span.textContent = texto;
+    return span;
+  }
+
+  function substituir(alvo, novo) {
+    alvo.textContent = "";
+    alvo.appendChild(novo);
+  }
+
+  function aplicarFormulario() {
+    $("campo-nome").value = perfil.name || "";
+    $("campo-cnpj").value = perfil.cnpj || "";
+    $("campo-endereco").value = perfil.address || "";
+    $("campo-telefone").value = perfil.phone || "";
+    $("campo-descricao").value = perfil.description || "";
+    $("campo-horario").value = perfil.opening_hours || "";
+    limparErros();
+  }
+
+  // ==========================================================================
+  // Permissões na interface (o backend continua autoritativo)
+  // ==========================================================================
+
+  function possoEditar() {
+    if (suspenso) return false;
+    return meuPapel === "owner" || meuPapel === "manager";
+  }
+
+  function possoPublicar() {
+    return possoEditar();
+  }
+
+  function possoConvidar(papel) {
+    if (suspenso) return false;
+    var lista = ATRIBUIVEIS[meuPapel] || [];
+    return lista.indexOf(papel) !== -1;
+  }
+
+  function possoAgirSobre(papelAlvo) {
+    if (suspenso) return false;
+    var lista = PODE_AGIR[meuPapel] || [];
+    return lista.indexOf(papelAlvo) !== -1;
+  }
+
+  function aplicarPermissoes() {
+    var podeEditar = possoEditar();
+
+    // Campos do perfil
+    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
+      $("campo-" + id).disabled = !podeEditar;
+    });
+    $("btn-salvar-perfil").disabled = !podeEditar;
+
+    // Publicação
+    $("btn-publicar").hidden = !possoPublicar();
+    $("btn-despublicar").hidden = !possoPublicar() || !perfil.is_published;
+    $("btn-publicar").textContent = perfil.is_published ? "Atualizar publicação" : "Publicar página";
+
+    // Convites
+    $("btn-convidar-staff").hidden = !possoConvidar("staff");
+    $("btn-convidar-manager").hidden = !possoConvidar("manager");
+    $("convidar-bloqueado").hidden =
+      !(suspenso || (ATRIBUIVEIS[meuPapel] || []).length === 0);
+
+    if (suspenso) {
+      $("convidar-sub").textContent = "Convites indisponíveis enquanto o mercado está suspenso.";
+    } else if (meuPapel === "owner") {
+      $("convidar-sub").textContent = "Como dono, você pode convidar gerentes e equipe.";
+    } else if (meuPapel === "manager") {
+      $("convidar-sub").textContent = "Como gerente, você pode convidar apenas equipe.";
+    } else {
+      $("convidar-sub").textContent = "Você não pode convidar pessoas para este mercado.";
+    }
+  }
+
+  // ==========================================================================
+  // Salvar perfil
+  // ==========================================================================
+
+  function salvarPerfil(evento) {
+    evento.preventDefault();
+    alerta("", false);
+    limparErros();
+
+    if (!possoEditar()) {
+      alerta(suspenso
+        ? "Este mercado está suspenso. Fale com o PoupeFruti."
+        : "Você não pode editar o perfil deste mercado.", true);
+      return;
+    }
+
+    var nome = $("campo-nome").value.trim();
+    if (!nome) {
+      erroDeCampo("nome", "Informe o nome do mercado.");
+      return;
+    }
+
+    var botao = $("btn-salvar-perfil");
+    botao.disabled = true;
+    botao.textContent = "Salvando…";
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/profile", {
+      method: "PATCH",
+      body: {
+        name: nome,
+        cnpj: $("campo-cnpj").value.trim(),
+        address: $("campo-endereco").value.trim(),
+        phone: $("campo-telefone").value.trim(),
+        description: $("campo-descricao").value.trim(),
+        opening_hours: $("campo-horario").value.trim()
+      }
+    }).then(function (dados) {
+      perfil = dados.establishment;
+      aplicarCabecalho();
+      aplicarFormulario();
+      aplicarPermissoes();
+      alerta("Perfil salvo.", false);
+    }).catch(function (erro) {
+      tratarErroEscrita(erro);
+    }).then(function () {
+      botao.disabled = !possoEditar();
+      botao.textContent = "Salvar alterações";
+    });
+  }
+
+  // ==========================================================================
+  // Publicação
+  // ==========================================================================
+
+  function alternarPublicacao() {
+    alerta("", false);
+    limparErros();
+
+    if (!possoPublicar()) {
+      alerta(suspenso
+        ? "Este mercado está suspenso. Fale com o PoupeFruti."
+        : "Você não pode publicar este mercado.", true);
+      return;
+    }
+
+    var querPublicar = !perfil.is_published;
+    var rota = querPublicar ? "publish" : "unpublish";
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/" + rota, {
+      method: "POST"
+    }).then(function (dados) {
+      perfil = dados.establishment;
+      aplicarCabecalho();
+      aplicarPermissoes();
+      alerta(querPublicar
+        ? "Página publicada. Seu mercado já aparece na busca."
+        : "Página despublicada.", false);
+    }).catch(function (erro) {
+      if (erro && erro.codigo === "incomplete_profile") {
+        marcarFaltantesParaPublicar();
+        alerta(erro.mensagem || "Complete o perfil antes de publicar.", true);
+        return;
+      }
+      tratarErroEscrita(erro);
+    });
+  }
+
+  // Marca visualmente os campos que faltam para publicar.
+  function marcarFaltantesParaPublicar() {
+    CAMPOS_PUBLISH.forEach(function (item) {
+      var idCampo = { name: "nome", address: "endereco", phone: "telefone" }[item.campo];
+      var valor = $("campo-" + idCampo).value.trim();
+      erroDeCampo(idCampo, valor ? "" : "Obrigatório para publicar.");
+    });
+  }
+
+  // ==========================================================================
+  // Equipe
+  // ==========================================================================
+
+  function carregarEquipe() {
+    api("/api/v1/establishments/" + mercado.establishment_id + "/members")
+      .then(function (dados) {
+        renderizarMembros(dados.members || []);
+        renderizarConvites(dados.invitations || []);
+      })
+      .catch(function (erro) {
+        if (erro && (erro.status === 401 || erro.status === 404)) return;
+        falar("Não foi possível carregar a equipe: " + (erro.mensagem || "erro"));
+      });
+  }
+
+  function renderizarMembros(membros) {
+    var lista = $("lista-membros");
+    lista.textContent = "";
+
+    mostrar($("membros-vazio"), membros.length === 0);
+
+    membros.forEach(function (m) {
+      var linha = document.createElement("div");
+      linha.className = "linha-equipe";
+
+      // --- info ---
+      var info = document.createElement("div");
+      info.className = "linha-info";
+
+      var nome = document.createElement("div");
+      nome.className = "linha-nome";
+      nome.appendChild(document.createTextNode(m.name || m.email || "Sem nome"));
+      nome.appendChild(criarBadge(rotuloPapel(m.role), "badge-" + (m.role || "staff")));
+
+      if (m.is_me) {
+        var voce = document.createElement("span");
+        voce.className = "linha-meta";
+        voce.textContent = "(você)";
+        nome.appendChild(voce);
+      }
+
+      var meta = document.createElement("div");
+      meta.className = "linha-meta";
+      meta.textContent = m.email || "";
+
+      info.appendChild(nome);
+      info.appendChild(meta);
+
+      // --- ações ---
+      var acoes = document.createElement("div");
+      acoes.className = "linha-acoes";
+      montarAcoesMembro(acoes, m);
+
+      linha.appendChild(info);
+      linha.appendChild(acoes);
+      lista.appendChild(linha);
+    });
+
+    $("equipe-sub").textContent = membros.length + (membros.length === 1
+      ? " pessoa com acesso a este mercado."
+      : " pessoas com acesso a este mercado.");
+  }
+
+  function montarAcoesMembro(acoes, m) {
+    var podeAgir = possoAgirSobre(m.role);
+    // Não offercemos ação sobre si mesmo: o backend só recusaria quando é o
+    // último dono, e_self-remover é sempre um engano.
+    var alvoValido = podeAgir && !m.is_me;
+
+    if (alvoValido) {
+      var podeMudar = (ATRIBUIVEIS[meuPapel] || []).some(function (p) { return p !== m.role; });
+      if (podeMudar) {
+        var botaoPapel = document.createElement("button");
+        botaoPapel.type = "button";
+        botaoPapel.className = "btn btn-secundario btn-pequeno";
+        botaoPapel.textContent = "Alterar papel";
+        botaoPapel.addEventListener("click", function () { abrirModalPapel(m); });
+        acoes.appendChild(botaoPapel);
+      }
+    }
+
+    if (alvoValido) {
+      var botaoRemover = document.createElement("button");
+      botaoRemover.type = "button";
+      botaoRemover.className = "btn btn-perigo btn-pequeno";
+      botaoRemover.textContent = "Remover";
+      botaoRemover.addEventListener("click", function () { removerMembro(m); });
+      acoes.appendChild(botaoRemover);
+    }
+  }
+
+  function renderizarConvites(convites) {
+    var lista = $("lista-convites");
+    lista.textContent = "";
+    mostrar($("convites-vazio"), convites.length === 0);
+
+    convites.forEach(function (c) {
+      var linha = document.createElement("div");
+      linha.className = "linha-equipe";
+
+      var info = document.createElement("div");
+      info.className = "linha-info";
+
+      var nome = document.createElement("div");
+      nome.className = "linha-nome";
+      nome.appendChild(document.createTextNode("Convite de " + rotuloPapel(c.role)));
+      nome.appendChild(criarBadge(
+        ROTULOS_CONVITE[c.status] || c.status,
+        "badge-" + (c.status === "pending" ? "pending" : c.status)
+      ));
+
+      var meta = document.createElement("div");
+      meta.className = "linha-meta";
+      meta.textContent = c.expires_at
+        ? "expira em " + new Date(c.expires_at).toLocaleDateString("pt-BR")
+        : "";
+
+      info.appendChild(nome);
+      info.appendChild(meta);
+
+      var acoes = document.createElement("div");
+      acoes.className = "linha-acoes";
+
+      // Revogar só faz sentido para convite pendente, e só para quem pode
+      // convidar o mesmo papel.
+      if (c.status === "pending" && !suspenso && possoConvidar(c.role)) {
+        var revogar = document.createElement("button");
+        revogar.type = "button";
+        revogar.className = "btn btn-neutro btn-pequeno";
+        revogar.textContent = "Revogar";
+        revogar.addEventListener("click", function () { revogarConvite(c); });
+        acoes.appendChild(revogar);
+      }
+
+      linha.appendChild(info);
+      linha.appendChild(acoes);
+      lista.appendChild(linha);
+    });
+  }
+
+  // ==========================================================================
+  // Alterar papel / remover
+  // ==========================================================================
+
+  function abrirModalPapel(membro) {
+    alvoPapel = membro;
+
+    $("titulo-modal-papel").textContent = "Alterar papel";
+    $("texto-modal-papel").textContent =
+      "Novo papel para " + (membro.name || membro.email) + " (" + rotuloPapel(membro.role) + ").";
+
+    var select = $("select-papel");
+    select.textContent = "";
+
+    var opcoes = (ATRIBUIVEIS[meuPapel] || []).filter(function (p) { return p !== membro.role; });
+    opcoes.forEach(function (p) {
+      var opt = document.createElement("option");
+      opt.value = p;
+      opt.textContent = rotuloPapel(p);
+      select.appendChild(opt);
+    });
+
+    $("dica-papel").textContent = opcoes.length
+      ? "Você pode atribuir: " + opcoes.map(rotuloPapel).join(", ") + "."
+      : "Não há outro papel que você possa atribuir a esta pessoa.";
+
+    mostrar($("erro-modal-papel"), false);
+    mostrar($("modal-papel"), true);
+    select.focus();
+  }
+
+  function confirmarPapel() {
+    if (!alvoPapel) return;
+    var novo = $("select-papel").value;
+    // Guarda o nome antes: fecharModais() limpa alvoPapel.
+    var nomeAlvo = alvoPapel.name || alvoPapel.email;
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/members/" + alvoPapel.user_id, {
+      method: "PATCH",
+      body: { role: novo }
+    }).then(function () {
+      fecharModais();
+      alerta(nomeAlvo + " agora é " + rotuloPapel(novo) + ".", false);
+      carregarEquipe();
+    }).catch(function (erro) {
+      var mensagem = erro.mensagem || "Não foi possível alterar o papel.";
+      if (erro.codigo === "last_owner") {
+        mensagem = "Não é possível rebaixar o único dono do estabelecimento.";
+      } else if (erro.codigo === "cannot_grant_higher_role") {
+        mensagem = "Você não pode atribuir esse papel.";
+      }
+      var caixa = $("erro-modal-papel");
+      caixa.textContent = mensagem;
+      mostrar(caixa, true);
+      falar(mensagem);
+    });
+  }
+
+  function removerMembro(membro) {
+    if (!confirm(
+      "Remover " + (membro.name || membro.email) + " da equipe?\n\n" +
+      "A pessoa perde o acesso a este mercado, mas a conta dela continua existindo."
+    )) return;
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/members/" + membro.user_id, {
+      method: "DELETE"
+    }).then(function () {
+      alerta((membro.name || membro.email) + " foi removido da equipe.", false);
+      carregarEquipe();
+    }).catch(function (erro) {
+      var mensagem = erro.mensagem || "Não foi possível remover.";
+      if (erro.codigo === "last_owner") {
+        mensagem = "Não é possível remover o único dono do estabelecimento.";
+      } else if (erro.codigo === "insufficient_permissions") {
+        mensagem = "Você não pode remover esta pessoa.";
+      }
+      alerta(mensagem, true);
+    });
+  }
+
+  // ==========================================================================
+  // Convites
+  // ==========================================================================
+
+  function convidar(papel) {
+    if (!possoConvidar(papel)) {
+      alerta(suspenso
+        ? "Este mercado está suspenso. Fale com o PoupeFruti."
+        : "Você não pode convidar alguém como " + rotuloPapel(papel) + ".", true);
+      return;
+    }
+
+    var botao = papel === "manager" ? $("btn-convidar-manager") : $("btn-convidar-staff");
+    botao.disabled = true;
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/invitations", {
+      method: "POST",
+      body: { role: papel }
+    }).then(function (dados) {
+      botao.disabled = false;
+      linkGerado = dados.invite_url;
+      mostrarLinkConvite(dados);
+      carregarEquipe();
+    }).catch(function (erro) {
+      botao.disabled = false;
+      if (erro.codigo === "insufficient_permissions") {
+        alerta("Você não pode convidar alguém como " + rotuloPapel(papel) + ".", true);
+        return;
+      }
+      tratarErroEscrita(erro);
+    });
+  }
+
+  function mostrarLinkConvite(dados) {
+    linkGerado = dados.invite_url || null;
+
+    $("titulo-modal-convidar").textContent = "Convite como " + rotuloPapel(dados.invitation.role);
+    $("texto-modal-convidar").textContent =
+      "Copie o link e envie para a pessoa. Ele só aparece agora.";
+
+    $("input-link-convite").value = linkGerado || "";
+
+    var texto = dados.invitation && dados.invitation.role
+      ? "Oi! Você foi convidado para a equipe do " + (perfil.name || "nosso mercado") +
+        " como " + rotuloPapel(dados.invitation.role) + ".\n\n" +
+        "Crie sua conta neste link:\n" + (linkGerado || "") +
+        "\n\nO link é pessoal e válido por 7 dias."
+      : "";
+
+    $("input-texto-convite").value = texto;
+    mostrar($("bloco-texto-convite"), !!texto);
+
+    mostrar($("erro-modal-convidar"), false);
+    mostrar($("modal-convidar"), true);
+    $("btn-copiar-convite").focus();
+  }
+
+  function copiarConvite() {
+    if (!linkGerado) return;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(linkGerado).then(function () {
+        falar("Link copiado.");
+      }).catch(function () { /* fallback abaixo */ });
+    } else {
+      var campo = $("input-link-convite");
+      campo.focus();
+      campo.select();
+      if (document.execCommand) document.execCommand("copy");
+      falar("Link copiado.");
+    }
+  }
+
+  function revogarConvite(convite) {
+    if (!confirm("Revogar este convite? Quem receber não conseguirá criar a conta.")) return;
+
+    api("/api/v1/establishments/" + mercado.establishment_id + "/invitations/" + convite.id, {
+      method: "DELETE"
+    }).then(function () {
+      alerta("Convite revogado.", false);
+      carregarEquipe();
+    }).catch(function (erro) {
+      if (erro.codigo === "invitation_already_accepted") {
+        alerta("Este convite já foi aceito, então não pode ser revogado.", true);
+      } else if (erro.codigo === "invitation_already_revoked") {
+        alerta("Este convite já estava revogado.", true);
+      } else {
+        tratarErroEscrita(erro);
+      }
+    });
+  }
+
+  // ==========================================================================
+  // Erros de escrita
+  // ==========================================================================
+
+  function tratarErroEscrita(erro) {
+    if (!erro) return;
+
+    if (erro.status === 404) {
+      voltarParaSelecao(erro.mensagem);
+      return;
+    }
+    if (erro.status === 401) return;   // encerrarSessao já cuidou
+
+    if (erro.codigo === "establishment_suspended") {
+      // Recarrega para pegar o estado real (status + aviso fixo).
+      abrirMercado(mercado.establishment_id);
+      alerta("Este mercado está suspenso. Fale com o PoupeFruti.", true);
+      return;
+    }
+
+    if (erro.codigo === "insufficient_permissions") {
+      alerta(erro.mensagem || "Você não tem permissão para esta ação.", true);
+      return;
+    }
+
+    if (erro.codigo === "invalid_cnpj") {
+      erroDeCampo("cnpj", "CNPJ inválido. Confira os 14 dígitos.");
+      alerta(erro.mensagem || "CNPJ inválido.", true);
+      return;
+    }
+
+    if (erro.codigo === "cnpj_already_used") {
+      erroDeCampo("cnpj", "Este CNPJ já está em outro estabelecimento.");
+      alerta(erro.mensagem || "Este CNPJ já está cadastrado.", true);
+      return;
+    }
+
+    if (erro.codigo === "last_owner") {
+      alerta("Não é possível remover ou rebaixar o único dono do estabelecimento.", true);
+      return;
+    }
+
+    alerta(erro.mensagem || mensagemPorStatus(erro.status), true);
+  }
+
+  // ==========================================================================
+  // Modais
+  // ==========================================================================
+
+  function fecharModais() {
+    mostrar($("modal-papel"), false);
+    mostrar($("modal-convidar"), false);
+    alvoPapel = null;
+    linkGerado = null;
+  }
+
+  // ==========================================================================
+  // Eventos
+  // ==========================================================================
+
+  function registrarEventos() {
+    // Login
+    $("login-form").addEventListener("submit", enviarLogin);
+    ["email", "senha"].forEach(function (id) {
+      $("login-" + id).addEventListener("input", function () {
+        erroCampoLogin(id, "");
+        erroDeLogin("");
+      });
+    });
+
+    $("btn-sair-painel").addEventListener("click", sair);
+    $("btn-sair-selecao").addEventListener("click", sair);
+    $("btn-sair-sem-mercado").addEventListener("click", sair);
+    $("btn-trocar-mercado").addEventListener("click", mostrarSelecao);
+    $("btn-reconectar").addEventListener("click", function () {
+      carregarMinhaConta();
+    });
+
+    $("form-perfil").addEventListener("submit", salvarPerfil);
+    $("btn-publicar").addEventListener("click", alternarPublicacao);
+    $("btn-despublicar").addEventListener("click", alternarPublicacao);
+
+    $("btn-convidar-staff").addEventListener("click", function () { convidar("staff"); });
+    $("btn-convidar-manager").addEventListener("click", function () { convidar("manager"); });
+
+    $("btn-confirmar-papel").addEventListener("click", confirmarPapel);
+    $("fechar-modal-papel").addEventListener("click", fecharModais);
+    $("btn-cancelar-papel").addEventListener("click", fecharModais);
+    $("modal-papel").addEventListener("click", function (ev) {
+      if (ev.target === this) fecharModais();
+    });
+
+    $("btn-copiar-convite").addEventListener("click", copiarConvite);
+    $("fechar-modal-convidar").addEventListener("click", fecharModais);
+    $("fechar-modal-convidar-2").addEventListener("click", fecharModais);
+    $("modal-convidar").addEventListener("click", function (ev) {
+      if (ev.target === this) fecharModais();
+    });
+
+    // Limpa o erro do campo ao digitar
+    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
+      $("campo-" + id).addEventListener("input", function () {
+        erroDeCampo(id, "");
+      });
+    });
+
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key !== "Escape") return;
+      if (!$("modal-convidar").hidden || !$("modal-papel").hidden) {
+        fecharModais();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // Boot
+  // ==========================================================================
+
+  mostrar($("btn-trocar-mercado"), memberships.length > 1);
+  registrarEventos();
+  iniciar();
+</script>
+
+</body>
+</html>
