@@ -208,20 +208,26 @@
   <section class="cartao" id="tela-carregando" aria-busy="true">
     <div class="estado">
       <div class="carregando" aria-hidden="true"></div>
-      <p class="estado-texto">Validando seu convite…</p>
+      <p class="estado-texto" id="msg-carregando">Validando seu convite…</p>
     </div>
   </section>
 
   <!-- ================================================ TELA: LINK INVÁLIDO -->
-  <!-- Mesma mensagem para token inválido, expirado, usado ou revogado:
-       o visitante não precisa (e não deve) saber a diferença. -->
+  <!-- Três motivos possíveis, todos nesta mesma tela:
+         - "invalido": token inválido, expirado, usado ou revogado. Mesma
+           mensagem nos quatro casos: o visitante não precisa saber qual foi.
+         - "rede": falha de rede/CORS/timeout ou 5xx. Oferece tentar de novo.
+         - "sem-token": a URL veio sem #token=... -->
   <section class="cartao" id="tela-invalida" hidden>
     <div class="estado">
-      <div class="estado-icone" aria-hidden="true">🔗</div>
-      <p class="estado-titulo">Convite indisponível</p>
+      <div class="estado-icone" id="msg-icone" aria-hidden="true">🔗</div>
+      <p class="estado-titulo" id="msg-titulo">Convite indisponível</p>
       <p class="estado-texto" id="msg-invalida">
         Este link é inválido ou expirou. Peça um novo link ao PoupeFruti.
       </p>
+      <button type="button" class="btn btn-neutro" id="btn-tentar-de-novo" hidden>
+        Tentar de novo
+      </button>
     </div>
   </section>
 
@@ -315,6 +321,16 @@
   var MSG_INVALIDO =
     "Este link é inválido ou expirou. Peça um novo link ao PoupeFruti.";
 
+  // Falha de transporte (rede, CORS, timeout) ou erro 5xx. Aqui a diferença
+  // ajuda o usuário: o problema não foi o link, foi a conexão.
+  var MSG_REDE =
+    "Não conseguimos verificar o convite agora. Tente de novo em instantes.";
+
+  // Pausa antes da retentativa automática. O Render pode levar quase um minuto
+  // para acordar um serviço adormecido; 15s é o meio-termo entre esperar o
+  // suficiente e não deixar o visitante encarando uma tela parada.
+  var ESPERA_RETRY_MS = 15000;
+
   // ==========================================================================
   // Estado
   // ==========================================================================
@@ -386,13 +402,46 @@
     falar(titulo || "");
   }
 
-  function telaInvalida() {
-    mostrarTela(
-      "invalida",
-      "Convite indisponível",
-      "Não foi possível continuar."
-    );
-    $("msg-invalida").textContent = MSG_INVALIDO;
+  // "Conectando…" enquanto tenta falar com a API (inclusive na retentativa).
+  function mostrarConectando(tentativa) {
+    $("msg-carregando").textContent = tentativa > 1
+      ? "Ainda conectando… tentando de novo."
+      : "Conectando…";
+    mostrarTela("carregando", "Conferindo seu convite", tentativa > 1 ? "A API está demorando um pouco." : "Só um instante.");
+  }
+
+  // Motivo da falha na tela de convite indisponível.
+  var MOTIVOS = {
+    invalido: {
+      icone: "🔗",
+      titulo: "Convite indisponível",
+      subtitulo: "Não foi possível continuar.",
+      mensagem: MSG_INVALIDO,
+      retry: false
+    },
+    rede: {
+      icone: "📡",
+      titulo: "Sem conexão com o PoupeFruti",
+      subtitulo: "Aguarde um instante.",
+      mensagem: MSG_REDE,
+      retry: true
+    },
+    "sem-token": {
+      icone: "🔗",
+      titulo: "Link incompleto",
+      subtitulo: "",
+      mensagem: "Abra o link completo que você recebeu.",
+      retry: false
+    }
+  };
+
+  function telaInvalida(motivo) {
+    var m = MOTIVOS[motivo] || MOTIVOS.invalido;
+    mostrarTela("invalida", m.titulo, m.subtitulo);
+    $("msg-icone").textContent = m.icone;
+    $("msg-titulo").textContent = m.titulo;
+    $("msg-invalida").textContent = m.mensagem;
+    mostrar($("btn-tentar-de-novo"), m.retry);
   }
 
   // ==========================================================================
@@ -435,14 +484,48 @@
   // Validação do convite
   // ==========================================================================
 
+  // Só o backend autoriza o convite: qualquer coisa que não seja um erro de
+  // transporte é tratada como "não deu para falar com a API" e vale retentativa.
+  function ehConviteInvalido(erro) {
+    return !!erro && erro.codigo === "invalid_invitation";
+  }
+
+  // Log de diagnóstico. NUNCA loga o token nem o corpo da requisição: só o
+  // status, o código e a rota — o token é o segredo da sessão e acabaria em
+  // qualquer log de servidor ou de navegador.
+  function registrarErro(rotulo, erro, tentativa) {
+    var status = (erro && erro.status) || 0;
+    var codigo = (erro && erro.codigo) || "";
+    console.error(
+      "[convite] " + rotulo + " falhou" +
+      " | tentativa: " + (tentativa || 1) +
+      " | status: " + (status || "sem resposta (rede/CORS/timeout)") +
+      " | codigo: " + (codigo || "-") +
+      " | rota: /api/v1/invitations/validate"
+    );
+  }
+
+  function esperar(ms) {
+    return new Promise(function (resolver) { setTimeout(resolver, ms); });
+  }
+
   function validarConvite() {
     tokenConvidado = lerTokenDoHash();
     limparHash();
 
     if (!tokenConvidado) {
-      telaInvalida();
+      telaInvalida("sem-token");
       return Promise.resolve();
     }
+
+    return tentarValidar(1);
+  }
+
+  // Uma retentativa automática: no Render o primeiro request pode bater num
+  // serviço adormecido e levar até um minuto para acordar. Tentamos mais uma
+  // vez depois de uma pausa, e só então mostramos o erro.
+  function tentarValidar(tentativa) {
+    mostrarConectando(tentativa);
 
     return api("/api/v1/invitations/validate", { token: tokenConvidado })
       .then(function (dados) {
@@ -456,9 +539,24 @@
         );
         $("campo-nome").focus();
       })
-      .catch(function () {
-        // Qualquer falha aqui é tratada como convite indisponível.
-        telaInvalida();
+      .catch(function (erro) {
+        // Token inválido/expirado/usado/revogado: mensagem definitiva, sem retry.
+        if (ehConviteInvalido(erro)) {
+          registrarErro("validar convite", erro, tentativa);
+          telaInvalida("invalido");
+          return;
+        }
+
+        registrarErro("validar convite", erro, tentativa);
+
+        // Falha de rede, CORS, timeout ou 5xx: uma última tentativa.
+        if (tentativa === 1) {
+          return esperar(ESPERA_RETRY_MS).then(function () {
+            return tentarValidar(2);
+          });
+        }
+
+        telaInvalida("rede");
       });
   }
 
@@ -579,9 +677,11 @@
         "Em breve você poderá acessar o painel do seu mercado."
       );
     }).catch(function (erro) {
-      if (erro && (erro.status === 400 || erro.codigo === "invalid_invitation")) {
-        // Convite inválido/expirado/usado: mesma mensagem da tela inicial.
-        telaInvalida();
+      // Só o código decide. Checar por status pegaria também os 400 de
+      // weak_password/invalid_email e mostraria "link inválido" para um
+      // problema de senha ou e-mail.
+      if (erro && erro.codigo === "invalid_invitation") {
+        telaInvalida("invalido");
         return;
       }
 
@@ -631,6 +731,16 @@
   });
 
   $("form-conta").addEventListener("submit", enviar);
+
+  // Reaproveita o token que já está em memória — o hash foi removido da URL,
+  // então recarregar a página perderia o convite.
+  $("btn-tentar-de-novo").addEventListener("click", function () {
+    if (!tokenConvidado) {
+      telaInvalida("sem-token");
+      return;
+    }
+    tentarValidar(1);
+  });
 
   validarConvite();
 </script>
