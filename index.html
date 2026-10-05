@@ -242,6 +242,14 @@
 
   .btn--block { width: 100%; }
 
+  /* Botão menor, para chamadas dentro de um parágrafo. */
+  .btn--pequeno {
+    display: inline-block;
+    padding: .5em 1.1em;
+    font-size: .88rem;
+    vertical-align: baseline;
+  }
+
   /* ------------------------------- HERO ----------------------------------- */
   .hero {
     background:
@@ -749,9 +757,80 @@
     .cesta__preco { font-size: 2.6rem; }
   }
 
-  /* --------------------- IMPRESSÃO / MOVIMENTO REDUZIDO -------------------- */
+/* --------------------- IMPRESSÃO / MOVIMENTO REDUZIDO -------------------- */
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
+  }
+
+  /* ======================= CESTAS HOJE EM CAMPINAS =======================
+     Bloco discreto, escondido por padrão: só aparece se a API responder com
+     alguma cesta para contar. Sem dado, a seção não existe — é melhor uma
+     página sem número do que um "0 cestas" que parece erro.
+     ========================================================================== */
+  .hoje {
+    background: var(--verde-claro);
+    border-top: 1px solid var(--borda);
+    border-bottom: 1px solid var(--borda);
+    padding: 34px 0;
+  }
+  .hoje__interno {
+    display: grid;
+    gap: 18px;
+    align-items: center;
+  }
+  .hoje__titulo {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0 0 .2rem;
+  }
+  .hoje__valor {
+    font-size: 1.02rem;
+    margin: 0;
+    color: var(--texto-suave);
+  }
+  .hoje__valor b {
+    color: var(--verde-escuro);
+    font-weight: 900;
+  }
+  .hoje__filtro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+  }
+  .hoje__filtro label {
+    font-size: .9rem;
+    font-weight: 700;
+  }
+  .hoje__filtro select {
+    font: inherit;
+    font-size: .95rem;
+    padding: 8px 12px;
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    background: var(--branco);
+    color: var(--texto);
+    min-width: 12rem;
+  }
+  .hoje__obs {
+    margin: 14px 0 0;
+    font-size: .92rem;
+    color: var(--texto-suave);
+  }
+  .hoje__obs .btn {
+    margin-left: .35rem;
+    white-space: nowrap;
+  }
+  /* Só a entrada é animada, e só quando o movimento é permitido. */
+  @media (prefers-reduced-motion: no-preference) {
+    .hoje[data-visivel="sim"] { animation: hoje-entra .45s ease-out both; }
+    @keyframes hoje-entra {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: none; }
+    }
+  }
+  @media (min-width: 900px) {
+    .hoje__interno { grid-template-columns: 1.4fr 1fr; }
   }
 </style>
 </head>
@@ -1120,6 +1199,35 @@
     </div>
   </section>
 
+  <!-- ================== CESTAS HOJE EM CAMPINAS (via API) ==================
+       Começa escondida (`hidden`) e só é revelada se a API responder com pelo
+       menos 1 cesta. Se a chamada falhar, demorar ou vier zerada, a seção
+       continua escondida: é melhor não mostrar número nenhum do que mostrar
+       "0", que a pessoa lê como erro. O JS é apenas aditivo — a página
+       funciona inteira sem ele. -->
+  <section class="hoje" id="hoje" aria-labelledby="hoje-titulo" hidden>
+    <div class="container">
+      <div class="hoje__interno">
+        <div>
+          <h2 class="hoje__titulo" id="hoje-titulo">Cestas hoje em Campinas</h2>
+          <!-- O número entra por textContent, nunca por innerHTML. -->
+          <p class="hoje__valor" id="hoje-valor" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="hoje__filtro">
+          <label for="hoje-bairro">Ver no meu bairro</label>
+          <select id="hoje-bairro" aria-describedby="hoje-valor"></select>
+        </div>
+      </div>
+
+      <p class="hoje__obs">
+        Estas cestas já estão sendo oferecidas pelos mercados parceiros. Entre na
+        lista para ser avisado quando a reserva abrir.
+        <a class="btn btn--verde btn--pequeno" href="#cadastro">Entrar na lista</a>
+      </p>
+    </div>
+  </section>
+
   <!-- =========================== FORMULÁRIO =========================== -->
   <section class="section" id="cadastro" aria-labelledby="cadastro-titulo">
     <div class="container">
@@ -1184,6 +1292,11 @@
             </div>
 
             <div class="campo">
+              <!-- A lista de bairros é a MESMA nos dois formulários e é a mesma
+                   de api/app/validators.py (VALORES_BAIRRO). As duas cópias
+                   divergiam aqui: a de cliente tinha Jardim(ns) Guanabara,
+                   Paulistano e Chapada, a de mercado não. Ao mexer nesta lista,
+                   mexa nas duas e atualize a do backend. -->
               <label for="cliente-bairro">Bairro em Campinas <span aria-hidden="true">*</span></label>
               <select id="cliente-bairro" name="bairro" required aria-required="true"
                       aria-describedby="erro-cliente-bairro">
@@ -1322,6 +1435,9 @@
                 <option>Padre Martins</option>
                 <option>Vila Bueno</option>
                 <option>Vila São Carlos</option>
+                <option>Jardim(ns) Guanabara</option>
+                <option>Jardim(ns) Paulistano</option>
+                <option>Jardim(ns) Chapada</option>
                 <option>Parque Industrial</option>
                 <option>Bairro não listado</option>
               </select>
@@ -1894,7 +2010,194 @@ function executaEnvio(form, dados, status, rotuloBotao, msgSucesso, msgFalha) {
 })();
 
 /* ---------------------------------------------------------------------------
-   6) MISCELÂNEA
+   6) CESTAS HOJE EM CAMPINAS
+   ---------------------------------------------------------------------------
+   Lê GET API_URL + /api/v1/public/stats e mostra quantas cestas existem hoje.
+
+   Regras (todas deliberadas):
+   * Carrega DEPOIS da página: em `requestIdleCallback` quando existe, senão em
+     `setTimeout`. O número é curioso, não é o motivo de a pessoa estar aqui.
+   * Timeout de 4 s com AbortController. Sem retentativa: se a API estiver
+     lenta agora, ela vai ficar lenta na próxima visita também, e a pessoa não
+     deve ficar olhando um bloco vazio.
+   * Falhou, veio zerado ou veio menos de 1 cesta => a seção fica escondida.
+     "0 cestas" é pior que não mostrar nada: parece erro, e não é. A regra vale
+     para a primeira carga e para cada troca de bairro, e o texto anterior é
+     apagado junto — a tela nunca anuncia o número de outro bairro por baixo do
+     filtro escolhido.
+   * Só `textContent`. Nada de innerHTML — a resposta vem da API e não há
+     por que dar ao servidor o controle do HTML da landing.
+   ========================================================================== */
+
+/* A lista de bairros do filtro. Tem que ser a mesma de VALORES_BAIRRO, em
+   api/app/validators.py, que é a mesma dos dois formulários acima. */
+var BAIRROS_HOJE = [
+  "Barão Geraldo", "Bonfim", "Bosque", "Cambuí", "Centro", "Castelo",
+  "Santa Bárbara", "Taquaral", "Jardim Bandeirantes", "Jardim Eudes",
+  "Jardim São Marcos", "Sousas", "Joaquim Egídio", "Padre Martins",
+  "Vila Bueno", "Vila São Carlos", "Jardim(ns) Guanabara",
+  "Jardim(ns) Paulistano", "Jardim(ns) Chapada", "Parque Industrial",
+  "Bairro não listado"
+];
+
+var API_STATS_PATH = "/api/v1/public/stats";
+var TIMEOUT_STATS_MS = 4000;
+
+/**
+ * Monta o texto do número. Recebe os dados e devolve a frase pronta.
+ *
+ * Com bairro: "3 cestas de frutas e 2 de legumes em Centro, em 2 mercados."
+ * Sem bairro: o total de Campinas. É a mesma frase nas duas situações, com o
+ * lugar trocado — a pessoa não precisa saber se olhou o filtro ou o total.
+ */
+function textoCestas(dados) {
+  var onde = dados.bairro ? "em " + dados.bairro : "em Campinas";
+  var partes = [];
+  var frutas = (dados.by_type && dados.by_type.frutas) || 0;
+  var legumes = (dados.by_type && dados.by_type.legumes) || 0;
+
+  if (frutas > 0) partes.push(frutas + (frutas === 1 ? " cesta de frutas" : " cestas de frutas"));
+  if (legumes > 0) partes.push(legumes + (legumes === 1 ? " cesta de legumes" : " cestas de legumes"));
+
+  var oferta = partes.length ? partes.join(" e ") : dados.baskets + " cestas";
+  return oferta + " " + onde + ", em " + dados.markets +
+    (dados.markets === 1 ? " mercado parceiro." : " mercados parceiros.");
+}
+
+/* Cada chamada recebe um número. Se a pessoa trocar de bairro rápido, a
+   resposta antiga é descartada: o número da tela é sempre o do filtro que está
+   selecionado, nunca o de uma consulta que chegou atrasada. */
+var SEQUENCIA_CESTAS = 0;
+
+/** Some a seção. Limpa o texto e o gatilho da animação junto. */
+function esconderCestas(secao, valor) {
+  secao.hidden = true;
+  valor.textContent = "";
+  secao.removeAttribute("data-visivel");
+}
+
+/**
+ * Busca as estatísticas e revela a seção, se houver o que mostrar.
+ *
+ * @param {string|null} bairro Bairro escolhido, ou null para o total da cidade
+ */
+function buscarCestas(bairro) {
+  var secao = $("#hoje");
+  var valor = $("#hoje-valor");
+  if (!secao || !valor) return;
+
+  var url = API_URL.replace(/\/+$/, "") + API_STATS_PATH;
+  if (bairro) url += "?bairro=" + encodeURIComponent(bairro);
+
+  var meu = ++SEQUENCIA_CESTAS;
+
+  // Apaga o número anterior ANTES de sair. Entre trocar o filtro e a resposta
+  // chegar existe uma janela em que a tela ainda mostra o bairro antigo; se a
+  // pessoa mudar de bairro de novo nesse meio-tempo, ela lê um número que não
+  // corresponde ao filtro. some prefere não mostrar nada a mostrar o errado.
+  esconderCestas(secao, valor);
+
+  var controle = null;
+  if (typeof AbortController === "function") {
+    controle = new AbortController();
+  }
+  var cancelado = false;
+  var timer = setTimeout(function () {
+    cancelado = true;
+    // Esconde na hora, sem esperar a rede responder. Um navegador sem
+    // AbortController deixa a requisição viva e o `catch` nunca vem — se a
+    // espera dependesse do abort, a seção poderia ficar horas mostrando o
+    // número de um bairro que a pessoa já trocou.
+    if (meu === SEQUENCIA_CESTAS) esconderCestas(secao, valor);
+    if (controle) controle.abort();
+  }, TIMEOUT_STATS_MS);
+
+  var opcoes = { headers: { "Accept": "application/json" } };
+  if (controle) opcoes.signal = controle.signal;
+
+  fetch(url, opcoes)
+    .then(function (res) {
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return res.json();
+    })
+    .then(function (dados) {
+      if (cancelado || meu !== SEQUENCIA_CESTAS) return;
+      // Menos de 1 cesta (ou dado em formato inesperado): nada a mostrar.
+      var cestas = Number(dados && dados.baskets) || 0;
+      if (cestas < 1) {
+        esconderCestas(secao, valor);
+        return;
+      }
+
+      valor.textContent = textoCestas(dados);
+      secao.hidden = false;
+      // O atributo só existe para a animação de entrada, e ela já é
+      // desativada quando a pessoa pede menos movimento (ver o CSS).
+      secao.setAttribute("data-visivel", "sim");
+    })
+    .catch(function (erro) {
+      // Só uma requisição mais nova manda no estado da seção. O timeout NÃO
+      // pode ser ignorado aqui: se a pessoa trocou de bairro e a chamada travou,
+      // esconder é o que impede o número antigo de ficar na tela fingindo
+      // responder ao filtro novo.
+      if (meu !== SEQUENCIA_CESTAS) return;
+      // Falhou = esconde, do mesmo jeito que "veio zero". Deixar o número de
+      // uma consulta anterior na tela enquanto o filtro aponta para outro
+      // bairro seria mentira — e é a pessoa que paga por ela.
+      esconderCestas(secao, valor);
+      if (window.console && console.debug) {
+        console.debug(
+          "PoupeFruti: estatísticas indisponíveis.",
+          cancelado ? "tempo esgotado" : (erro && erro.message)
+        );
+      }
+    })
+    .then(function () { clearTimeout(timer); });
+}
+
+/** Preenche o <select> de bairro e liga a troca de bairro. */
+function montarFiltroBairro() {
+  var select = $("#hoje-bairro");
+  if (!select) return;
+
+  // Esvazia antes: chamar duas vezes não pode duplicar as opções.
+  select.textContent = "";
+
+  var vazio = document.createElement("option");
+  vazio.value = "";
+  vazio.textContent = "Todos os bairros";
+  select.appendChild(vazio);
+
+  BAIRROS_HOJE.forEach(function (bairro) {
+    var opcao = document.createElement("option");
+    opcao.value = bairro;
+    opcao.textContent = bairro;
+    select.appendChild(opcao);
+  });
+
+  select.addEventListener("change", function () {
+    buscarCestas(select.value || null);
+  });
+}
+
+/* Carrega depois da página, e uma vez só. */
+(function iniciarCestasHoje() {
+  var secao = $("#hoje");
+  if (!secao) return;
+
+  montarFiltroBairro();
+
+  var carregar = function () { buscarCestas(null); };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(carregar, { timeout: 2000 });
+  } else {
+    setTimeout(carregar, 600);
+  }
+})();
+
+/* ---------------------------------------------------------------------------
+   7) MISCELÂNEA
    --------------------------------------------------------------------------- */
 (function ano() {
   var el = $("#ano");
