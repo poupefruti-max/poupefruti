@@ -254,6 +254,124 @@
   .modal-acoes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
   .modal-acoes .btn { flex: 1 1 140px; }
 
+  /* ----------------------------------------------------------------- Abas */
+  .abas {
+    display: flex; gap: 4px; margin-bottom: 20px;
+    background: var(--branco); border: 1px solid var(--borda);
+    border-radius: 999px; padding: 4px; box-shadow: var(--sombra);
+    overflow-x: auto;
+  }
+  .aba {
+    flex: 1 1 auto; white-space: nowrap;
+    font-family: inherit; font-size: 15px; font-weight: 700;
+    padding: 10px 16px; min-height: 42px;
+    border: none; border-radius: 999px; background: transparent;
+    color: var(--texto-suave); cursor: pointer;
+  }
+  .aba:hover { background: #F3F6EF; color: var(--texto); }
+  .aba-ativa { background: var(--verde); color: var(--branco); }
+  .aba-ativa:hover { background: var(--verde-escuro); color: var(--branco); }
+
+  /* -------------------------------------------------------------- Cestas */
+  .filtros-cestas {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 14px; flex-wrap: wrap;
+  }
+  .filtros-cestas label { font-weight: 700; font-size: 15px; }
+  .filtros-cestas select {
+    font-family: inherit; font-size: 15px; color: var(--texto);
+    padding: 9px 12px; min-height: 42px;
+    border: 2px solid var(--borda); border-radius: 12px; background: var(--branco);
+  }
+  .filtros-cestas select:focus { border-color: var(--verde); outline: none; }
+
+  .cesta {
+    border: 1px solid var(--borda); border-radius: var(--raio);
+    padding: 16px; background: #FCFDFB;
+  }
+  .cesta-cabecalho {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 10px; flex-wrap: wrap; margin-bottom: 8px;
+  }
+  .cesta-nome {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 17px; font-weight: 800; margin: 0;
+  }
+  .cesta-emoji { font-size: 22px; line-height: 1; }
+  .cesta-preco { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 4px 0; }
+  .cesta-valor { font-size: 20px; font-weight: 800; color: var(--verde-escuro); }
+  .cesta-varejo {
+    color: var(--texto-suave); text-decoration: line-through; font-size: 15px;
+  }
+  .selo-desconto {
+    background: var(--tomate); color: var(--branco);
+    font-size: 13px; font-weight: 800; padding: 3px 9px; border-radius: 999px;
+  }
+  .cesta-detalhe { font-size: 14px; color: var(--texto-suave); margin: 3px 0; }
+  .cesta-detalhe strong { color: var(--texto); }
+  .cesta-notas {
+    font-size: 14px; color: var(--texto-suave);
+    margin-top: 8px; padding-left: 10px;
+    border-left: 3px solid var(--borda);
+  }
+  .cesta-rodape {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 10px; flex-wrap: wrap; margin-top: 14px;
+  }
+  .cesta-acoes { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  /* Ajuste rápido de quantidade */
+  .ajuste-qtd { display: flex; align-items: center; gap: 8px; }
+  .ajuste-qtd-valor {
+    min-width: 40px; text-align: center;
+    font-size: 19px; font-weight: 800;
+  }
+  .btn-ajuste {
+    width: 42px; min-height: 42px; padding: 0;
+    border-radius: 50%; font-size: 21px; line-height: 1;
+    background: var(--branco); color: var(--verde-escuro);
+    border: 2px solid var(--verde); cursor: pointer;
+  }
+  .btn-ajuste:hover:not([disabled]) { background: var(--verde-claro); }
+  .btn-ajuste[disabled] { opacity: .45; cursor: not-allowed; }
+
+  /* ------------------------------------------------------ Formulário cestas */
+  .opcoes { display: flex; gap: 10px; flex-wrap: wrap; }
+  .opcao {
+    flex: 1 1 130px;
+    display: flex; align-items: center; gap: 10px;
+    border: 2px solid var(--borda); border-radius: 14px;
+    padding: 12px 14px; cursor: pointer; background: var(--branco);
+    font-weight: 700;
+  }
+  .opcao:hover { border-color: var(--verde); }
+  .opcao-emoji { font-size: 24px; line-height: 1; }
+  /* o radio some mas continua acessível pelo teclado */
+  .opcao input[type="radio"] {
+    position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+  }
+  .opcao:has(input:checked) { border-color: var(--verde); background: var(--verde-claro); }
+  .opcao:has(input:focus-visible) { outline: 3px solid var(--verde); outline-offset: 2px; }
+
+  .grade-dupla { display: grid; gap: 14px; grid-template-columns: 1fr; }
+
+  .opcional { font-weight: 600; color: var(--texto-suave); font-size: 13px; }
+  .modal-largo { max-width: 620px; }
+
+  .desconto-vivo {
+    margin: 4px 0 16px; padding: 10px 12px;
+    background: var(--verde-claro); border: 1px solid #bfe3cb;
+    border-radius: 12px; color: var(--verde-escuro);
+    font-size: 15px; font-weight: 700;
+  }
+
+  fieldset.campo { border: none; padding: 0; margin: 0 0 16px; }
+  fieldset.campo legend { font-weight: 700; font-size: 15px; margin-bottom: 6px; padding: 0; }
+
+  @media (min-width: 560px) {
+    .grade-dupla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
   @media (min-width: 700px) {
     .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .conteudo { padding: 26px 24px 60px; }
@@ -411,8 +529,24 @@
     <div class="alerta alerta-erro" id="alerta-painel" role="alert" hidden></div>
     <div class="alerta alerta-ok" id="alerta-ok" role="status" hidden></div>
 
+    <!-- Abas -->
+    <div class="abas" role="tablist" aria-label="Seções do painel">
+      <button type="button" class="aba aba-ativa" role="tab" id="aba-perfil"
+              data-alvo="painela-perfil" aria-selected="true" aria-controls="painela-perfil">
+        Perfil
+      </button>
+      <button type="button" class="aba" role="tab" id="aba-cestas"
+              data-alvo="painela-cestas" aria-selected="false" aria-controls="painela-cestas" tabindex="-1">
+        Cestas
+      </button>
+      <button type="button" class="aba" role="tab" id="aba-equipe"
+              data-alvo="painela-equipe" aria-selected="false" aria-controls="painela-equipe" tabindex="-1">
+        Equipe
+      </button>
+    </div>
+
     <!-- Perfil -->
-    <section class="cartao">
+    <section class="cartao" id="painela-perfil" role="tabpanel" aria-labelledby="aba-perfil">
       <div class="cartao-topo">
         <div>
           <h2 class="cartao-titulo">Perfil do mercado</h2>
@@ -472,10 +606,10 @@
         </div>
 
         <div class="campo">
-          <label for="campo-descricao">Descrição</label>
-          <textarea id="campo-descricao" name="description" rows="4"
-                    placeholder="Conte o que o seu mercado oferece."></textarea>
-          <span class="erro-campo" id="erro-descricao" hidden></span>
+          <label for="campo-horario">Horário de funcionamento</label>
+          <input type="text" id="campo-horario" name="opening_hours"
+                 placeholder="Seg a Sex, das 8h às 18h">
+          <span class="erro-campo" id="erro-horario" hidden></span>
         </div>
 
         <div class="acoes-form">
@@ -486,8 +620,59 @@
       </form>
     </section>
 
+    <!-- Cestas -->
+    <section class="cartao" id="painela-cestas" role="tabpanel" aria-labelledby="aba-cestas" hidden>
+      <div class="cartao-topo">
+        <div>
+          <h2 class="cartao-titulo">Cestas</h2>
+          <p class="cartao-sub" id="cestas-sub">
+            A sobra do dia, com desconto, aparece na sua página pública.
+          </p>
+        </div>
+        <div class="topo-acoes">
+          <button type="button" class="btn btn-secundario" id="btn-nova-cesta" hidden>
+            Nova cesta
+          </button>
+        </div>
+      </div>
+
+      <div class="filtros-cestas" role="group" aria-label="Filtrar cestas por status">
+        <label for="filtro-status-cesta">Status</label>
+        <select id="filtro-status-cesta">
+          <option value="">Todas</option>
+          <option value="active">Ativas</option>
+          <option value="paused">Pausadas</option>
+          <option value="closed">Encerradas</option>
+        </select>
+      </div>
+
+      <p class="sr-only" id="cestas-status" role="status" aria-live="polite"></p>
+
+      <div class="lista" id="lista-cestas" style="margin-top:16px"></div>
+
+      <div class="estado" id="cestas-vazio" hidden>
+        <div class="estado-icone" aria-hidden="true">🧺</div>
+        <p class="estado-titulo">Nenhuma cesta por aqui</p>
+        <p class="estado-texto" id="cestas-vazio-texto">
+          Você ainda não criou nenhuma cesta. Cadastre a sobra do dia para aparecer na sua página.
+        </p>
+        <button type="button" class="btn btn-secundario" id="btn-nova-cesta-vazio" hidden>
+          Cadastrar primeira cesta
+        </button>
+      </div>
+
+      <div class="estado" id="cestas-erro" hidden>
+        <div class="estado-icone" aria-hidden="true">⚠️</div>
+        <p class="estado-titulo">Não foi possível carregar as cestas</p>
+        <p class="estado-texto" id="cestas-erro-texto"></p>
+        <button type="button" class="btn btn-neutro btn-pequeno" id="btn-recarregar-cestas">
+          Tentar novamente
+        </button>
+      </div>
+    </section>
+
     <!-- Equipe -->
-    <section class="cartao">
+    <section class="cartao" id="painela-equipe" role="tabpanel" aria-labelledby="aba-equipe" hidden>
       <div class="cartao-topo">
         <div>
           <h2 class="cartao-titulo">Equipe</h2>
@@ -512,17 +697,127 @@
           Você não pode convidar pessoas para este mercado.
         </span>
       </div>
-    </section>
 
-    <!-- Convites -->
-    <section class="cartao" id="cartao-convites">
-      <h2 class="cartao-titulo">Convites</h2>
+      <!-- Convites -->
+      <h3 class="cartao-titulo" style="font-size:17px;margin:26px 0 4px">Convites</h3>
       <p class="cartao-sub">Links enviados e em andamento.</p>
-      <div class="lista" id="lista-convites" style="margin-top:14px"></div>
+      <div class="lista" id="lista-convites" style="margin-top:12px"></div>
       <p class="vazio" id="convites-vazio" hidden>Nenhum convite por aqui.</p>
     </section>
 
   </main>
+</div>
+
+<!-- =============================================== MODAL: CRIAR/EDITAR CESTA -->
+<div class="modal-fundo" id="modal-cesta" hidden>
+  <div class="modal modal-largo" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-cesta">
+    <div class="modal-topo">
+      <h2 class="modal-titulo" id="titulo-modal-cesta">Nova cesta</h2>
+      <button type="button" class="modal-fechar" id="fechar-modal-cesta" aria-label="Fechar">&times;</button>
+    </div>
+
+    <div class="modal-corpo">
+      <div class="alerta alerta-erro" id="cesta-erro" role="alert" hidden></div>
+
+      <form id="form-cesta" novalidate>
+        <!-- Tipo: cartões de opção -->
+        <fieldset class="campo" id="grupo-tipo">
+          <legend>Tipo de cesta</legend>
+          <div class="opcoes" role="radiogroup" aria-labelledby="grupo-tipo">
+            <label class="opcao" for="tipo-frutas">
+              <input type="radio" name="tipo-cesta" id="tipo-frutas" value="frutas" checked>
+              <span class="opcao-emoji" aria-hidden="true">🍎</span>
+              <span class="opcao-texto">Frutas</span>
+            </label>
+            <label class="opcao" for="tipo-legumes">
+              <input type="radio" name="tipo-cesta" id="tipo-legumes" value="legumes">
+              <span class="opcao-emoji" aria-hidden="true">🥕</span>
+              <span class="opcao-texto">Legumes</span>
+            </label>
+          </div>
+          <span class="erro-campo" id="erro-type" hidden></span>
+        </fieldset>
+
+        <div class="campo">
+          <label for="cesta-nome">Nome <span class="opcional">(opcional)</span></label>
+          <input type="text" id="cesta-nome" name="name" maxlength="80"
+                 placeholder="Cesta de frutas" aria-describedby="dica-cesta-nome erro-cesta-nome">
+          <span class="dica" id="dica-cesta-nome">Em branco, usamos "Cesta de frutas" ou "Cesta de legumes".</span>
+          <span class="erro-campo" id="erro-cesta-nome" hidden></span>
+        </div>
+
+        <div class="grade-dupla">
+          <div class="campo">
+            <label for="cesta-peso">Peso aproximado (kg)</label>
+            <input type="number" id="cesta-peso" name="weight_kg" step="0.5" min="0.5" max="30"
+                   required inputmode="decimal" placeholder="4"
+                   aria-describedby="erro-cesta-peso">
+            <span class="erro-campo" id="erro-cesta-peso" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="cesta-quantidade">Quantidade disponível</label>
+            <input type="number" id="cesta-quantidade" name="quantity" step="1" min="0" max="999"
+                   required inputmode="numeric" placeholder="10"
+                   aria-describedby="erro-cesta-quantidade">
+            <span class="erro-campo" id="erro-cesta-quantidade" hidden></span>
+          </div>
+        </div>
+
+        <div class="grade-dupla">
+          <div class="campo">
+            <label for="cesta-preco">Preço (R$)</label>
+            <input type="text" id="cesta-preco" name="price" inputmode="decimal"
+                   required placeholder="35,00" aria-describedby="erro-cesta-preco">
+            <span class="erro-campo" id="erro-cesta-preco" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="cesta-varejo">Valor de varejo (R$) <span class="opcional">(opcional)</span></label>
+            <input type="text" id="cesta-varejo" name="retail_value" inputmode="decimal"
+                   placeholder="70,00" aria-describedby="dica-desconto erro-cesta-varejo">
+            <span class="dica" id="dica-desconto">Deixe vazio se não houver desconto.</span>
+            <span class="erro-campo" id="erro-cesta-varejo" hidden></span>
+          </div>
+        </div>
+
+        <p class="desconto-vivo" id="desconto-vivo" hidden></p>
+
+        <div class="grade-dupla">
+          <div class="campo">
+            <label for="cesta-inicio">Início da retirada</label>
+            <input type="datetime-local" id="cesta-inicio" name="pickup_starts_at" required
+                   aria-describedby="dica-horario erro-cesta-inicio">
+            <span class="erro-campo" id="erro-cesta-inicio" hidden></span>
+          </div>
+
+          <div class="campo">
+            <label for="cesta-fim">Fim da retirada</label>
+            <input type="datetime-local" id="cesta-fim" name="pickup_ends_at" required
+                   aria-describedby="dica-horario erro-cesta-fim">
+            <span class="erro-campo" id="erro-cesta-fim" hidden></span>
+          </div>
+        </div>
+        <p class="dica" id="dica-horario">
+          Horário de Brasília (UTC-3). A janela pode durar até 7 dias.
+        </p>
+
+        <div class="campo">
+          <label for="cesta-notas">Observação <span class="opcional">(opcional)</span></label>
+          <textarea id="cesta-notas" name="notes" rows="3" maxlength="280"
+                    placeholder="Ex.: retirar na porta lateral, até as 19h."
+                    aria-describedby="contador-notas erro-cesta-notas"></textarea>
+          <p class="dica" id="contador-notas">0/280</p>
+          <span class="erro-campo" id="erro-cesta-notas" hidden></span>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-acoes">
+      <button type="button" class="btn btn-neutro" id="btn-cancelar-cesta">Cancelar</button>
+      <button type="submit" class="btn" id="btn-salvar-cesta" form="form-cesta">Salvar cesta</button>
+    </div>
+  </div>
 </div>
 
 <!-- ================================================ MODAL: ALTERAR PAPEL -->
@@ -580,6 +875,10 @@
 <script>
   // URL base da API (mesma constante da landing, do admin e do convite).
   var API_URL = "https://poupefrutiapi.onrender.com";
+
+  // Campos do perfil editáveis. `description` NÃO entra mais: virou a área de
+  // cestas (/baskets).
+  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "horario"];
 
   // ==========================================================================
   // Regras de interface
@@ -715,7 +1014,7 @@
   }
 
   function limparErros() {
-    ["nome", "cnpj", "telefone", "endereco", "descricao", "horario"].forEach(function (id) {
+    CAMPOS_PERFIL.forEach(function (id) {
       erroDeCampo(id, "");
     });
   }
@@ -1043,7 +1342,9 @@
         aplicarCabecalho();
         aplicarFormulario();
         aplicarPermissoes();
+        aplicarAbasIniciais();
         carregarEquipe();
+        // Cestas carregam sob demanda, na primeira visita à aba.
       })
       .catch(function (erro) {
         mostrar($("tela-carregando"), false);
@@ -1154,7 +1455,6 @@
     $("campo-cnpj").value = perfil.cnpj || "";
     $("campo-endereco").value = perfil.address || "";
     $("campo-telefone").value = perfil.phone || "";
-    $("campo-descricao").value = perfil.description || "";
     $("campo-horario").value = perfil.opening_hours || "";
     aplicarBairros(bairros, perfil.bairro);
     limparErros();
@@ -1189,9 +1489,8 @@
     var podeEditar = possoEditar();
 
     // Campos do perfil
-    CAMPOS_PERFIL.forEach(function (id) {
-      var campo = $("campo-" + id);
-      if (campo) campo.disabled = !podeEditar;
+    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
+      $("campo-" + id).disabled = !podeEditar;
     });
     $("btn-salvar-perfil").disabled = !podeEditar;
 
@@ -1205,6 +1504,25 @@
     $("btn-convidar-manager").hidden = !possoConvidar("manager");
     $("convidar-bloqueado").hidden =
       !(suspenso || (ATRIBUIVEIS[meuPapel] || []).length === 0);
+
+    // Cestas: quem gerencia vê os botões de criar/editar/pausar/encerrar.
+    // Ajustar estoque é liberado para todos os papéis.
+    var gerencia = podeGerenciarCestas();
+    $("btn-nova-cesta").hidden = !gerencia;
+    $("btn-nova-cesta-vazio").hidden = !gerencia;
+    $("filtro-status-cesta").disabled = suspenso;
+
+    if (suspenso) {
+      $("cestas-sub").textContent =
+        "Cestas em modo somente leitura enquanto o mercado está suspenso.";
+      renderizarCestas();
+    } else if (meuPapel === "staff") {
+      $("cestas-sub").textContent =
+        "Como equipe, você pode ajustar o estoque, mas não cria nem edita cestas.";
+    } else {
+      $("cestas-sub").textContent =
+        "A sobra do dia, com desconto, aparece na sua página pública.";
+    }
 
     if (suspenso) {
       $("convidar-sub").textContent = "Convites indisponíveis enquanto o mercado está suspenso.";
@@ -1250,7 +1568,6 @@
         cnpj: $("campo-cnpj").value.trim(),
         address: $("campo-endereco").value.trim(),
         phone: $("campo-telefone").value.trim(),
-        bairro: $("campo-bairro").value,
         description: $("campo-descricao").value.trim(),
         opening_hours: $("campo-horario").value.trim()
       }
@@ -1684,6 +2001,824 @@
   }
 
   // ==========================================================================
+  // Cestas
+  // ==========================================================================
+
+  // ==========================================================================
+  // Formatação
+  // ==========================================================================
+
+  var FMT_BRL = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+  var FMT_KG = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 });
+
+  // Brasilia e UTC-3 (o Brasil nao tem horario de verao desde 2019).
+  var TZ_BRASILIA = "-03:00";
+
+  function moeda(cents) {
+    if (cents === null || cents === undefined) return "";
+    return FMT_BRL.format((cents || 0) / 100);
+  }
+
+  function kilos(gramas) {
+    if (!gramas && gramas !== 0) return "";
+    return FMT_KG.format(gramas / 1000).replace(",00", "");
+  }
+
+  function seloDesconto(percent) {
+    if (percent === null || percent === undefined) return null;
+    // 50 e 50,0 viram "-50%", 33,33 vira "-33%"
+    var inteiro = Number.isInteger(percent) ? percent : Math.round(percent * 10) / 10;
+    return "-" + inteiro + "%";
+  }
+
+  /** "Hoje, 17h às 19h" ou "12/10, 17h às 19h", em horário de Brasília. */
+  function janelaRetirada(inicioIso, fimIso) {
+    if (!inicioIso || !fimIso) return "";
+    var inicio = new Date(inicioIso);
+    var fim = new Date(fimIso);
+    if (isNaN(inicio.getTime()) || isNaN(fim.getTime())) return "";
+
+    var agora = new Date();
+    var mesmoDia = inicio.toDateString() === agora.toDateString();
+
+    function hora(d) {
+      return d.toLocaleTimeString("pt-BR", {
+        hour: "2-digit", minute: "2-digit",
+        timeZone: "America/Sao_Paulo"
+      });
+    }
+    function dia(d) {
+      return d.toLocaleDateString("pt-BR", {
+        day: "2-digit", month: "2-digit",
+        timeZone: "America/Sao_Paulo"
+      });
+    }
+
+    var quando = mesmoDia ? "Hoje" : dia(inicio);
+    return quando + ", " + hora(inicio) + " às " + hora(fim);
+  }
+
+  function estaExpirada(cesta) {
+    if (!cesta || !cesta.pickup_ends_at) return false;
+    return new Date(cesta.pickup_ends_at).getTime() <= Date.now();
+  }
+
+  // Rótulo do badge: encerrada tem precedência, depois expirada.
+  function rotuloStatus(cesta) {
+    if (cesta.status === "closed") return { texto: "encerrada", classe: "badge-encerrada" };
+    if (estaExpirada(cesta)) return { texto: "expirada", classe: "badge-expirada" };
+    if (cesta.status === "paused") return { texto: "pausada", classe: "badge-pausada" };
+    return { texto: "ativa", classe: "badge-ativa" };
+  }
+
+  function nomePadraoCesta(cesta) {
+    if (cesta.name && cesta.name.trim()) return cesta.name.trim();
+    return cesta.type === "legumes" ? "Cesta de legumes" : "Cesta de frutas";
+  }
+
+  function emojiCesta(tipo) {
+    return tipo === "legumes" ? "🥕" : "🍎";
+  }
+
+  // ==========================================================================
+  // Permissões de cestas
+  // ==========================================================================
+  //
+  // Só para ESCONDER botões. O backend continua sendo a autoridade: se algo
+  // aparecer aqui e a API recusar, o erro aparece.
+
+  function podeGerenciarCestas() {
+    if (suspenso) return false;
+    return meuPapel === "owner" || meuPapel === "manager";
+  }
+
+  function podeAjustarEstoque() {
+    // Todos os papéis, inclusive staff. Só o bloqueio por suspensão vale.
+    return !suspenso;
+  }
+
+  // ==========================================================================
+  // Listagem
+  // ==========================================================================
+
+  var cestas = [];
+  var cestaEmEdicao = null;
+
+  function carregarCestas() {
+    mostrar($("cestas-erro"), false);
+    $("cestas-status").textContent = "Carregando cestas…";
+
+    var query = "";
+    var filtro = $("filtro-status-cesta").value;
+    if (filtro) query += "?status=" + encodeURIComponent(filtro);
+
+    return api("/api/v1/establishments/" + mercado.establishment_id + "/baskets" + query)
+      .then(function (dados) {
+        cestas = dados.baskets || [];
+        renderizarCestas();
+        $("cestas-status").textContent =
+          cestas.length + (cestas.length === 1 ? " cesta carregada." : " cestas carregadas.");
+      })
+      .catch(function (erro) {
+        if (erro && (erro.status === 401 || erro.status === 404)) return;
+        $("cestas-status").textContent = "";
+        $("cestas-erro-texto").textContent = erro.mensagem || "Erro inesperado.";
+        mostrar($("cestas-erro"), true);
+        mostrar($("cestas-vazio"), false);
+        mostrar($("lista-cestas"), false);
+      });
+  }
+
+  function renderizarCestas() {
+    var lista = $("lista-cestas");
+    lista.textContent = "";
+
+    var podeGerenciar = podeGerenciarCestas();
+
+    mostrar($("btn-nova-cesta"), podeGerenciar);
+    mostrar($("btn-nova-cesta-vazio"), podeGerenciar);
+    mostrar($("lista-cestas"), cestas.length > 0);
+    mostrar($("cestas-vazio"), cestas.length === 0);
+
+    if (cestas.length === 0) {
+      var temFiltro = $("filtro-status-cesta").value !== "";
+      $("cestas-vazio-texto").textContent = temFiltro
+        ? "Nenhuma cesta com esse status."
+        : "Você ainda não criou nenhuma cesta. Cadastre a sobra do dia para aparecer na sua página.";
+    }
+
+    cestas.forEach(function (cesta) {
+      lista.appendChild(criarCardCesta(cesta, podeGerenciar));
+    });
+  }
+
+  function criarCardCesta(cesta, podeGerenciar) {
+    var cartao = document.createElement("article");
+    cartao.className = "cesta";
+    cartao.setAttribute("data-cesta-id", String(cesta.id));
+
+    // ---- cabeçalho: nome + status ----
+    var cabecalho = document.createElement("div");
+    cabecalho.className = "cesta-cabecalho";
+
+    var nome = document.createElement("h3");
+    nome.className = "cesta-nome";
+
+    var emoji = document.createElement("span");
+    emoji.className = "cesta-emoji";
+    emoji.setAttribute("aria-hidden", "true");
+    emoji.textContent = emojiCesta(cesta.type);
+    nome.appendChild(emoji);
+    nome.appendChild(document.createTextNode(nomePadraoCesta(cesta)));
+
+    var rotulo = rotuloStatus(cesta);
+    var badge = document.createElement("span");
+    badge.className = "badge " + rotulo.classe;
+    badge.textContent = rotulo.texto;
+
+    cabecalho.appendChild(nome);
+    cabecalho.appendChild(badge);
+    cartao.appendChild(cabecalho);
+
+    // ---- preço ----
+    var precos = document.createElement("div");
+    precos.className = "cesta-preco";
+
+    var valor = document.createElement("span");
+    valor.className = "cesta-valor";
+    valor.textContent = moeda(cesta.price_cents);
+    precos.appendChild(valor);
+
+    var selo = seloDesconto(cesta.discount_percent);
+    if (cesta.retail_value_cents) {
+      // preço de varejo riscado
+      var varejo = document.createElement("span");
+      varejo.className = "cesta-varejo";
+      varejo.textContent = moeda(cesta.retail_value_cents);
+      precos.appendChild(varejo);
+
+      if (selo) {
+        var desconto = document.createElement("span");
+        desconto.className = "selo-desconto";
+        desconto.textContent = selo;
+        precos.appendChild(desconto);
+      }
+    }
+    cartao.appendChild(precos);
+
+    // ---- detalhes ----
+    cartao.appendChild(linhaDetalhe("Peso", "cerca de " + kilos(cesta.weight_grams) + " kg"));
+
+    var janela = janelaRetirada(cesta.pickup_starts_at, cesta.pickup_ends_at);
+    cartao.appendChild(linhaDetalhe("Retirada", janela || "—"));
+
+    if (cesta.notes) {
+      var notas = document.createElement("p");
+      notas.className = "cesta-notas";
+      notas.textContent = cesta.notes;
+      cartao.appendChild(notas);
+    }
+
+    // ---- rodapé: ajuste rápido + ações ----
+    var rodape = document.createElement("div");
+    rodape.className = "cesta-rodape";
+
+    rodape.appendChild(criarAjusteQuantidade(cesta));
+    rodape.appendChild(criarAcoesCesta(cesta, podeGerenciar));
+
+    cartao.appendChild(rodape);
+    return cartao;
+  }
+
+  /** Linha "<rotulo>: <valor>" montada com createElement, sem interpolar HTML. */
+  function linhaDetalhe(rotulo, valor) {
+    var linha = document.createElement("p");
+    linha.className = "cesta-detalhe";
+    var forte = document.createElement("strong");
+    forte.textContent = rotulo + ": ";
+    linha.appendChild(forte);
+    linha.appendChild(document.createTextNode(valor));
+    return linha;
+  }
+
+  // ==========================================================================
+  // Ajuste rápido de quantidade (otimista, com rollback)
+  // ==========================================================================
+
+  function criarAjusteQuantidade(cesta) {
+    var caixa = document.createElement("div");
+    caixa.className = "ajuste-qtd";
+
+    var menos = document.createElement("button");
+    menos.type = "button";
+    menos.className = "btn-ajuste";
+    menos.textContent = "−";                       // menos
+    menos.setAttribute("aria-label", "Diminuir estoque em 1");
+
+    var valor = document.createElement("span");
+    valor.className = "ajuste-qtd-valor";
+    valor.textContent = String(cesta.quantity);
+    // Para o leitor de tela: "3 disponíveis"
+    valor.setAttribute("aria-label", cesta.quantity + " disponíveis");
+
+    var mais = document.createElement("button");
+    mais.type = "button";
+    mais.className = "btn-ajuste";
+    mais.textContent = "+";
+    mais.setAttribute("aria-label", "Aumentar estoque em 1");
+
+    // Estoque zerado não dá para diminuir. Suspenso desliga tudo.
+    var podeAjustar = podeAjustarEstoque();
+    menos.disabled = !podeAjustar || cesta.quantity <= 0;
+    mais.disabled = !podeAjustar;
+
+    menos.addEventListener("click", function () { ajustarQuantidade(cesta.id, -1, caixa); });
+    mais.addEventListener("click", function () { ajustarQuantidade(cesta.id, 1, caixa); });
+
+    caixa.appendChild(menos);
+    caixa.appendChild(valor);
+    caixa.appendChild(mais);
+    return caixa;
+  }
+
+  function ajustarQuantidade(cestaId, delta, caixa) {
+    var botoes = caixa.querySelectorAll("button");
+    for (var i = 0; i < botoes.length; i++) botoes[i].disabled = true;
+
+    // Otimista: mostra o novo número antes da resposta.
+    var rotulo = caixa.querySelector(".ajuste-qtd-valor");
+    var anterior = cestas.filter(function (c) { return c.id === cestaId; })[0];
+    var valorAtual = anterior ? anterior.quantity : 0;
+    var otimista = Math.max(0, valorAtual + delta);
+    if (rotulo) rotulo.textContent = String(otimista);
+
+    api("/api/v1/establishments/" + mercado.establishment_id +
+             "/baskets/" + cestaId + "/quantity", {
+      method: "PATCH",
+      body: { delta: delta }
+    }).then(function (dados) {
+      // Confirma com o valor do servidor (fonte da verdade).
+      aplicarCestaNoCache(dados.basket);
+      atualizarLinhaCesta(dados.basket);
+      falar("Estoque atualizado para " + dados.basket.quantity + ".");
+    }).catch(function (erro) {
+      // Rollback: volta ao valor anterior e mostra o motivo.
+      aplicarCestaNoCache(anterior);
+      atualizarLinhaCesta(anterior);
+      if (erro && (erro.status === 401 || erro.status === 404)) return;
+      alerta(erro.mensagem || "Não foi possível ajustar o estoque.", true);
+    }).then(function () {
+      for (var j = 0; j < botoes.length; j++) botoes[j].disabled = !podeAjustarEstoque();
+      var menos = botoes[0];
+      var atual = cestas.filter(function (c) { return c.id === cestaId; })[0];
+      if (menos && atual && atual.quantity <= 0) menos.disabled = true;
+    });
+  }
+
+  function aplicarCestaNoCache(cesta) {
+    if (!cesta) return;
+    for (var i = 0; i < cestas.length; i++) {
+      if (cestas[i].id === cesta.id) { cestas[i] = cesta; return; }
+    }
+    cestas.push(cesta);
+  }
+
+  /** Redesenha só o cartão da cesta, sem recarregar a lista toda. */
+  function atualizarLinhaCesta(cesta) {
+    if (!cesta) return;
+    var cartao = document.querySelector('[data-cesta-id="' + cesta.id + '"]');
+    if (!cartao || !cartao.parentElement) return;
+    var novo = criarCardCesta(cesta, podeGerenciarCestas());
+    cartao.parentElement.replaceChild(novo, cartao);
+  }
+
+  // ==========================================================================
+  // Ações do cartão
+  // ==========================================================================
+
+  function criarAcoesCesta(cesta, podeGerenciar) {
+    var acoes = document.createElement("div");
+    acoes.className = "cesta-acoes";
+
+    if (!podeGerenciar) return acoes;
+
+    var editar = document.createElement("button");
+    editar.type = "button";
+    editar.className = "btn btn-secundario btn-pequeno";
+    editar.textContent = "Editar";
+    editar.addEventListener("click", function () { abrirModalCesta(cesta); });
+
+    var pausar = document.createElement("button");
+    pausar.type = "button";
+    pausar.className = "btn btn-neutro btn-pequeno";
+    pausar.textContent = cesta.status === "paused" ? "Reativar" : "Pausar";
+    pausar.addEventListener("click", function () { alternarPausa(cesta); });
+
+    var encerrar = document.createElement("button");
+    encerrar.type = "button";
+    encerrar.className = "btn btn-perigo btn-pequeno";
+    encerrar.textContent = "Encerrar";
+    encerrar.addEventListener("click", function () { encerrarCesta(cesta); });
+
+    acoes.appendChild(editar);
+    acoes.appendChild(pausar);
+    acoes.appendChild(encerrar);
+    return acoes;
+  }
+
+  function mudarStatusCesta(cesta, novoStatus, mensagem) {
+    return api("/api/v1/establishments/" + mercado.establishment_id +
+                    "/baskets/" + cesta.id, {
+      method: "PATCH",
+      body: { status: novoStatus }
+    }).then(function (dados) {
+      aplicarCestaNoCache(dados.basket);
+      atualizarLinhaCesta(dados.basket);
+      if (mensagem) alerta(mensagem, false);
+      $("cestas-status").textContent = mensagem || "";
+      return dados.basket;
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 404)) return null;
+      if (erro && erro.status === 403 && erro.codigo === "establishment_suspended") {
+        // Recarrega para o painel passar a mostrar o aviso de suspensão.
+        abrirMercado(mercado.establishment_id);
+        return null;
+      }
+      alerta(erro.mensagem || "Não foi possível alterar a cesta.", true);
+      return null;
+    });
+  }
+
+  function alternarPausa(cesta) {
+    var pausada = cesta.status === "paused";
+    mudarStatusCesta(
+      cesta,
+      pausada ? "active" : "paused",
+      pausada ? "Cesta reativada." : "Cesta pausada: ela some da página pública."
+    );
+  }
+
+  function encerrarCesta(cesta) {
+    if (!confirm(
+      "Encerrar a cesta \"" + nomePadraoCesta(cesta) + "\"?\n\n" +
+      "Ela sai da página pública e não pode voltar a ativa. " +
+      "O estoque continua registrado para o histórico."
+    )) return;
+    mudarStatusCesta(cesta, "closed", "Cesta encerrada.");
+  }
+
+  // ==========================================================================
+  // Abas
+  // ==========================================================================
+
+  function mostrarAba(nome) {
+    var abas = document.querySelectorAll(".aba");
+    for (var i = 0; i < abas.length; i++) {
+      var ativa = abas[i].id === "aba-" + nome;
+      abas[i].className = ativa ? "aba aba-ativa" : "aba";
+      abas[i].setAttribute("aria-selected", ativa ? "true" : "false");
+      abas[i].tabIndex = ativa ? 0 : -1;
+      mostrar($(abas[i].getAttribute("data-alvo")), ativa);
+    }
+    // Carrega mesmo com o mercado suspenso: suspenso é somente LEITURA.
+    // Quem apaga os botões é podeGerenciarCestas/podeAjustarEstoque.
+    if (nome === "cestas" && cestas.length === 0) carregarCestas();
+  }
+
+  /** Volta para a aba do Perfil ao trocar de mercado. */
+  function aplicarAbasIniciais() {
+    cestas = [];
+    mostrar($("lista-cestas"), false);
+    mostrar($("cestas-vazio"), false);
+    mostrar($("cestas-erro"), false);
+    mostrarAba("perfil");
+  }
+
+  function registrarAbas() {
+    var abas = document.querySelectorAll(".aba");
+    for (var i = 0; i < abas.length; i++) {
+      (function (aba) {
+        aba.addEventListener("click", function () {
+          mostrarAba(aba.id.replace("aba-", ""));
+        });
+        aba.addEventListener("keydown", function (evento) {
+          // setas navegam entre abas (padrao ARIA)
+          var indice = abas.length;
+          for (var j = 0; j < abas.length; j++) if (abas[j] === aba) indice = j;
+          var proximo = null;
+          if (evento.key === "ArrowRight") proximo = (indice + 1) % abas.length;
+          if (evento.key === "ArrowLeft") proximo = (indice - 1 + abas.length) % abas.length;
+          if (evento.key === "Home") proximo = 0;
+          if (evento.key === "End") proximo = abas.length - 1;
+          if (proximo === null) return;
+          evento.preventDefault();
+          abas[proximo].focus();
+          mostrarAba(abas[proximo].id.replace("aba-", ""));
+        });
+      })(abas[i]);
+    }
+  }
+
+  // ==========================================================================
+  // Formulário de criar/editar cesta
+  // ==========================================================================
+
+  // ==========================================================================
+  // Conversão de dinheiro
+  // ==========================================================================
+
+  /**
+   * "35,00" / "35" / "35,5" / "R$ 35,00" -> 3500 centavos.
+   * Converte por texto, nunca por parseFloat: 0.1 + 0.2 no float daria 3003.
+   */
+  function paraCentavos(texto) {
+    var limpo = String(texto || "").replace(/[^\d,.-]/g, "").trim();
+    if (!limpo) return null;
+
+    // "1.234,56" (pt-BR) -> tira o ponto de milhar
+    if (limpo.indexOf(",") !== -1) {
+      limpo = limpo.replace(/\./g, "").replace(",", ".");
+    }
+    if (!/^\d*\.?\d*$/.test(limpo) || limpo === "" || limpo === ".") return null;
+
+    var partes = limpo.split(".");
+    var inteiro = partes[0] || "0";
+    var centavos = partes.length > 1 ? (partes[1] + "00").slice(0, 2) : "00";
+    return parseInt(inteiro, 10) * 100 + parseInt(centavos, 10);
+  }
+
+  function centavosParaTexto(cents) {
+    if (cents === null || cents === undefined) return "";
+    var inteiro = Math.floor(Math.abs(cents) / 100);
+    var centavos = String(Math.abs(cents) % 100).padStart(2, "0");
+    return (inteiro > 0 ? String(inteiro) : "") + "," + centavos;
+  }
+
+  /** "4" -> 4000 gramas. Aceita vírgula também. */
+  function paraGramas(texto) {
+    var limpo = String(texto || "").replace(",", ".").trim();
+    if (!limpo) return null;
+    var kg = parseFloat(limpo);
+    if (isNaN(kg)) return null;
+    return Math.round(kg * 1000);
+  }
+
+  function gramasParaTexto(gramas) {
+    if (!gramas && gramas !== 0) return "";
+    return String((gramas / 1000).toFixed(1)).replace(".0", "");
+  }
+
+  /**
+   * "2026-10-12T17:00" (datetime-local, sem fuso) -> ISO com -03:00.
+   * O input datetime-local entrega hora local do navegador; tratamos como
+   * Brasilia, que e o fuso do negocio.
+   */
+  function localParaIso(texto) {
+    if (!texto) return null;
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(texto);
+    if (!m) return null;
+    return m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + ":" + m[5] + ":00" + TZ_BRASILIA;
+  }
+
+  /** ISO com offset -> "2026-10-12T17:00" para preencher o input. */
+  function isoParaLocal(iso) {
+    if (!iso) return "";
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    // Desloca para Brasilia e monta o texto que o input espera.
+    var partes = new Date(d.getTime() - (3 * 60 * 60 * 1000)).toISOString();
+    return partes.slice(0, 16);
+  }
+
+  // Valores sugeridos da landing, usados como placeholder.
+  var SUGESTOES = {
+    frutas:  { kg: "4",  preco: "35,00", varejo: "70,00" },
+    legumes: { kg: "4",  preco: "25,00", varejo: "50,00" }
+  };
+
+  function aplicarSugestoes(tipo) {
+    var s = SUGESTOES[tipo] || SUGESTOES.frutas;
+    $("cesta-peso").placeholder = s.kg;
+    $("cesta-preco").placeholder = s.preco;
+    $("cesta-varejo").placeholder = s.varejo;
+  }
+
+  function tipoSelecionado() {
+    var marcado = document.querySelector('input[name="tipo-cesta"]:checked');
+    return marcado ? marcado.value : "frutas";
+  }
+
+  function limparErrosCesta() {
+    ["type", "cesta-nome", "cesta-peso", "cesta-quantidade", "cesta-preco",
+     "cesta-varejo", "cesta-inicio", "cesta-fim", "cesta-notas"].forEach(function (id) {
+      var alvo = $("erro-" + id);
+      if (!alvo) return;
+      alvo.textContent = "";
+      alvo.hidden = true;
+    });
+  }
+
+  function erroCesta(id, mensagem) {
+    var alvo = $("erro-" + id);
+    if (!alvo) return;
+    alvo.textContent = mensagem || "";
+    alvo.hidden = !mensagem;
+    var campo = $("cesta-" + id);
+    if (campo) {
+      if (mensagem) campo.setAttribute("aria-invalid", "true");
+      else campo.removeAttribute("aria-invalid");
+    }
+  }
+
+  function erroCestaGeral(mensagem) {
+    var caixa = $("cesta-erro");
+    if (!mensagem) { mostrar(caixa, false); caixa.textContent = ""; return; }
+    caixa.textContent = mensagem;
+    mostrar(caixa, true);
+    falar(mensagem);
+  }
+
+  function abrirModalCesta(cesta) {
+    if (!podeGerenciarCestas()) {
+      alerta(suspenso
+        ? "Este mercado está suspenso. Fale com o PoupeFruti."
+        : "Você não pode gerenciar as cestas.", true);
+      return;
+    }
+
+    cestaEmEdicao = cesta || null;
+    limparErrosCesta();
+    erroCestaGeral("");
+
+    $("titulo-modal-cesta").textContent = cesta ? "Editar cesta" : "Nova cesta";
+
+    if (cesta) {
+      var radios = document.querySelectorAll('input[name="tipo-cesta"]');
+      for (var i = 0; i < radios.length; i++) radios[i].checked = radios[i].value === cesta.type;
+
+      $("cesta-nome").value = cesta.name || "";
+      $("cesta-peso").value = gramasParaTexto(cesta.weight_grams);
+      $("cesta-quantidade").value = String(cesta.quantity);
+      $("cesta-preco").value = centavosParaTexto(cesta.price_cents);
+      $("cesta-varejo").value = centavosParaTexto(cesta.retail_value_cents);
+      $("cesta-inicio").value = isoParaLocal(cesta.pickup_starts_at);
+      $("cesta-fim").value = isoParaLocal(cesta.pickup_ends_at);
+      $("cesta-notas").value = cesta.notes || "";
+    } else {
+      // Padrão: começa com uma janela de hoje, daqui a 1h até daqui a 5h.
+      var agora = new Date(Date.now() + 60 * 60 * 1000);
+      var fim = new Date(Date.now() + 5 * 60 * 60 * 1000);
+      var radios2 = document.querySelectorAll('input[name="tipo-cesta"]');
+      for (var j = 0; j < radios2.length; j++) radios2[j].checked = radios2[j].value === "frutas";
+
+      $("cesta-nome").value = "";
+      $("cesta-peso").value = "";
+      $("cesta-quantidade").value = "";
+      $("cesta-preco").value = "";
+      $("cesta-varejo").value = "";
+      $("cesta-inicio").value = isoParaLocal(agora.toISOString());
+      $("cesta-fim").value = isoParaLocal(fim.toISOString());
+      $("cesta-notas").value = "";
+    }
+
+    aplicarSugestoes(tipoSelecionado());
+    atualizarContadorNotas();
+    atualizarDescontoAoVivo();
+
+    ultimoFoco = document.activeElement;
+    mostrar($("modal-cesta"), true);
+    focarPrimeiro($("modal-cesta"));
+  }
+
+  function fecharModalCesta() {
+    mostrar($("modal-cesta"), false);
+    erroCestaGeral("");
+    cestaEmEdicao = null;
+    if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus();
+  }
+
+  function atualizarContadorNotas() {
+    var notas = $("cesta-notas").value;
+    $("contador-notas").textContent = notas.length + "/280";
+  }
+
+  function atualizarDescontoAoVivo() {
+    var preco = paraCentavos($("cesta-preco").value);
+    var varejo = paraCentavos($("cesta-varejo").value);
+    var caixa = $("desconto-vivo");
+
+    if (preco === null || varejo === null || varejo <= preco) {
+      mostrar(caixa, false);
+      caixa.textContent = "";
+      return;
+    }
+    var percentual = Math.round(((varejo - preco) * 100) / varejo * 10) / 10;
+    var texto = "Desconto de " + percentual + "% — de " + moeda(varejo) +
+                " por " + moeda(preco) + ".";
+    caixa.textContent = texto;
+    mostrar(caixa, true);
+  }
+
+  // Mapa code da API -> campo do formulário.
+  var CODE_PARA_CAMPO = {
+    invalid_type: "type",
+    invalid_weight_grams: "cesta-peso",
+    invalid_price_cents: "cesta-preco",
+    invalid_retail_value_cents: "cesta-varejo",
+    invalid_quantity: "cesta-quantidade",
+    invalid_pickup_window: "cesta-fim",
+    pickup_window_too_long: "cesta-fim",
+    pickup_in_past: "cesta-fim",
+    invalid_pickup_starts_at: "cesta-inicio",
+    invalid_pickup_ends_at: "cesta-fim"
+  };
+
+  function salvarCesta(evento) {
+    evento.preventDefault();
+    limparErrosCesta();
+    erroCestaGeral("");
+
+    if (!podeGerenciarCestas()) {
+      erroCestaGeral(suspenso
+        ? "Este mercado está suspenso. Fale com o PoupeFruti."
+        : "Você não pode gerenciar as cestas.");
+      return;
+    }
+
+    var tipo = tipoSelecionado();
+    var nome = $("cesta-nome").value.trim();
+    var gramas = paraGramas($("cesta-peso").value);
+    var quantidade = parseInt($("cesta-quantidade").value, 10);
+    var preco = paraCentavos($("cesta-preco").value);
+    var varejoBruto = $("cesta-varejo").value.trim();
+    var varejo = varejoBruto ? paraCentavos(varejoBruto) : null;
+    var inicioIso = localParaIso($("cesta-inicio").value);
+    var fimIso = localParaIso($("cesta-fim").value);
+    var notas = $("cesta-notas").value.trim();
+
+    // ---- validação do cliente (o servidor valida de novo) ----
+    var primeiroInvalido = null;
+
+    if (nome.length > 80) {
+      erroCesta("cesta-nome", "No máximo 80 caracteres.");
+      primeiroInvalido = primeiroInvalido || "cesta-nome";
+    }
+    if (gramas === null || isNaN(gramas)) {
+      erroCesta("cesta-peso", "Informe o peso em kg.");
+      primeiroInvalido = primeiroInvalido || "cesta-peso";
+    } else if (gramas < 500 || gramas > 30000) {
+      erroCesta("cesta-peso", "O peso deve ficar entre 0,5 e 30 kg.");
+      primeiroInvalido = primeiroInvalido || "cesta-peso";
+    }
+    if (isNaN(quantidade)) {
+      erroCesta("cesta-quantidade", "Informe a quantidade.");
+      primeiroInvalido = primeiroInvalido || "cesta-quantidade";
+    } else if (quantidade < 0 || quantidade > 999) {
+      erroCesta("cesta-quantidade", "A quantidade deve ficar entre 0 e 999.");
+      primeiroInvalido = primeiroInvalido || "cesta-quantidade";
+    }
+    if (preco === null) {
+      erroCesta("cesta-preco", "Informe o preço.");
+      primeiroInvalido = primeiroInvalido || "cesta-preco";
+    } else if (preco < 100 || preco > 50000) {
+      erroCesta("cesta-preco", "O preço deve ficar entre R$ 1,00 e R$ 500,00.");
+      primeiroInvalido = primeiroInvalido || "cesta-preco";
+    }
+    if (varejoBruto && varejo === null) {
+      erroCesta("cesta-varejo", "Informe um valor válido.");
+      primeiroInvalido = primeiroInvalido || "cesta-varejo";
+    } else if (varejo !== null && varejo <= preco) {
+      erroCesta("cesta-varejo", "O valor de varejo precisa ser maior que o preço.");
+      primeiroInvalido = primeiroInvalido || "cesta-varejo";
+    }
+    if (!inicioIso) {
+      erroCesta("cesta-inicio", "Informe o início da retirada.");
+      primeiroInvalido = primeiroInvalido || "cesta-inicio";
+    }
+    if (!fimIso) {
+      erroCesta("cesta-fim", "Informe o fim da retirada.");
+      primeiroInvalido = primeiroInvalido || "cesta-fim";
+    }
+    if (inicioIso && fimIso) {
+      var inicio = new Date(inicioIso).getTime();
+      var fim = new Date(fimIso).getTime();
+      if (fim <= inicio) {
+        erroCesta("cesta-fim", "O fim precisa ser depois do início.");
+        primeiroInvalido = primeiroInvalido || "cesta-fim";
+      } else if ((fim - inicio) > 7 * 24 * 60 * 60 * 1000) {
+        erroCesta("cesta-fim", "A janela não pode passar de 7 dias.");
+        primeiroInvalido = primeiroInvalido || "cesta-fim";
+      }
+    }
+    if (notas.length > 280) {
+      erroCesta("cesta-notas", "No máximo 280 caracteres.");
+      primeiroInvalido = primeiroInvalido || "cesta-notas";
+    }
+
+    if (primeiroInvalido) {
+      var alvo = $(primeiroInvalido);
+      if (alvo && alvo.focus) alvo.focus();
+      falar("Confira os campos destacados.");
+      return;
+    }
+
+    var corpo = {
+      type: tipo,
+      name: nome || null,
+      weight_grams: gramas,
+      price_cents: preco,
+      retail_value_cents: varejoBruto ? varejo : null,
+      quantity: quantidade,
+      pickup_starts_at: inicioIso,
+      pickup_ends_at: fimIso,
+      notes: notas || null
+    };
+
+    var botao = $("btn-salvar-cesta");
+    botao.disabled = true;
+    botao.textContent = "Salvando…";
+
+    var requisicao;
+    if (cestaEmEdicao) {
+      requisicao = api("/api/v1/establishments/" + mercado.establishment_id +
+                           "/baskets/" + cestaEmEdicao.id, { method: "PATCH", body: corpo });
+    } else {
+      requisicao = api("/api/v1/establishments/" + mercado.establishment_id +
+                           "/baskets", { method: "POST", body: corpo });
+    }
+
+    requisicao.then(function (dados) {
+      aplicarCestaNoCache(dados.basket);
+      fecharModalCesta();
+      renderizarCestas();
+      var aviso = cestaEmEdicao ? "Cesta atualizada." : "Cesta criada.";
+      $("cestas-status").textContent = aviso;
+      alerta(aviso, false);
+    }).catch(function (erro) {
+      if (erro && (erro.status === 401 || erro.status === 404)) return;
+
+      if (erro.codigo && CODE_PARA_CAMPO[erro.codigo]) {
+        var campo = CODE_PARA_CAMPO[erro.codigo];
+        erroCesta(campo, erro.mensagem || "Valor inválido.");
+        var elemento = $(campo);
+        if (elemento && elemento.focus) elemento.focus();
+      } else if (erro.codigo === "too_many_baskets") {
+        erroCestaGeral(erro.mensagem || "Limite de cestas atingido.");
+      } else if (erro.codigo === "establishment_suspended") {
+        fecharModalCesta();
+        abrirMercado(mercado.establishment_id);
+        return;
+      } else {
+        erroCestaGeral(erro.mensagem || "Não foi possível salvar a cesta.");
+      }
+      falar(erro.mensagem || "Erro ao salvar.");
+    }).then(function () {
+      botao.disabled = false;
+      botao.textContent = "Salvar cesta";
+    });
+  }
+
+  // ==========================================================================
   // Eventos
   // ==========================================================================
   //
@@ -1711,11 +2846,53 @@
 
   var eventosPainelLigados = false;
 
+<<<<<<< HEAD
   function registrarEventosPainel() {
     // `abrirMercado` roda de novo a cada troca de mercado: sem esta trava o
     // clique seria registrado duas vezes e a ação dispararia em dobro.
     if (eventosPainelLigados) return;
     eventosPainelLigados = true;
+=======
+    // ---- cestas ----
+    $("filtro-status-cesta").addEventListener("change", function () {
+      carregarCestas();
+    });
+    $("btn-recarregar-cestas").addEventListener("click", function () { carregarCestas(); });
+    $("btn-nova-cesta").addEventListener("click", function () { abrirModalCesta(null); });
+    $("btn-nova-cesta-vazio").addEventListener("click", function () { abrirModalCesta(null); });
+
+    $("form-cesta").addEventListener("submit", salvarCesta);
+    $("fechar-modal-cesta").addEventListener("click", fecharModalCesta);
+    $("btn-cancelar-cesta").addEventListener("click", fecharModalCesta);
+    $("modal-cesta").addEventListener("click", function (ev) {
+      if (ev.target === this) fecharModalCesta();
+    });
+
+    // tipo muda o placeholder sugerido
+    document.querySelectorAll('input[name="tipo-cesta"]').forEach(function (radio) {
+      radio.addEventListener("change", function () { aplicarSugestoes(tipoSelecionado()); });
+    });
+
+    // Um unico listener por campo: limpa o erro e dispara o efeito dependente.
+    // (Dois listeners no mesmo campo funciona no navegador, mas deixa o
+    //  comportamento implicito e mais facil de errar.)
+    var EFEITOS_CAMPO = {
+      "cesta-preco": atualizarDescontoAoVivo,
+      "cesta-varejo": atualizarDescontoAoVivo,
+      "cesta-notas": atualizarContadorNotas
+    };
+    ["cesta-nome", "cesta-peso", "cesta-quantidade", "cesta-preco",
+     "cesta-varejo", "cesta-inicio", "cesta-fim", "cesta-notas"].forEach(function (id) {
+      $(id).addEventListener("input", function () {
+        erroCesta(id, "");
+        var efeito = EFEITOS_CAMPO[id];
+        if (efeito) efeito();
+      });
+    });
+
+    $("btn-convidar-staff").addEventListener("click", function () { convidar("staff"); });
+    $("btn-convidar-manager").addEventListener("click", function () { convidar("manager"); });
+>>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
 
     on("btn-sair-painel", "click", sair);
     on("btn-sair-selecao", "click", sair);
@@ -1743,19 +2920,93 @@
     });
 
     // Limpa o erro do campo ao digitar
+<<<<<<< HEAD
     ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
       on("campo-" + id, "input", function () {
+=======
+    CAMPOS_PERFIL.forEach(function (id) {
+      $("campo-" + id).addEventListener("input", function () {
+>>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
         erroDeCampo(id, "");
       });
     });
 
     // O Escape é do documento inteiro, não de um id: fica fora do `on`.
     document.addEventListener("keydown", function (ev) {
+<<<<<<< HEAD
       if (ev.key !== "Escape") return;
       if (visivel("modal-convidar") || visivel("modal-papel")) {
         fecharModais();
+=======
+      var cestaAberto = !$("modal-cesta").hidden;
+      var convidarAberto = !$("modal-convidar").hidden;
+      var papelAberto = !$("modal-papel").hidden;
+
+      // Tab fica preso no modal aberto.
+      if (ev.key === "Tab" && (cestaAberto || convidarAberto || papelAberto)) {
+        prenderFoco(
+          cestaAberto ? $("modal-cesta")
+            : convidarAberto ? $("modal-convidar")
+              : $("modal-papel"),
+          ev
+        );
+        return;
+>>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
       }
+
+      if (ev.key !== "Escape") return;
+      if (cestaAberto) fecharModalCesta();
+      else if (convidarAberto || papelAberto) fecharModais();
     });
+  }
+
+  // ==========================================================================
+  // Foco nos modais
+  // ==========================================================================
+
+  var FOCAVEIS = 'a[href], button:not([disabled]), input:not([disabled]), ' +
+                 'select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+  function estaVisivel(no) {
+    var atual = no;
+    while (atual && atual !== document.body) {
+      if (atual.hidden) return false;
+      atual = atual.parentElement;
+    }
+    return true;
+  }
+
+  function focaveisDoModal(modal) {
+    if (!modal || !modal.querySelectorAll) return [];
+    var candidatos = modal.querySelectorAll(FOCAVEIS);
+    var lista = [];
+    for (var i = 0; i < candidatos.length; i++) {
+      if (estaVisivel(candidatos[i])) lista.push(candidatos[i]);
+    }
+    return lista;
+  }
+
+  function focarPrimeiro(modal) {
+    var lista = focaveisDoModal(modal);
+    if (lista.length) lista[0].focus();
+  }
+
+  function prenderFoco(modal, ev) {
+    if (ev.key !== "Tab") return;
+    var lista = focaveisDoModal(modal);
+    if (!lista.length) return;
+
+    var primeiro = lista[0];
+    var ultimo = lista[lista.length - 1];
+    var ativo = document.activeElement;
+
+    if (ev.shiftKey && ativo === primeiro) {
+      ev.preventDefault();
+      ultimo.focus();
+    } else if (!ev.shiftKey && ativo === ultimo) {
+      ev.preventDefault();
+      primeiro.focus();
+    }
   }
 
   // ==========================================================================
@@ -1763,6 +3014,7 @@
   // ==========================================================================
 
   mostrar($("btn-trocar-mercado"), memberships.length > 1);
+<<<<<<< HEAD
 
   // Primeiro os eventos da tela de login (que é a página sem sessão), depois
   // `iniciar()` decide o que mostrar. O `try` é rede de segurança: um erro
@@ -1777,6 +3029,11 @@
     }
     encerrarSessao("", true);
   }
+=======
+  registrarAbas();
+  registrarEventos();
+  iniciar();
+>>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
 </script>
 
 </body>
