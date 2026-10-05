@@ -550,7 +550,7 @@
       <div class="cartao-topo">
         <div>
           <h2 class="cartao-titulo">Perfil do mercado</h2>
-          <p class="cartao-sub">Nome, CNPJ, endereço, telefone e horário.</p>
+          <p class="cartao-sub">Nome, CNPJ, endereço, telefone, bairro e horário.</p>
         </div>
       </div>
 
@@ -575,6 +575,20 @@
             <label for="campo-telefone">Telefone</label>
             <input type="tel" id="campo-telefone" name="phone" placeholder="(19) 99999-0000">
             <span class="erro-campo" id="erro-telefone" hidden></span>
+          </div>
+
+          <div class="campo">
+            <!-- As opções entram por JS, a partir da lista que o backend
+                 devolve em GET /profile. A lista de bairros é única no
+                 projeto (api/app/validators.py): manter uma cópia aqui seria
+                 repetir o que já divergiu entre os dois formulários da
+                 landing. -->
+            <label for="campo-bairro">Bairro</label>
+            <select id="campo-bairro" name="bairro" aria-describedby="dica-bairro erro-bairro">
+              <option value="">Escolha o bairro…</option>
+            </select>
+            <span class="dica" id="dica-bairro">Obrigatório para publicar: é o que permite a pessoa ver as cestas do seu bairro.</span>
+            <span class="erro-campo" id="erro-bairro" hidden></span>
           </div>
 
           <div class="campo">
@@ -908,12 +922,20 @@
     staff: []
   };
 
-  // Campos que o backend exige para publicar.
+  // Campos que o backend exige para publicar. Espelha CAMPOS_PUBLISH do
+  // api/app/establishments/routes.py.
   var CAMPOS_PUBLISH = [
-    { campo: "name", rotulo: "nome" },
-    { campo: "address", rotulo: "endereço" },
-    { campo: "phone", rotulo: "telefone" }
+    { campo: "name", rotulo: "nome", idCampo: "nome" },
+    { campo: "address", rotulo: "endereço", idCampo: "endereco" },
+    { campo: "phone", rotulo: "telefone", idCampo: "telefone" },
+    { campo: "bairro", rotulo: "bairro", idCampo: "bairro" }
   ];
+
+  // IDs dos campos do formulário de perfil, na ordem em que aparecem.
+  // `bairro` entrou aqui junto: salvar o perfil grava todos eles, e um campo
+  // fora desta lista ficaria sempre vazio no formulário depois do reload.
+  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro",
+    "descricao", "horario"];
 
   // ==========================================================================
   // Estado
@@ -927,6 +949,7 @@
   var suspenso = false;
   var alvoPapel = null;    // membro em edição no modal
   var linkGerado = null;
+  var bairros = [];        // lista de bairros vinda de GET /profile
 
   // ==========================================================================
   // Utilidades de DOM
@@ -1069,6 +1092,7 @@
     limparToken();
     mercado = null;
     perfil = null;
+    bairros = [];
     memberships = [];
     fecharModais();
 
@@ -1274,6 +1298,10 @@
       .then(function (dados) {
         perfil = dados.establishment;
         meuPapel = dados.meu_papel || (mercado ? mercado.role : null);
+        // Lista canônica de bairros. Vem do backend justamente para não
+        // haver uma segunda cópia no HTML — foi a duplicidade que deixou a
+        // landing com duas listas diferentes.
+        bairros = dados.bairros || [];
 
         mostrar($("tela-carregando"), false);
         mostrar($("tela-painel"), true);
@@ -1359,12 +1387,43 @@
     alvo.appendChild(novo);
   }
 
+  /**
+   * Monta o <select> de bairro a partir da lista do backend.
+   *
+   * Se a lista não vier (backend velho, erro de rede), mantém pelo menos a
+   * opção já salva — perder um bairro que a pessoa preencheu seria pior do que
+   * um <select> curto.
+   */
+  function aplicarBairros(lista, selecionado) {
+    var select = $("campo-bairro");
+    if (!select) return;
+
+    var valores = (lista && lista.length) ? lista : [];
+    if (!valores.length && selecionado) valores = [selecionado];
+
+    select.textContent = "";
+    var vazio = document.createElement("option");
+    vazio.value = "";
+    vazio.textContent = valores.length ? "Escolha o bairro…" : "Bairro não informado";
+    select.appendChild(vazio);
+
+    valores.forEach(function (bairro) {
+      var opcao = document.createElement("option");
+      opcao.value = bairro;
+      opcao.textContent = bairro;
+      select.appendChild(opcao);
+    });
+
+    select.value = selecionado || "";
+  }
+
   function aplicarFormulario() {
     $("campo-nome").value = perfil.name || "";
     $("campo-cnpj").value = perfil.cnpj || "";
     $("campo-endereco").value = perfil.address || "";
     $("campo-telefone").value = perfil.phone || "";
     $("campo-horario").value = perfil.opening_hours || "";
+    aplicarBairros(bairros, perfil.bairro);
     limparErros();
   }
 
@@ -1397,7 +1456,7 @@
     var podeEditar = possoEditar();
 
     // Campos do perfil
-    CAMPOS_PERFIL.forEach(function (id) {
+    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
       $("campo-" + id).disabled = !podeEditar;
     });
     $("btn-salvar-perfil").disabled = !podeEditar;
@@ -1476,6 +1535,7 @@
         cnpj: $("campo-cnpj").value.trim(),
         address: $("campo-endereco").value.trim(),
         phone: $("campo-telefone").value.trim(),
+        description: $("campo-descricao").value.trim(),
         opening_hours: $("campo-horario").value.trim()
       }
     }).then(function (dados) {
@@ -1532,9 +1592,10 @@
   // Marca visualmente os campos que faltam para publicar.
   function marcarFaltantesParaPublicar() {
     CAMPOS_PUBLISH.forEach(function (item) {
-      var idCampo = { name: "nome", address: "endereco", phone: "telefone" }[item.campo];
-      var valor = $("campo-" + idCampo).value.trim();
-      erroDeCampo(idCampo, valor ? "" : "Obrigatório para publicar.");
+      var campo = $("campo-" + item.idCampo);
+      if (!campo) return;
+      var valor = campo.value.trim();
+      erroDeCampo(item.idCampo, valor ? "" : "Obrigatório para publicar.");
     });
   }
 
