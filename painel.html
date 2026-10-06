@@ -2846,25 +2846,22 @@
 
   var eventosPainelLigados = false;
 
-<<<<<<< HEAD
-  function registrarEventosPainel() {
+function registrarEventosPainel() {
     // `abrirMercado` roda de novo a cada troca de mercado: sem esta trava o
     // clique seria registrado duas vezes e a ação dispararia em dobro.
     if (eventosPainelLigados) return;
     eventosPainelLigados = true;
-=======
-    // ---- cestas ----
-    $("filtro-status-cesta").addEventListener("change", function () {
-      carregarCestas();
-    });
-    $("btn-recarregar-cestas").addEventListener("click", function () { carregarCestas(); });
-    $("btn-nova-cesta").addEventListener("click", function () { abrirModalCesta(null); });
-    $("btn-nova-cesta-vazio").addEventListener("click", function () { abrirModalCesta(null); });
 
-    $("form-cesta").addEventListener("submit", salvarCesta);
-    $("fechar-modal-cesta").addEventListener("click", fecharModalCesta);
-    $("btn-cancelar-cesta").addEventListener("click", fecharModalCesta);
-    $("modal-cesta").addEventListener("click", function (ev) {
+    // ---- cestas ----
+    on("filtro-status-cesta", "change", carregarCestas);
+    on("btn-recarregar-cestas", "click", carregarCestas);
+    on("btn-nova-cesta", "click", function () { abrirModalCesta(null); });
+    on("btn-nova-cesta-vazio", "click", function () { abrirModalCesta(null); });
+
+    on("form-cesta", "submit", salvarCesta);
+    on("fechar-modal-cesta", "click", fecharModalCesta);
+    on("btn-cancelar-cesta", "click", fecharModalCesta);
+    on("modal-cesta", "click", function (ev) {
       if (ev.target === this) fecharModalCesta();
     });
 
@@ -2883,16 +2880,15 @@
     };
     ["cesta-nome", "cesta-peso", "cesta-quantidade", "cesta-preco",
      "cesta-varejo", "cesta-inicio", "cesta-fim", "cesta-notas"].forEach(function (id) {
-      $(id).addEventListener("input", function () {
+      on(id, "input", function () {
         erroCesta(id, "");
         var efeito = EFEITOS_CAMPO[id];
         if (efeito) efeito();
       });
     });
 
-    $("btn-convidar-staff").addEventListener("click", function () { convidar("staff"); });
-    $("btn-convidar-manager").addEventListener("click", function () { convidar("manager"); });
->>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
+    on("btn-convidar-staff", "click", function () { convidar("staff"); });
+    on("btn-convidar-manager", "click", function () { convidar("manager"); });
 
     on("btn-sair-painel", "click", sair);
     on("btn-sair-selecao", "click", sair);
@@ -2920,24 +2916,14 @@
     });
 
     // Limpa o erro do campo ao digitar
-<<<<<<< HEAD
-    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
-      on("campo-" + id, "input", function () {
-=======
     CAMPOS_PERFIL.forEach(function (id) {
-      $("campo-" + id).addEventListener("input", function () {
->>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
+      on("campo-" + id, "input", function () {
         erroDeCampo(id, "");
       });
     });
 
-    // O Escape é do documento inteiro, não de um id: fica fora do `on`.
+// O Escape é do documento inteiro, não de um id: fica fora do `on`.
     document.addEventListener("keydown", function (ev) {
-<<<<<<< HEAD
-      if (ev.key !== "Escape") return;
-      if (visivel("modal-convidar") || visivel("modal-papel")) {
-        fecharModais();
-=======
       var cestaAberto = !$("modal-cesta").hidden;
       var convidarAberto = !$("modal-convidar").hidden;
       var papelAberto = !$("modal-papel").hidden;
@@ -2951,7 +2937,6 @@
           ev
         );
         return;
->>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
       }
 
       if (ev.key !== "Escape") return;
@@ -3014,13 +2999,13 @@
   // ==========================================================================
 
   mostrar($("btn-trocar-mercado"), memberships.length > 1);
-<<<<<<< HEAD
 
   // Primeiro os eventos da tela de login (que é a página sem sessão), depois
   // `iniciar()` decide o que mostrar. O `try` é rede de segurança: um erro
   // inesperado no boot não pode deixar a pessoa sem login e sem explicação —
   // no caso, ela cai no formulário de acesso em vez de uma tela vazia.
   try {
+    registrarAbas();
     registrarEventosLogin();
     iniciar();
   } catch (erro) {
@@ -3029,11 +3014,6 @@
     }
     encerrarSessao("", true);
   }
-=======
-  registrarAbas();
-  registrarEventos();
-  iniciar();
->>>>>>> ad55eecc6469f3a9f1e3075e44836557e8f9526a
 </script>
 
 </body>
