@@ -878,7 +878,7 @@
 
   // Campos do perfil editáveis. `description` NÃO entra mais: virou a área de
   // cestas (/baskets).
-  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "horario"];
+  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro", "horario"];
 
   // ==========================================================================
   // Regras de interface
@@ -934,8 +934,8 @@
   // IDs dos campos do formulário de perfil, na ordem em que aparecem.
   // `bairro` entrou aqui junto: salvar o perfil grava todos eles, e um campo
   // fora desta lista ficaria sempre vazio no formulário depois do reload.
-  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro",
-    "descricao", "horario"];
+  // `description` NÃO entra mais: virou a área de CESTAS (/baskets).
+  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro", "horario"];
 
   // ==========================================================================
   // Estado
@@ -1314,6 +1314,7 @@
         // Cestas carregam sob demanda, na primeira visita à aba.
       })
       .catch(function (erro) {
+        console.error(erro);
         mostrar($("tela-carregando"), false);
         if (erro && erro.status === 404) {
           // Perdeu o vínculo (ou nunca teve): volta para a seleção.
@@ -1456,7 +1457,7 @@
     var podeEditar = possoEditar();
 
     // Campos do perfil
-    ["nome", "cnpj", "endereco", "telefone", "descricao", "horario"].forEach(function (id) {
+    ["nome", "cnpj", "endereco", "telefone", "bairro", "horario"].forEach(function (id) {
       $("campo-" + id).disabled = !podeEditar;
     });
     $("btn-salvar-perfil").disabled = !podeEditar;
@@ -1535,7 +1536,6 @@
         cnpj: $("campo-cnpj").value.trim(),
         address: $("campo-endereco").value.trim(),
         phone: $("campo-telefone").value.trim(),
-        description: $("campo-descricao").value.trim(),
         opening_hours: $("campo-horario").value.trim()
       }
     }).then(function (dados) {
