@@ -878,7 +878,6 @@
 
   // Campos do perfil editáveis. `description` NÃO entra mais: virou a área de
   // cestas (/baskets).
-  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro", "horario"];
 
   // ==========================================================================
   // Regras de interface
@@ -2867,7 +2866,9 @@
 
     // Limpa o erro do campo ao digitar
     CAMPOS_PERFIL.forEach(function (id) {
-      $("campo-" + id).addEventListener("input", function () {
+      var el = $("campo-" + id);
+      if (!el) { console.warn("#campo-" + id + " não existe — evento input não ligado"); return; }
+      el.addEventListener("input", function () {
         erroDeCampo(id, "");
       });
     });
