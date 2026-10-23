@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+<script src="/api-config.js"></script>
 <style>
   /* ==========================================================================
      PoupeFruti — Painel do mercado (folha única, mobile first, sem framework)
@@ -874,11 +875,10 @@
 
 <script>
   // URL base da API (mesma constante da landing, do admin e do convite).
-  var API_URL = "https://poupefrutiapi.onrender.com";
+  var API_URL = window.POUPEFRUTI_API_URL;
 
   // Campos do perfil editáveis. `description` NÃO entra mais: virou a área de
   // cestas (/baskets).
-  var CAMPOS_PERFIL = ["nome", "cnpj", "endereco", "telefone", "bairro", "horario"];
 
   // ==========================================================================
   // Regras de interface
@@ -1144,8 +1144,10 @@
   }
 
   function sair() {
-    encerrarSessao("", true);
-    falar("Você saiu do painel.");
+    api("/api/v1/auth/logout", { method: "POST" }).catch(function () {}).then(function () {
+      encerrarSessao("", true);
+      falar("Você saiu do painel.");
+    });
   }
 
   // ==========================================================================
