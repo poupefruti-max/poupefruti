@@ -13,6 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 
+<script src="/api-config.js"></script>
 <style>
   /* ==========================================================================
      PoupeFruti — Painel de Leads (folha única, mobile first, sem framework)
@@ -610,7 +611,7 @@
 
 <script>
   // URL base da API (mesma constante usada na landing page).
-  var API_URL = "https://poupefrutiapi.onrender.com";
+  var API_URL = window.POUPEFRUTI_API_URL;
 
   // ==========================================================================
   // Configuração de apresentação
@@ -1558,8 +1559,10 @@
 
     // Logout
     $("logout-btn").addEventListener("click", function () {
-      $("app-status").textContent = "Sessão encerrada.";
-      encerrarSessao();
+      apiAdmin("/api/v1/admin/auth/logout", { method: "POST" }).catch(function () {}).then(function () {
+        $("app-status").textContent = "Sessão encerrada.";
+        encerrarSessao();
+      });
     });
 
     // Filtros

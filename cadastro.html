@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E9E4F">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Crie sua conta | PoupeFruti</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="/api-config.js"></script>
+  <style>
+    :root{--green:#2e9e4f;--green-dark:#1f7a3b;--green-pale:#eaf6ed;--orange:#f2913d;--ink:#23301f;--muted:#55604f;--bg:#fbfdf8;--white:#fff;--line:#e4eadf;--red:#a32a16;--red-pale:#fdedea;--font:"Nunito","Trebuchet MS",system-ui,sans-serif}
+    *{box-sizing:border-box} [hidden]{display:none!important} body{margin:0;min-height:100vh;min-height:100dvh;background:radial-gradient(ellipse at 15% 18%,#fdf1e3 0,transparent 28%),linear-gradient(145deg,var(--green-pale),var(--bg) 54%);color:var(--ink);font:16px/1.55 var(--font);-webkit-font-smoothing:antialiased}
+    a{color:var(--green-dark);font-weight:700} :focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:5px}
+    .layout{min-height:100vh;max-width:1120px;margin:auto;padding:26px 24px;display:grid;grid-template-columns:1fr minmax(360px,470px);gap:clamp(40px,8vw,120px);align-items:center}
+    .story{padding:22px 0}.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:22px;font-weight:800;color:var(--green-dark)}.fruit{display:grid;place-items:center;width:42px;height:42px;background:#fff;border-radius:50%;box-shadow:0 5px 16px #23301f14;font-size:23px}
+    .eyebrow{margin:55px 0 12px;color:var(--green-dark);font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:13px}.story h2{max-width:480px;font-size:clamp(38px,5vw,58px);line-height:1.08;letter-spacing:-.04em;margin:0 0 20px}.story p{max-width:450px;color:var(--muted);font-size:18px;margin:0}.perks{display:grid;gap:13px;margin-top:34px;color:var(--muted);font-weight:700}.perks span{display:flex;align-items:center;gap:11px}.perks b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--green-dark)}
+    .card{background:var(--white);border:1px solid var(--line);border-radius:26px;padding:clamp(24px,4vw,38px);box-shadow:0 20px 60px #23301f12}.card h1{font-size:30px;line-height:1.2;margin:0 0 7px}.intro{margin:0 0 24px;color:var(--muted)}.field{margin:0 0 17px}.field label{display:block;font-weight:800;font-size:14px;margin:0 0 6px}.field input:not([type=checkbox]){width:100%;min-height:50px;padding:12px 14px;border:1.5px solid #cbd5c5;border-radius:11px;background:#fff;color:var(--ink);font:inherit}.field input:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px #2e9e4f20}.field input[aria-invalid=true]{border-color:var(--red)}.input-wrap{position:relative}.input-wrap input{padding-right:82px!important}.toggle{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--green-dark);font:700 13px var(--font);padding:8px;cursor:pointer}.error{display:block;color:var(--red);font-size:13px;font-weight:700;margin-top:4px}.help{color:var(--muted);font-size:12px;margin:4px 0 0}.consent{display:flex;align-items:flex-start;gap:10px;color:var(--muted);font-size:13px;margin:20px 0}.consent input{width:18px;height:18px;flex:0 0 18px;margin:2px 0 0;accent-color:var(--green)}
+    .alert{padding:12px 14px;border-radius:12px;margin:0 0 18px;font-weight:700;font-size:14px}.alert.error-box{background:var(--red-pale);color:var(--red);border:1px solid #f3c4bb}.alert.success-box{background:var(--green-pale);color:var(--green-dark);border:1px solid #bfe3cb}.submit,.secondary{display:flex;align-items:center;justify-content:center;width:100%;min-height:51px;border:0;border-radius:999px;background:var(--green);color:white;text-decoration:none;font:800 16px var(--font);cursor:pointer}.submit:hover{background:var(--green-dark)}.submit:disabled{opacity:.6;cursor:wait}.foot{text-align:center;color:var(--muted);font-size:14px;margin:20px 0 0}.home{text-align:center;margin:19px 0 0;font-size:13px}.status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.success{text-align:center;padding:20px 0 2px}.success .icon{font-size:48px}.success h2{margin:8px 0;font-size:25px}.success p{color:var(--muted);margin:0 0 22px}.secondary{background:white;color:var(--green-dark);border:2px solid var(--green)}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;max-width:540px;gap:15px;padding:20px 18px 35px}.story{padding:0}.eyebrow{margin:20px 0 7px}.story h2{font-size:30px;margin-bottom:8px}.story p{font-size:15px}.perks{display:none}.card{padding:25px 22px}.brand{font-size:19px}.fruit{width:36px;height:36px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <section class="story" aria-label="Sobre o PoupeFruti">
+      <a class="brand" href="/" aria-label="PoupeFruti, voltar à página inicial"><span class="fruit" aria-hidden="true">🍊</span> PoupeFruti</a>
+      <p class="eyebrow">Mais frescor, menos desperdício</p>
+      <h2>Boas escolhas fazem bem para você e para o planeta.</h2>
+      <p>Encontre caixas de frutas e legumes perto de você e economize em alimentos fresquinhos.</p>
+      <div class="perks" aria-label="Vantagens"><span><b aria-hidden="true">✓</b> Economize em alimentos frescos</span><span><b aria-hidden="true">✓</b> Ajude a reduzir o desperdício</span></div>
+    </section>
+
+    <section class="card" aria-labelledby="form-title">
+      <div id="form-view">
+        <h1 id="form-title">Crie sua conta</h1>
+        <p class="intro">É rápido e gratuito. Comece a descobrir oportunidades pertinho de você.</p>
+        <div id="form-error" class="alert error-box" role="alert" hidden></div>
+        <form id="register-form" novalidate>
+          <div class="field"><label for="name">Nome completo</label><input id="name" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="name-error"><span id="name-error" class="error" hidden></span></div>
+          <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="email-error"><span id="email-error" class="error" hidden></span></div>
+          <div class="field"><label for="password">Senha</label><div class="input-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required aria-describedby="password-help password-error"><button class="toggle" type="button" data-toggle="password" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button></div><p id="password-help" class="help">Use pelo menos 8 caracteres (até 72 bytes).</p><span id="password-error" class="error" hidden></span></div>
+          <div class="field"><label for="confirm-password">Confirmar senha</label><div class="input-wrap"><input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required aria-describedby="confirm-error"><button class="toggle" type="button" data-toggle="confirm-password" aria-label="Mostrar confirmação de senha" aria-pressed="false">Mostrar</button></div><span id="confirm-error" class="error" hidden></span></div>
+          <div class="field"><label class="consent" for="terms"><input id="terms" name="terms" type="checkbox" required aria-describedby="terms-error"><span>Li e aceito os Termos de Uso e a <a href="/#privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label><span id="terms-error" class="error" hidden></span></div>
+          <button id="submit" class="submit" type="submit">Criar conta</button>
+        </form>
+        <p class="foot">Já tem uma conta? <a href="/login">Entrar</a></p>
+      </div>
+      <div id="success-view" class="success" hidden role="status" aria-live="polite"><div class="icon" aria-hidden="true">🍃</div><h2 tabindex="-1">Conta criada!</h2><p>Sua conta está pronta. Entre com seu e-mail e senha para continuar.</p><a class="secondary" href="/login">Ir para entrar</a></div>
+      <p class="home"><a href="/">Voltar à página inicial</a></p>
+    </section>
+    <p id="live-status" class="status" role="status" aria-live="polite"></p>
+  </main>
+  <script>
+    (function () {
+      "use strict";
+      var API_URL = window.POUPEFRUTI_API_URL;
+      var form = document.getElementById("register-form");
+      var button = document.getElementById("submit");
+      var busy = false;
+      var emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/;
+      function fieldError(id, message) {
+        var field = document.getElementById(id);
+        var error = document.getElementById(id + "-error");
+        error.textContent = message || "";
+        error.hidden = !message;
+        if (field) { if (message) field.setAttribute("aria-invalid", "true"); else field.removeAttribute("aria-invalid"); }
+      }
+      function formError(message) {
+        var box = document.getElementById("form-error");
+        box.textContent = message || "";
+        box.hidden = !message;
+      }
+      function validate() {
+        var name = document.getElementById("name").value.trim();
+        var email = document.getElementById("email").value.trim();
+        var password = document.getElementById("password").value;
+        var confirmation = document.getElementById("confirm-password").value;
+        var terms = document.getElementById("terms").checked;
+        fieldError("name", name ? "" : "Informe seu nome completo.");
+        fieldError("email", !email ? "Informe seu e-mail." : (emailPattern.test(email) ? "" : "Informe um e-mail válido."));
+        var passwordBytes = new TextEncoder().encode(password).length;
+        fieldError("password", !password ? "Crie uma senha." : (password.length < 8 ? "A senha deve ter ao menos 8 caracteres." : (passwordBytes > 72 ? "A senha pode ter no máximo 72 bytes." : "")));
+        fieldError("confirm-password", !confirmation ? "Confirme sua senha." : (password === confirmation ? "" : "As senhas não são iguais."));
+        fieldError("terms", terms ? "" : "Você precisa aceitar os termos para criar sua conta.");
+        return name && emailPattern.test(email) && password.length >= 8 && passwordBytes <= 72 && password === confirmation && terms;
+      }
+      document.querySelectorAll("[data-toggle]").forEach(function (toggle) {
+        toggle.addEventListener("click", function () {
+          var input = document.getElementById(toggle.getAttribute("data-toggle"));
+          var show = input.type === "password";
+          input.type = show ? "text" : "password";
+          toggle.textContent = show ? "Ocultar" : "Mostrar";
+          toggle.setAttribute("aria-pressed", String(show));
+          toggle.setAttribute("aria-label", show ? "Ocultar senha" : "Mostrar senha");
+        });
+      });
+      form.addEventListener("input", function (event) {
+        formError("");
+        if (event.target.id) fieldError(event.target.id, "");
+        if (event.target.id === "password" || event.target.id === "confirm-password") fieldError("confirm-password", "");
+      });
+      form.addEventListener("change", function (event) { if (event.target.id === "terms") fieldError("terms", ""); });
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (busy) return;
+        formError("");
+        if (!validate()) {
+          var first = form.querySelector('[aria-invalid="true"]');
+          if (first) first.focus();
+          return;
+        }
+        busy = true;
+        button.disabled = true;
+        button.textContent = "Criando conta…";
+        document.getElementById("live-status").textContent = "Criando sua conta.";
+        fetch(API_URL + "/api/v1/auth/register", {
+          method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify({ name: document.getElementById("name").value.trim(), email: document.getElementById("email").value.trim(), password: document.getElementById("password").value })
+        }).then(function (response) {
+          return response.json().catch(function () { return {}; }).then(function (data) {
+            if (!response.ok) { var detail = data && data.error ? data.error : {}; throw { status: response.status, code: detail.code || "", message: detail.message || "" }; }
+            return data;
+          });
+        }).then(function () {
+          document.getElementById("form-view").hidden = true;
+          document.getElementById("success-view").hidden = false;
+          document.querySelector("#success-view h2").focus();
+          document.getElementById("live-status").textContent = "Conta criada com sucesso. Entre com seu e-mail e senha.";
+        }).catch(function (error) {
+          if (error && error.code === "email_already_exists") {
+            fieldError("email", "Este e-mail já está cadastrado. Entre com sua conta ou use outro e-mail.");
+            document.getElementById("email").focus();
+          } else if (error && error.code === "invalid_email") {
+            fieldError("email", "Informe um e-mail válido."); document.getElementById("email").focus();
+          } else if (error && error.code === "weak_password") {
+            fieldError("password", error.message || "A senha deve ter ao menos 8 caracteres."); document.getElementById("password").focus();
+          } else if (error && error.status >= 500) {
+            formError("O serviço está indisponível no momento. Tente novamente em instantes.");
+          } else if (error && error.status) {
+            formError("Não foi possível criar sua conta. Confira os dados e tente novamente.");
+          } else {
+            formError("Não conseguimos conectar ao PoupeFruti. Verifique sua conexão e tente novamente.");
+          }
+        }).finally(function () {
+          busy = false; button.disabled = false; button.textContent = "Criar conta";
+        });
+      });
+    }());
+  </script>
+</body>
+</html>

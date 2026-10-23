@@ -32,6 +32,7 @@
      troque por: <link rel="icon" href="/favicon.svg" type="image/svg+xml"> -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='22' fill='%23E8452C'/%3E%3Cpath d='M32 14c0-6 5-10 11-10-1 7-5 10-11 10z' fill='%232E9E4F'/%3E%3C/svg%3E">
 
+<script src="/api-config.js"></script>
 <!--
   ============================================================================
   ESPAÇO PARA ANALYTICS / META PIXEL — preencha os IDs abaixo quando criar.
@@ -863,6 +864,7 @@
           boa vira cesta com <strong>50% de desconto</strong> — você poupe no bolso
           e a comida não é desperdiçada.
         </p>
+        <p data-pf-auth-nav><a href="/login" data-pf-login>Entrar</a> <a href="/cadastro" data-pf-login>Criar conta</a><span data-pf-user hidden></span><button type="button" data-pf-logout hidden> Sair </button> <span aria-hidden="true">·</span> <a href="/cestas">Pesquisar cestas</a></p>
 
         <div class="hero__actions">
           <a class="btn btn--primary" href="#cadastro">Quero entrar na lista</a>
@@ -1502,6 +1504,7 @@
     <nav class="rodape__links" aria-label="Links do rodapé">
       <a href="#como-funciona">Como funciona</a>
       <a href="#cestas">Cestas</a>
+      <a href="/cestas">Pesquisar ofertas</a>
       <a href="#mercados">Sou mercado</a>
       <a href="#faq">Perguntas frequentes</a>
       <a href="#privacidade">Privacidade</a>
@@ -1536,7 +1539,7 @@
  * >>> ATENÇÃO: NESS MODO OS CADASTROS NÃO SÃO SALVADOS EM LUGAR NENHUM.
  * >>> Eles aparecem apenas no console do navegador. Nada é enviado a servidor.
  */
-var API_URL = "https://poupefrutiapi.onrender.com";
+var API_URL = window.POUPEFRUTI_API_URL;
 
 /* Rotas da API. Não inclua o domínio aqui, só o caminho. */
 var API_CLIENTES_PATH = "/api/leads/cliente";
@@ -2221,6 +2224,7 @@ function montarFiltroBairro() {
   });
 })();
 </script>
+<script src="/auth-client.js" defer></script>
 
 </body>
 </html>
