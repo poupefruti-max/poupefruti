@@ -961,6 +961,35 @@
     if (elemento) elemento.hidden = !visivel;
   }
 
+  /**
+   * Liga um evento a um elemento por id, sem quebrar a tela se ele não existir.
+   *
+   * Antes o registro era uma cascata de `$(...).addEventListener(...)`: UM id
+   * errado derrubava todo o resto — e, como o registro rodava antes de
+   * `iniciar()`, o erro parava a página ANTES da tela de login aparecer.
+   * Um elemento ausente é um aviso de console, não uma exceção.
+   *
+   * @returns {boolean} true se o evento foi ligado.
+   */
+  function on(id, evento, fn) {
+    var alvo = $(id);
+    if (!alvo) {
+      if (window.console && console.warn) {
+        console.warn("PoupeFruti: #" + id + " não existe — evento " +
+          evento + " não ligado.");
+      }
+      return false;
+    }
+    alvo.addEventListener(evento, fn);
+    return true;
+  }
+
+  /** Está o elemento na tela? Ausente conta como não. */
+  function visivel(id) {
+    var alvo = $(id);
+    return !!alvo && !alvo.hidden;
+  }
+
   function falar(mensagem) {
     $("status-leitor").textContent = mensagem || "";
   }
@@ -1204,6 +1233,10 @@
     mostrar($("tela-sem-sessao"), false);
 
     return api("/api/v1/auth/me").then(function (dados) {
+      // A API aceitou o token: só agora a tela autenticada existe. Ligar os
+      // eventos dela aqui evita depender de ids que ainda não estão em uso.
+      registrarEventosPainel();
+
       memberships = dados.user.memberships || [];
       mostrar($("btn-trocar-mercado"), memberships.length > 1);
 
@@ -2790,41 +2823,47 @@
   // ==========================================================================
   // Eventos
   // ==========================================================================
+  //
+  // Divididos em dois blocos de propósito. O da tela de login é ligado sempre:
+  // sem sessão, a tela de login é a página, e o botão "Entrar" precisa
+  // funcionar no primeiro instante. O da tela autenticada só é ligado depois
+  // que a API aceitou o token (ver `carregarMinhaConta`) — antes disso o painel
+  // não existe, e ligar eventos nele só criaria mais chances de o elemento
+  // não estar no lugar.
 
-  function registrarEventos() {
-    // Login
-    $("login-form").addEventListener("submit", enviarLogin);
+  function registrarEventosLogin() {
+    on("login-form", "submit", enviarLogin);
     ["email", "senha"].forEach(function (id) {
-      $("login-" + id).addEventListener("input", function () {
+      on("login-" + id, "input", function () {
         erroCampoLogin(id, "");
         erroDeLogin("");
       });
     });
 
-    $("btn-sair-painel").addEventListener("click", sair);
-    $("btn-sair-selecao").addEventListener("click", sair);
-    $("btn-sair-sem-mercado").addEventListener("click", sair);
-    $("btn-trocar-mercado").addEventListener("click", mostrarSelecao);
-    $("btn-reconectar").addEventListener("click", function () {
+    on("btn-sair-sem-mercado", "click", sair);
+    on("btn-reconectar", "click", function () {
       carregarMinhaConta();
     });
+  }
 
-    $("form-perfil").addEventListener("submit", salvarPerfil);
-    $("btn-publicar").addEventListener("click", alternarPublicacao);
-    $("btn-despublicar").addEventListener("click", alternarPublicacao);
+  var eventosPainelLigados = false;
+
+function registrarEventosPainel() {
+    // `abrirMercado` roda de novo a cada troca de mercado: sem esta trava o
+    // clique seria registrado duas vezes e a ação dispararia em dobro.
+    if (eventosPainelLigados) return;
+    eventosPainelLigados = true;
 
     // ---- cestas ----
-    $("filtro-status-cesta").addEventListener("change", function () {
-      carregarCestas();
-    });
-    $("btn-recarregar-cestas").addEventListener("click", function () { carregarCestas(); });
-    $("btn-nova-cesta").addEventListener("click", function () { abrirModalCesta(null); });
-    $("btn-nova-cesta-vazio").addEventListener("click", function () { abrirModalCesta(null); });
+    on("filtro-status-cesta", "change", carregarCestas);
+    on("btn-recarregar-cestas", "click", carregarCestas);
+    on("btn-nova-cesta", "click", function () { abrirModalCesta(null); });
+    on("btn-nova-cesta-vazio", "click", function () { abrirModalCesta(null); });
 
-    $("form-cesta").addEventListener("submit", salvarCesta);
-    $("fechar-modal-cesta").addEventListener("click", fecharModalCesta);
-    $("btn-cancelar-cesta").addEventListener("click", fecharModalCesta);
-    $("modal-cesta").addEventListener("click", function (ev) {
+    on("form-cesta", "submit", salvarCesta);
+    on("fechar-modal-cesta", "click", fecharModalCesta);
+    on("btn-cancelar-cesta", "click", fecharModalCesta);
+    on("modal-cesta", "click", function (ev) {
       if (ev.target === this) fecharModalCesta();
     });
 
@@ -2843,39 +2882,49 @@
     };
     ["cesta-nome", "cesta-peso", "cesta-quantidade", "cesta-preco",
      "cesta-varejo", "cesta-inicio", "cesta-fim", "cesta-notas"].forEach(function (id) {
-      $(id).addEventListener("input", function () {
+      on(id, "input", function () {
         erroCesta(id, "");
         var efeito = EFEITOS_CAMPO[id];
         if (efeito) efeito();
       });
     });
 
-    $("btn-convidar-staff").addEventListener("click", function () { convidar("staff"); });
-    $("btn-convidar-manager").addEventListener("click", function () { convidar("manager"); });
+    on("btn-convidar-staff", "click", function () { convidar("staff"); });
+    on("btn-convidar-manager", "click", function () { convidar("manager"); });
 
-    $("btn-confirmar-papel").addEventListener("click", confirmarPapel);
-    $("fechar-modal-papel").addEventListener("click", fecharModais);
-    $("btn-cancelar-papel").addEventListener("click", fecharModais);
-    $("modal-papel").addEventListener("click", function (ev) {
+    on("btn-sair-painel", "click", sair);
+    on("btn-sair-selecao", "click", sair);
+    on("btn-trocar-mercado", "click", mostrarSelecao);
+
+    on("form-perfil", "submit", salvarPerfil);
+    on("btn-publicar", "click", alternarPublicacao);
+    on("btn-despublicar", "click", alternarPublicacao);
+
+    on("btn-convidar-staff", "click", function () { convidar("staff"); });
+    on("btn-convidar-manager", "click", function () { convidar("manager"); });
+
+    on("btn-confirmar-papel", "click", confirmarPapel);
+    on("fechar-modal-papel", "click", fecharModais);
+    on("btn-cancelar-papel", "click", fecharModais);
+    on("modal-papel", "click", function (ev) {
       if (ev.target === this) fecharModais();
     });
 
-    $("btn-copiar-convite").addEventListener("click", copiarConvite);
-    $("fechar-modal-convidar").addEventListener("click", fecharModais);
-    $("fechar-modal-convidar-2").addEventListener("click", fecharModais);
-    $("modal-convidar").addEventListener("click", function (ev) {
+    on("btn-copiar-convite", "click", copiarConvite);
+    on("fechar-modal-convidar", "click", fecharModais);
+    on("fechar-modal-convidar-2", "click", fecharModais);
+    on("modal-convidar", "click", function (ev) {
       if (ev.target === this) fecharModais();
     });
 
     // Limpa o erro do campo ao digitar
     CAMPOS_PERFIL.forEach(function (id) {
-      var el = $("campo-" + id);
-      if (!el) { console.warn("#campo-" + id + " não existe — evento input não ligado"); return; }
-      el.addEventListener("input", function () {
+      on("campo-" + id, "input", function () {
         erroDeCampo(id, "");
       });
     });
 
+// O Escape é do documento inteiro, não de um id: fica fora do `on`.
     document.addEventListener("keydown", function (ev) {
       var cestaAberto = !$("modal-cesta").hidden;
       var convidarAberto = !$("modal-convidar").hidden;
@@ -2952,9 +3001,21 @@
   // ==========================================================================
 
   mostrar($("btn-trocar-mercado"), memberships.length > 1);
-  registrarAbas();
-  registrarEventos();
-  iniciar();
+
+  // Primeiro os eventos da tela de login (que é a página sem sessão), depois
+  // `iniciar()` decide o que mostrar. O `try` é rede de segurança: um erro
+  // inesperado no boot não pode deixar a pessoa sem login e sem explicação —
+  // no caso, ela cai no formulário de acesso em vez de uma tela vazia.
+  try {
+    registrarAbas();
+    registrarEventosLogin();
+    iniciar();
+  } catch (erro) {
+    if (window.console && console.warn) {
+      console.warn("PoupeFruti: falha ao iniciar o painel.", erro);
+    }
+    encerrarSessao("", true);
+  }
 </script>
 
 </body>
