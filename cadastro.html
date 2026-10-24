@@ -44,7 +44,7 @@
           <div class="field"><label for="name">Nome completo</label><input id="name" name="name" type="text" autocomplete="name" maxlength="120" required aria-describedby="name-error"><span id="name-error" class="error" hidden></span></div>
           <div class="field"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="email-error"><span id="email-error" class="error" hidden></span></div>
           <div class="field"><label for="password">Senha</label><div class="input-wrap"><input id="password" name="password" type="password" autocomplete="new-password" required aria-describedby="password-help password-error"><button class="toggle" type="button" data-toggle="password" aria-label="Mostrar senha" aria-pressed="false">Mostrar</button></div><p id="password-help" class="help">Use pelo menos 8 caracteres (até 72 bytes).</p><span id="password-error" class="error" hidden></span></div>
-          <div class="field"><label for="confirm-password">Confirmar senha</label><div class="input-wrap"><input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required aria-describedby="confirm-error"><button class="toggle" type="button" data-toggle="confirm-password" aria-label="Mostrar confirmação de senha" aria-pressed="false">Mostrar</button></div><span id="confirm-error" class="error" hidden></span></div>
+          <div class="field"><label for="confirm-password">Confirmar senha</label><div class="input-wrap"><input id="confirm-password" name="confirm_password" type="password" autocomplete="new-password" required aria-describedby="confirm-password-error"><button class="toggle" type="button" data-toggle="confirm-password" aria-label="Mostrar confirmação de senha" aria-pressed="false">Mostrar</button></div><span id="confirm-password-error" class="error" hidden></span></div>
           <div class="field"><label class="consent" for="terms"><input id="terms" name="terms" type="checkbox" required aria-describedby="terms-error"><span>Li e aceito os Termos de Uso e a <a href="/#privacidade" target="_blank" rel="noopener">Política de Privacidade</a>.</span></label><span id="terms-error" class="error" hidden></span></div>
           <button id="submit" class="submit" type="submit">Criar conta</button>
         </form>
@@ -66,6 +66,7 @@
       function fieldError(id, message) {
         var field = document.getElementById(id);
         var error = document.getElementById(id + "-error");
+        if (!field || !error) return;
         error.textContent = message || "";
         error.hidden = !message;
         if (field) { if (message) field.setAttribute("aria-invalid", "true"); else field.removeAttribute("aria-invalid"); }
